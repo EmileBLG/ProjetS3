@@ -25,12 +25,12 @@ public class RoleService {
     @Inject
     JsonWebToken jwt;
 
-  /*  @GET
+    @GET
     @Path("/horaire/{sport_id}-{division_id}-{session_id}")
     @PermitAll
-   // public JsonWebToken sport(){
-       // JsonObject text =
-       /*        { "numeroMatch" : 1,
+    public JsonWebToken sport(){
+        JsonObject text =
+              { "numeroMatch" : 1,
                 "jourMatch" : "Jeudi",
                 "dateMatch" : "2023-06-01",
                 "heureMatch" : "19h00",
@@ -38,9 +38,7 @@ public class RoleService {
                 "resultat" : "",
                 "equipe2" : "Les Pionniers",
                 "endroit" : "UDES" };
-
-      String json = ""*/
- //   }*/
+    }
     @GET
     @Path("/teacher")
     @RolesAllowed({"enseignant"})
