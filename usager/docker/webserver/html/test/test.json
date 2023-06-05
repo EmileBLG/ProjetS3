@@ -1,0 +1,74 @@
+{
+    "nbMatch" : 6,
+
+    "horaire" : [
+        {
+            "numeroMatch" : 1,
+            "jourMatch" : "Jeudi",
+            "dateMatch" : "2023-06-01",
+            "heureMatch" : "19h00",
+            "equipe1" : "Les Gaulois",
+            "resultat" : "",
+            "equipe2" : "Les Pionniers",
+            "endroit" : "UDES"
+        },
+
+        {
+            "numeroMatch" : 2,
+            "jourMatch" : "Jeudi",
+            "dateMatch" : "2023-06-01",
+            "heureMatch" : "21h00",
+            "equipe1" : "Les Cougars",
+            "resultat" : "",
+            "equipe2" : "Les Gaillards",
+            "endroit" : "UDES"
+        },
+
+        {
+            "numeroMatch" : 3,
+            "jourMatch" : "Vendredi",
+            "dateMatch" : "2023-06-02",
+            "heureMatch" : "19h00",
+            "equipe1" : "Les Gladiateurs",
+            "resultat" : "",
+            "equipe2" : "Les Guerriers",
+            "endroit" : "UDES"
+        },
+
+        {
+            "numeroMatch" : 4,
+            "jourMatch" : "Vendredi",
+            "dateMatch" : "2023-06-02",
+            "heureMatch" : "21h00",
+            "equipe1" : "Le Select",
+            "resultat" : "",
+            "equipe2" : "Le Mistral",
+            "endroit" : "UDES"
+        },
+
+        {
+            "numeroMatch" : 5,
+            "jourMatch" : "Lundi",
+            "dateMatch" : "2023-06-05",
+            "heureMatch" : "19h00",
+            "equipe1" : "Les Phenix",
+            "resultat" : "",
+            "equipe2" : "Les Wisigoths",
+            "endroit" : "UDES"
+        },
+
+        {
+            "numeroMatch" : 6,
+            "jourMatch" : "Lundi",
+            "dateMatch" : "2023-06-05",
+            "heureMatch" : "21h00",
+            "equipe1" : "Les Griffons",
+            "resultat" : "",
+            "equipe2" : "Les Pirates",
+            "endroit" : "UDES"
+        }
+
+    ]
+    
+
+}
