@@ -1,23 +1,29 @@
 package ca.usherbrooke.gegi.server.business;
 
-import java.sql.Date;
 
 public class Match {
-    private String horaireId;
     private String jourMatch;
-    private Date dateMatch;
+    private String dateMatch;
     private String heureMatch;
     private String equipe1;
     private String resultat;
     private String equipe2;
     private String endroit;
-    private Sport sport;
     private String division;
 
-    public Match(){};
 
-
-    public void setDateMatch(Date dateMatch) {
+    public Match(String jourMatch, String dateMatch, String heureMatch, String equipe1, String resultat, String equipe2, String endroit, String division)
+    {
+        this.dateMatch = dateMatch;
+        this.jourMatch = jourMatch;
+        this.heureMatch = jourMatch;
+        this.equipe1 = equipe1;
+        this.resultat = resultat;
+        this.equipe2 = equipe2;
+        this.endroit = endroit;
+        this.division = division;
+    }
+    public void setDateMatch(String dateMatch) {
         this.dateMatch = dateMatch;
     }
 
@@ -42,7 +48,6 @@ public class Match {
     }
 
     public void setHoraireId(String horaireId) {
-        this.horaireId = horaireId;
     }
 
     public void setJourMatch(String jourMatch) {
@@ -51,9 +56,5 @@ public class Match {
 
     public void setResultat(String resultat) {
         this.resultat = resultat;
-    }
-
-    public void setSport(Sport sport) {
-        this.sport = sport;
     }
 }
