@@ -11,6 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
+
+import ca.usherbrooke.gegi.server.business.Sport;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 @Path("/api")
@@ -20,7 +22,13 @@ public class RoleService {
     SecurityContext securityContext;
     @Inject
     JsonWebToken jwt;
-
+    @GET
+    @Path("/sport")
+    @PermitAll
+    public Sport getSport(){
+        Sport sport = new Sport("soccer") ;
+        return sport;
+    }
 
     @GET
     @Path("/teacher")
