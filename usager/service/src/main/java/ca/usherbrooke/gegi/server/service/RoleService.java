@@ -1,5 +1,6 @@
 package ca.usherbrooke.gegi.server.service;
 
+import ca.usherbrooke.gegi.server.business.Horaire;
 import ca.usherbrooke.gegi.server.business.Match;
 import ca.usherbrooke.gegi.server.business.Person;
 
@@ -30,7 +31,7 @@ public class RoleService {
     @PermitAll
     public Sport getSport(){
         Sport sport = new Sport("lol", "c bo alalalalalal") ;
-        System.out.println(sport);
+        System.out.println(sport.getNom());
         return sport;
     }
     @GET
@@ -45,10 +46,52 @@ public class RoleService {
         match.setEquipe2("Les Pionniers");
         match.setResultat("0:2");
         match.setHoraireId("1");
+        match.setSport(new Sport("soccer", "sport avec ballon et que les gens tombe tout le temps"));
         return match;
     }
 
+    @GET
+    @Path("/horaire")
+    public Horaire getHoraire(){
+        Match match1 = new Match("","","","","","","","");
+        match1.setHeureMatch("19h00");
+        match1.setJourMatch("Jeudi");
+        match1.setDivision("A");
+        match1.setEndroit("UDES");
+        match1.setEquipe1("Les Gaulois");
+        match1.setEquipe2("Les Pionniers");
+        match1.setResultat("0:2");
+        match1.setHoraireId("1");
+        match1.setSport(new Sport("soccer", "sport avec ballon et que les gens tombe tout le temps"));
 
+        Match match2 = new Match("","","","","","","","");
+        match2.setHeureMatch("19h00");
+        match2.setJourMatch("Jeudi");
+        match2.setDivision("A");
+        match2.setEndroit("UDES");
+        match2.setEquipe1("Les Gaulois");
+        match2.setEquipe2("Les Pionniers");
+        match2.setResultat("0:2");
+        match2.setHoraireId("1");
+        match2.setSport(new Sport("soccer", "sport avec ballon et que les gens tombe tout le temps"));
+
+        Match match3 = new Match("","","","","","","","");
+        match3.setHeureMatch("19h00");
+        match3.setJourMatch("Jeudi");
+        match3.setDivision("A");
+        match3.setEndroit("UDES");
+        match3.setEquipe1("Les Gaulois");
+        match3.setEquipe2("Les Pionniers");
+        match3.setResultat("0:2");
+        match3.setHoraireId("1");
+        match3.setSport(new Sport("soccer", "sport avec ballon et que les gens tombe tout le temps"));
+
+        Horaire horaire = new Horaire();
+        horaire.addMatch(match1);
+        horaire.addMatch(match2);
+        horaire.addMatch(match3);
+        return horaire;
+    }
     @GET
     @Path("/teacher")
     @RolesAllowed({"enseignant"})

@@ -10,6 +10,7 @@ public class Match {
     private String equipe2;
     private String endroit;
     private String division;
+    public Sport sport;
 
 
     public Match(String jourMatch, String dateMatch, String heureMatch, String equipe1, String resultat, String equipe2, String endroit, String division)
@@ -56,5 +57,41 @@ public class Match {
 
     public void setResultat(String resultat) {
         this.resultat = resultat;
+    }
+
+    public void setSport(Sport sport) {
+        this.sport = sport;
+    }
+
+    public String getDateMatch() {
+        return dateMatch;
+    }
+
+    public String getDivision() {
+        return division;
+    }
+
+    public String getEndroit() {
+        return endroit;
+    }
+
+    public String getEquipe1() {
+        return equipe1;
+    }
+
+    public String getHeureMatch() {
+        return heureMatch;
+    }
+
+    public String getJourMatch() {
+        return jourMatch;
+    }
+
+    public String getEquipe2() {
+        return equipe2;
+    }
+
+    public String getResultat() {
+        return resultat;
     }
 }

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 public class Horaire {
     private ArrayList<Match> listeMatch;
-
+    public Horaire(){
+        listeMatch = new ArrayList<Match>();
+    }
     public ArrayList<Match> getListeMatch() {
         return listeMatch;
     }
