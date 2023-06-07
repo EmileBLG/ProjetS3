@@ -17,7 +17,7 @@ public interface MessageMapper {
 
     @Select("SELECT * FROM schema.match")
     List<Match> selectAllMatch();
-    @Select("SELECT * FROM schema.person")
+    @Select("SELECT * FROM schema.users")
     List<Person> selectAllPerson();
 
     @Select("SELECT * FROM schema.horaire")
@@ -26,3 +26,4 @@ public interface MessageMapper {
     List<Role> selectAllRole();
 
 }
+
