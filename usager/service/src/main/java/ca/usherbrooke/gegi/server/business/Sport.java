@@ -1,18 +1,18 @@
 package ca.usherbrooke.gegi.server.business;
 
 public class Sport {
-    private String nom;
-    private String description;
+    private String sport_id;
+    private String sport_nom;
 
     public Sport(String nom, String description){
-        this.nom = nom;
-        this.description = description;
+        this.sport_id = nom;
+        this.sport_nom = description;
     }
 
     public String getNom(){
-        return this.nom;
+        return this.sport_id;
     }
-    public String getDescription(){
-        return this.description;
+    public String getSport_nom(){
+        return this.sport_nom;
     }
 }
