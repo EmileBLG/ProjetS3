@@ -1457,10 +1457,10 @@ insert into schema.Equipe(Equipe_ID, Equipe_Nom, Division_ID, Sport_ID, Victoire
 insert into schema.Equipe(Equipe_ID, Equipe_Nom, Division_ID, Sport_ID, Victoire, Defaite, PM, PC) VALUES (1103, 'P03', 1, 1, 0, 0, 0, 0);
 insert into schema.Equipe(Equipe_ID, Equipe_Nom, Division_ID, Sport_ID, Victoire, Defaite, PM, PC) VALUES (1104, 'P04', 1, 1, 0, 0, 0, 0);
 
-insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (1101, '2023-06-05 18:00:00', 1101, 1103, 'Université de Sherbrooke');
-insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (1102, '2023-06-05 19:00:00', 1104, 1102, 'Université de Sherbrooke');
-insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (1103, '2023-06-05 20:00:00', 1102, 1101, 'Université de Sherbrooke');
-insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (1104, '2023-06-05 21:00:00', 1103, 1104, 'Université de Sherbrooke');
+insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit, ResultatEquipe1, ResultatEquipe2) VALUES (1101, '2023-06-05 18:00:00', 1101, 1103, 'Université de Sherbrooke',0,0);
+insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit, ResultatEquipe1, ResultatEquipe2) VALUES (1102, '2023-06-05 19:00:00', 1104, 1102, 'Université de Sherbrooke',0,0);
+insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit, ResultatEquipe1, ResultatEquipe2) VALUES (1103, '2023-06-05 20:00:00', 1102, 1101, 'Université de Sherbrooke',0,0);
+insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit, ResultatEquipe1, ResultatEquipe2) VALUES (1104, '2023-06-05 21:00:00', 1103, 1104, 'Université de Sherbrooke',0,0);
 
 
 insert into schema.Constitue(Equipe_ID, cip) VALUES (1101,  'bour0703');
