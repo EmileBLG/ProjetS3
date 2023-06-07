@@ -1,78 +1,66 @@
 package ca.usherbrooke.gegi.server.service;
 
+import ca.usherbrooke.gegi.server.business.Horaire;
+import ca.usherbrooke.gegi.server.business.Match;
 import ca.usherbrooke.gegi.server.business.Person;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
+import ca.usherbrooke.gegi.server.business.Sport;
+import ca.usherbrooke.gegi.server.persistence.MessageMapper;
+
 import javax.inject.Inject;
+import javax.management.relation.Role;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.SecurityContext;
-import org.eclipse.microprofile.jwt.JsonWebToken;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Path("/api")
-@Produces({"application/json"})
 public class RoleService {
-    @Context
-    SecurityContext securityContext;
     @Inject
-    JsonWebToken jwt;
-
+    MessageMapper messageMapper;
 
     @GET
-    @Path("/teacher")
-    @RolesAllowed({"enseignant"})
-    public Person teacher() {
-        Person p = new Person();
-        p.cip = this.securityContext.getUserPrincipal().getName();
-        p.last_name = (String)this.jwt.getClaim("family_name");
-        p.first_name = (String)this.jwt.getClaim("given_name");
-        p.email = (String)this.jwt.getClaim("email");
-        Map realmAccess = (Map)this.jwt.getClaim("realm_access");
-        if (realmAccess != null && realmAccess.containsKey("roles")) {
-            p.roles = (List)realmAccess.get("roles");
-        }
-
-        System.out.println(p);
-        return p;
+    @Path("/sport")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Sport> getSport() {
+        List<Sport> listeSport = messageMapper.selectAllSport();
+        listeSport.forEach(System.out::println);
+        return listeSport;
     }
 
     @GET
-    @Path("/student")
-    @RolesAllowed({"etudiant"})
-    public Person student() {
-        Person p = new Person();
-        p.cip = this.securityContext.getUserPrincipal().getName();
-        p.last_name = (String)this.jwt.getClaim("family_name");
-        p.first_name = (String)this.jwt.getClaim("given_name");
-        p.email = (String)this.jwt.getClaim("email");
-        Map realmAccess = (Map)this.jwt.getClaim("realm_access");
-        if (realmAccess != null && realmAccess.containsKey("roles")) {
-            p.roles = (List)realmAccess.get("roles");
-        }
-
-        System.out.println(p);
-        return p;
+    @Path("/match")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Match> getMatch() {
+        List<Match> listeMatch = messageMapper.selectAllMatch();
+        listeMatch.forEach(System.out::println);
+        return listeMatch;
     }
 
     @GET
-    @Path("/any")
-    @PermitAll
-    public Person me() {
-        Person p = new Person();
-        p.cip = this.securityContext.getUserPrincipal().getName();
-        p.last_name = (String)this.jwt.getClaim("family_name");
-        p.first_name = (String)this.jwt.getClaim("given_name");
-        p.email = (String)this.jwt.getClaim("email");
-        Map realmAccess = (Map)this.jwt.getClaim("realm_access");
-        if (realmAccess != null && realmAccess.containsKey("roles")) {
-            p.roles = (List)realmAccess.get("roles");
-        }
+    @Path("/person")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Person> getPerson() {
+        List<Person> listePerson = messageMapper.selectAllPerson();
+        listePerson.forEach(System.out::println);
+        return listePerson;
+    }
 
-        System.out.println(p);
-        return p;
+    @GET
+    @Path("/horaire")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Horaire> getHoraire() {
+        List<Horaire> listeHoraire = messageMapper.selectAllHoraire();
+        listeHoraire.forEach(System.out::println);
+        return listeHoraire;
+    }
+
+    @GET
+    @Path("/role")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Role> getRole() {
+        List<Role> listeRole = messageMapper.selectAllRole();
+        listeRole.forEach(System.out::println);
+        return listeRole;
     }
 }
