@@ -11,89 +11,74 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
-        var keycloak;
-        function initKeycloak() {
-            keycloak = new Keycloak({
-                "realm": "usager",
-                "auth-server-url": "http://localhost:8180/",
-                "ssl-required": "external",
-                "clientId": "frontend",
-                "public-client": true,
-                "confidential-port": 0
-            });
-            keycloak.init({onLoad: 'login-required'}).then(function (authenticated) {
-                alert(authenticated ? 'authenticated' : 'not authenticated');
+        function headerHoraire(){
+            let header = [
+                "#",
+                "Date",
+                "Équipe1",
+                "Résultat",
+                "Équipe2",
+                "Endroit"
+            ];
+            let tableauHoraire = document.getElementById("horaire");
+            tableauHoraire.innerHTML = "";
 
-            }).catch(function () {
-                alert('failed to initialize');
+            let thead = document.createElement("thead");
+            let theadRow = document.createElement("tr");
+
+            header.forEach((item) => {
+                //console.log(item);
+               let th = document.createElement("th");
+               th.innerText = item;
+               theadRow.appendChild(th);
             });
+            thead.appendChild(theadRow);
+            tableauHoraire.appendChild(thead);
         }
 
+        function affichageHoraire() {
+            headerHoraire();
+            let tableauHoraire = document.getElementById("horaire");
 
-        function requestStudent() {
-            const div = document.getElementById('title');
-            const span = div.firstElementChild;
-            axios.get("http://localhost:8888/api/student", {
-                headers: {
-                    'Authorization': 'Bearer ' + keycloak.token
-                }
-            })
+            axios.get("http://localhost:8888/api/horaire")
                 .then(function (response) {
-                    console.log("Response: ", response.status);
-                    span.innerHTML = '<br> <strong>' + response.data.cip + '</strong> </br>' +
-                        '<br> <strong>' + response.data.last_name + '</strong> </br>' +
-                        '<br> <strong>' + response.data.first_name + '</strong> </br>' +
-                        '<br> <strong>' + response.data.email + '</strong> </br>' +
-                        '<br> <strong>' + response.data.roles + '</strong> </br>'
+                    //console.log("Response: ", response);
+                    response.data.listeMatch.forEach((item) => {
+                        let row = document.createElement("tr");
+                        let matchId = document.createElement("td");
+                        let dateMatch = document.createElement("td");
+                        let equipe1 = document.createElement("td");
+                        let resultat = document.createElement("td");
+                        let equipe2 = document.createElement("td");
+                        let endroit = document.createElement("td");
+
+                        matchId.innerText = item.matchId;
+                        dateMatch.innerText = item.dateMatch;
+                        equipe1.innerText = item.equipe1;
+                        resultat.innerText = item.resultat;
+                        equipe2.innerText = item.equipe2;
+                        endroit.innerText = item.endroit;
+
+                        row.appendChild(matchId);
+                        row.appendChild(dateMatch);
+                        row.appendChild(equipe1);
+                        row.appendChild(resultat);
+                        row.appendChild(equipe2);
+                        row.appendChild(endroit);
+
+                        tableauHoraire.appendChild(row);
+                    });
                 })
                 .catch(function (error) {
-                    console.log('refreshing');
-                    keycloak.updateToken(5).then(function () {
-                        console.log('Token refreshed');
-                    }).catch(function () {
-                        console.log('Failed to refresh token');
-                    })
-                });
-            span.innerHTML = '<br> <strong>' + "Vous n'avez pas le role d'étudiant" + '</strong> </br>'
-        }
 
-        function requestTeacher() {
-            const div = document.getElementById('title');
-            const span = div.firstElementChild;
-            axios.get("http://localhost:8888/api/teacher", {
-                headers: {
-                    'Authorization': 'Bearer ' + keycloak.token
-                }
-            })
-                .then(function (response) {
-                    console.log("Response: ", response.status);
-                    span.innerHTML = '<br> <strong>' + response.data.cip + '</strong> </br>' +
-                        '<br> <strong>' + response.data.last_name + '</strong> </br>' +
-                        '<br> <strong>' + response.data.first_name + '</strong> </br>' +
-                        '<br> <strong>' + response.data.email + '</strong> </br>' +
-                        '<br> <strong>' + response.data.roles + '</strong> </br>'
-                })
-                .catch(function (error) {
-                    console.log('refreshing');
-                    keycloak.updateToken(5).then(function () {
-                        console.log('Token refreshed');
-                    }).catch(function () {
-                        console.log('Failed to refresh token');
-                    })
                 });
-            span.innerHTML = '<br> <strong>' + "Vous n'avez pas le role d'enseignant" + '</strong> </br>'
-        }
-
-        function logout() {
-         //   let logoutURL = "http://localhost:8080//realms/usager/protocol/openid-connect/logout"
-         //   window.location.href = logoutURL;
         }
 
 
     </script>
 
 </head>
-<body style="background-color:  white;" onload="affichage('data/test.json')">
+<body style="background-color:  white;" onload="">
     
         <header id="header">
             <div class="container">
@@ -103,7 +88,7 @@
                     </a>
                 </h1>
         
-                <img src=".\images\UdeS_logo_h_rgbLR.png" style="width: 300; height: 105px;">
+                <img src=".\images\UdeS_logo_h_rgbLR.png" style="width: 300px; height: 105px;">
             </div>
         </header>
     
@@ -113,91 +98,20 @@
             </h2>
             <nav>
                 <ul>
-                    <li><button onclick="affichage('data/balle_donnee.json')">Balle-donnée</button></li>
-                    <li><button onclick="affichage('data/balle_molle.json')">Balle-molle</button></li>
-                    <li><button onclick="affichage('data/soccer.json')">Soccer extérieur</button></li>
-                    <li><button onclick="affichage('data/spikeball.json')">Spikeball</button></li>
-                    <li><button onclick="affichage('data/frisbee.json')">Ultimate frisbee extérieur</button></li>
-                    <li><button onclick="affichage('data/volleyball.json')">Volleyball de plage</button></li>
+                    <li><button onclick="affichageHoraire()">Balle-donnée</button></li>
+                    <li><button onclick="affichageHoraire()">Balle-molle</button></li>
+                    <li><button onclick="affichageHoraire()">Soccer extérieur</button></li>
+                    <li><button onclick="affichageHoraire()">Spikeball</button></li>
+                    <li><button onclick="affichageHoraire()">Ultimate frisbee extérieur</button></li>
+                    <li><button onclick="affichageHoraire()">Volleyball de plage</button></li>
                 </ul>
             </nav>
         </div>
 
         <div id="content" class="content">
             <p>Voici le site des statistiques des intra-muros</p>
+            <table id="horaire"></table>
 
         </div>
-
-        <script>
-            function convert(jsonData) {
-            
-                // Sample JSON data
-                let header = [
-                    "#",
-                    "Jour",
-                    "Date",
-                    "Heure",
-                    "Équipe1",
-                    "Résultat",
-                    "Équipe2",
-                    "Endroit"
-                ];
-
-                // Get the container element where the table will be inserted
-                let container = document.getElementById("content");
-
-                // Clear the container
-                container.innerHTML = '';
-                
-                // Create the table element
-                let table = document.createElement("table");
-                
-                // Get the keys (column names) of the first object in the JSON data
-                let cols = Object.keys(jsonData["horaire"][0]);
-                
-                // Create the header element
-                let thead = document.createElement("thead");
-                let tr = document.createElement("tr");
-                
-                // Loop through the column names and create header cells
-                header.forEach((item) => {
-                    let th = document.createElement("th");
-                    th.innerText = item; // Set the column name as the text of the header cell
-                    tr.appendChild(th); // Append the header cell to the header row
-                });
-                thead.appendChild(tr); // Append the header row to the header
-                table.append(tr) // Append the header to the table
-                
-                // Loop through the JSON data and create table rows
-                jsonData.horaire.forEach((item) => {
-                    let tr = document.createElement("tr");
-                    
-                    // Get the values of the current object in the JSON data
-                    let vals = Object.values(item);
-                    
-                    // Loop through the values and create table cells
-                    vals.forEach((elem) => {
-                    let td = document.createElement("td");
-                    td.innerText = elem; // Set the value as the text of the table cell
-                    tr.appendChild(td); // Append the table cell to the table row
-                    });
-                    table.appendChild(tr); // Append the table row to the table
-                });
-                container.appendChild(table) // Append the table to the container element
-            }
-
-            function affichage(jsonFile){
-                fetch(jsonFile)
-                .then(response => response.json())
-                .then(data => convert(data))
-                .catch(error => console.log('Error:', error));
-            }
-
-            // Read JSON file and call the printJSONAsTable function
-            
-	    </script>
-
-    
-    
 </body>
 </html>

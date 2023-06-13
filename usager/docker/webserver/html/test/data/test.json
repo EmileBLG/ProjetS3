@@ -1,7 +1,7 @@
 {
     "nbMatch" : 6,
 
-    "horaire" : [
+    "listeMatch" : [
         {
             "numeroMatch" : 1,
             "jourMatch" : "Jeudi",
