@@ -25,4 +25,3 @@ public interface MessageMapper {
     List<Division> selectAllDivision();
 
 }
-

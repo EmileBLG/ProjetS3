@@ -10,10 +10,4 @@
 
     </select>
 
-    <select id="selectt" resultType="ca.usherbrooke.gegi.server.business.Match">
-        select *
-        from schema.match
-
-    </select>
-
 </mapper>

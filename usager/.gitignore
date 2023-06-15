@@ -1,12 +1,3 @@
-service/build
-service/gradle
-service/out
-service/.gradle
-service/build.gradle
-service/gradle.properties
-service/gradlew
-service/gradlew.bat
-service/settings.gradle
 
 
 # IntelliJ
