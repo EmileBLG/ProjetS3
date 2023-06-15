@@ -11,6 +11,7 @@ public class Match {
     public int equipe2;
     public int resultatequipe1;
     public int resultatequipe2;
+    public String resultat;
 
     public Match(int match_id, Timestamp heure, String endroit, int equipe1, int equipe2, int resultatequipe1, int resultatequipe2) {
         this.match_id = match_id;
@@ -20,5 +21,10 @@ public class Match {
         this.equipe2 = equipe2;
         this.resultatequipe1 = resultatequipe1;
         this.resultatequipe2 = resultatequipe2;
+        if(this.resultatequipe1 == -1 && this.resultatequipe1 == -1){
+            this.resultat = "N/A";
+        }else {
+            this.resultat = resultatequipe1 + " " + resultatequipe2;
+        }
     }
 }

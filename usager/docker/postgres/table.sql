@@ -1423,8 +1423,8 @@ CREATE TABLE schema.Match
     Endroit varchar(64) not null,
     Equipe1 INT not null,
     Equipe2 INT not null,
-    ResultatEquipe1 INT,
-    ResultatEquipe2 INT,
+    ResultatEquipe1 INT default -1,
+    ResultatEquipe2 INT default -1,
     PRIMARY KEY (Match_ID),
     FOREIGN KEY (Equipe1) REFERENCES schema.Equipe(Equipe_ID),
     FOREIGN KEY (Equipe2) REFERENCES schema.Equipe(Equipe_ID)
@@ -1529,7 +1529,7 @@ insert into schema.Equipe(Equipe_ID, Equipe_Nom, Division_ID, Sport_ID, Victoire
 insert into schema.Equipe(Equipe_ID, Equipe_Nom, Division_ID, Sport_ID, Victoire, Defaite, PM, PC) VALUES (71, 'P03', 3, 6, 0, 0, 0, 0);
 insert into schema.Equipe(Equipe_ID, Equipe_Nom, Division_ID, Sport_ID, Victoire, Defaite, PM, PC) VALUES (72, 'P04', 3, 6, 0, 0, 0, 0);
 --2 match par équipe sport 1 div 1
-insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (1, '2023-06-05 18:00:00', 1, 3, 'Université de Sherbrooke');
+insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit, resultatequipe1, resultatequipe2) VALUES (1, '2023-06-05 18:00:00', 1, 3, 'Université de Sherbrooke',2,0);
 insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (2, '2023-06-05 19:00:00', 4, 2, 'Université de Sherbrooke');
 insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (3, '2023-06-05 20:00:00', 2, 1, 'Université de Sherbrooke');
 insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (4, '2023-06-05 21:00:00', 3, 4, 'Université de Sherbrooke');
