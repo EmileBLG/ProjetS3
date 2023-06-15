@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ligues intra-muros UDS</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        function headerHoraire(){
+            let header = [
+                "#",
+                "Date",
+                "Équipe1",
+                "Résultat",
+                "Équipe2",
+                "Endroit"
+            ];
+            let tableauHoraire = document.getElementById("horaire");
+            tableauHoraire.innerHTML = "";
+
+            let thead = document.createElement("thead");
+            let theadRow = document.createElement("tr");
+
+            header.forEach((item) => {
+                //console.log(item);
+               let th = document.createElement("th");
+               th.innerText = item;
+               theadRow.appendChild(th);
+            });
+            thead.appendChild(theadRow);
+            tableauHoraire.appendChild(thead);
+        }
+
+        function affichageHoraire() {
+            headerHoraire();
+            let tableauHoraire = document.getElementById("horaire");
+
+            axios.get("http://localhost:8888/api/horaire")
+                .then(function (response) {
+                    //console.log("Response: ", response);
+                    response.data.listeMatch.forEach((item) => {
+                        let row = document.createElement("tr");
+                        let matchId = document.createElement("td");
+                        let dateMatch = document.createElement("td");
+                        let equipe1 = document.createElement("td");
+                        let resultat = document.createElement("td");
+                        let equipe2 = document.createElement("td");
+                        let endroit = document.createElement("td");
+
+                        matchId.innerText = item.matchId;
+                        dateMatch.innerText = item.dateMatch;
+                        equipe1.innerText = item.equipe1;
+                        resultat.innerText = item.resultat;
+                        equipe2.innerText = item.equipe2;
+                        endroit.innerText = item.endroit;
+
+                        row.appendChild(matchId);
+                        row.appendChild(dateMatch);
+                        row.appendChild(equipe1);
+                        row.appendChild(resultat);
+                        row.appendChild(equipe2);
+                        row.appendChild(endroit);
+
+                        tableauHoraire.appendChild(row);
+                    });
+                })
+                .catch(function (error) {
+
+                });
+        }
+
+
+    </script>
+
+</head>
+<body style="background-color:  white;" onload="">
+    
+        <header id="header">
+            <div class="container">
+                <h1 class="titre">
+                    <a href="index.html">
+                        Ligues intra-muros UDS
+                    </a>
+                </h1>
+        
+                <img src=".\images\UdeS_logo_h_rgbLR.png" style="width: 300px; height: 105px;">
+            </div>
+        </header>
+    
+        <div id="sidebar" class="sidebar">
+            <h2 style="margin-left: 20px;">
+                Sport
+            </h2>
+            <nav>
+                <ul>
+                    <li><button onclick="affichageHoraire()">Balle-donnée</button></li>
+                    <li><button onclick="affichageHoraire()">Balle-molle</button></li>
+                    <li><button onclick="affichageHoraire()">Soccer extérieur</button></li>
+                    <li><button onclick="affichageHoraire()">Spikeball</button></li>
+                    <li><button onclick="affichageHoraire()">Ultimate frisbee extérieur</button></li>
+                    <li><button onclick="affichageHoraire()">Volleyball de plage</button></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div id="content" class="content">
+            <p>Voici le site des statistiques des intra-muros</p>
+            <table id="horaire"></table>
+
+        </div>
+</body>
+</html>
