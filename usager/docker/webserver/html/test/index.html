@@ -9,73 +9,7 @@
     <link rel="stylesheet" href="style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    <script>
-        function headerHoraire(){
-            let header = [
-                "#",
-                "Date",
-                "Équipe1",
-                "Résultat",
-                "Équipe2",
-                "Endroit"
-            ];
-            let tableauHoraire = document.getElementById("horaire");
-            tableauHoraire.innerHTML = "";
-
-            let thead = document.createElement("thead");
-            let theadRow = document.createElement("tr");
-
-            header.forEach((item) => {
-                //console.log(item);
-               let th = document.createElement("th");
-               th.innerText = item;
-               theadRow.appendChild(th);
-            });
-            thead.appendChild(theadRow);
-            tableauHoraire.appendChild(thead);
-        }
-
-        function affichageHoraire() {
-            headerHoraire();
-            let tableauHoraire = document.getElementById("horaire");
-
-            axios.get("http://localhost:8888/api/horaire")
-                .then(function (response) {
-                    //console.log("Response: ", response);
-                    response.data.listeMatch.forEach((item) => {
-                        let row = document.createElement("tr");
-                        let matchId = document.createElement("td");
-                        let dateMatch = document.createElement("td");
-                        let equipe1 = document.createElement("td");
-                        let resultat = document.createElement("td");
-                        let equipe2 = document.createElement("td");
-                        let endroit = document.createElement("td");
-
-                        matchId.innerText = item.matchId;
-                        dateMatch.innerText = item.dateMatch;
-                        equipe1.innerText = item.equipe1;
-                        resultat.innerText = item.resultat;
-                        equipe2.innerText = item.equipe2;
-                        endroit.innerText = item.endroit;
-
-                        row.appendChild(matchId);
-                        row.appendChild(dateMatch);
-                        row.appendChild(equipe1);
-                        row.appendChild(resultat);
-                        row.appendChild(equipe2);
-                        row.appendChild(endroit);
-
-                        tableauHoraire.appendChild(row);
-                    });
-                })
-                .catch(function (error) {
-
-                });
-        }
-
-
-    </script>
+    <script src=".\script.js"></script>
 
 </head>
 <body style="background-color:  white;" onload="">
@@ -88,28 +22,82 @@
                     </a>
                 </h1>
         
-                <img src=".\images\UdeS_logo_h_rgbLR.png" style="width: 300px; height: 105px;">
+                <img src=".\images\UdeS_logo_h_rgbLR.png" style="width: 215px; height: 75px;">
             </div>
         </header>
-    
+
         <div id="sidebar" class="sidebar">
             <h2 style="margin-left: 20px;">
                 Sport
             </h2>
             <nav>
                 <ul>
-                    <li><button onclick="affichageHoraire()">Balle-donnée</button></li>
-                    <li><button onclick="affichageHoraire()">Balle-molle</button></li>
-                    <li><button onclick="affichageHoraire()">Soccer extérieur</button></li>
-                    <li><button onclick="affichageHoraire()">Spikeball</button></li>
-                    <li><button onclick="affichageHoraire()">Ultimate frisbee extérieur</button></li>
-                    <li><button onclick="affichageHoraire()">Volleyball de plage</button></li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Balle-donnée</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement()">A</button>
+                                <button class="option" onclick="affichageHoraireClassement()">B</button>
+                                <button class="option" onclick="affichageHoraireClassement()">C</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Balle-molle</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement()">A</button>
+                                <button class="option" onclick="affichageHoraireClassement()">B</button>
+                                <button class="option" onclick="affichageHoraireClassement()">C</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Soccer extérieur</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement()">A</button>
+                                <button class="option" onclick="affichageHoraireClassement()">B</button>
+                                <button class="option" onclick="affichageHoraireClassement()">C</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Spikeball</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement()">A</button>
+                                <button class="option" onclick="affichageHoraireClassement()">B</button>
+                                <button class="option" onclick="affichageHoraireClassement()">C</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Ultimate frisbee extérieur</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement()">A</button>
+                                <button class="option" onclick="affichageHoraireClassement()">B</button>
+                                <button class="option" onclick="affichageHoraireClassement()">C</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Volleyball de plage</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement()">A</button>
+                                <button class="option" onclick="affichageHoraireClassement()">B</button>
+                                <button class="option" onclick="affichageHoraireClassement()">C</button>
+                            </div>
+                        </div>
+
+                    </li>
                 </ul>
             </nav>
         </div>
 
         <div id="content" class="content">
-            <p>Voici le site des statistiques des intra-muros</p>
             <table id="horaire"></table>
 
         </div>
