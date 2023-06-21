@@ -6,6 +6,7 @@ import ca.usherbrooke.gegi.server.persistence.MessageMapper;
 import javax.inject.Inject;
 import javax.management.relation.Role;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -13,9 +14,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.PathParam;
+
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -139,4 +143,69 @@ public class RoleService {
         System.out.println(p);
         return p;
     }
+
+
+    // branche de will systhème de présence ----------------------------------------------------------------
+    @GET
+    @Path("/nbmatch")
+    @RolesAllowed({"jouer", "capitaine"}) //probablement mauvais nom
+    public int nbmatch(){
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        ArrayList<Integer> Matchs = new ArrayList<Integer>();
+        Matchs = messageMapper.selectMatchsPerson(p.cip);
+
+        int nbMatch = Matchs.size();
+        return nbMatch;
+    }
+    @GET
+    @Path("/presencesPerson")
+    @RolesAllowed({"jouer", "capitaine"}) //probablement mauvais nom
+    public List<Presence> presencesPerson()
+    {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        ArrayList<Presence> PresenceS = new ArrayList<Presence>();
+
+        for (int i =0; i<MatchsID.size(); i++) {
+            Presence unePresence = messageMapper.selectPresenceS(p.cip, MatchsID.get(i));
+            PresenceS.add(unePresence);
+
+        }
+        return PresenceS;
+    }
+
+    @PUT
+    @Path("/setPresent/{Index}")
+    @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
+    //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
+    public void setPresent(@PathParam("Index") int Index)
+    {
+
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        messageMapper.setPresent(p.cip, MatchsID.get(Index));
+    }
+
+    @PUT
+    @Path("/setAbsent/{Index}")
+    @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
+    //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
+    public void setAbsent()
+    {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        messageMapper.setAbsent(p.cip, MatchsID.get(Index));
+
+    }
+
 }
