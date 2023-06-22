@@ -1376,15 +1376,15 @@ WITH users_json (doc) AS (
 INSERT INTO schema.users (cip, enabled, firstName, lastName, email, realmRoles)
 SELECT p->>'cip', (p->>'enabled')::boolean, p->>'firstName', p->>'lastName', p->>'email', ARRAY(SELECT jsonb_array_elements_text(p->'realmRoles'))
 FROM users_json l,
-    jsonb_array_elements((doc->'users')::jsonb) AS p
+     jsonb_array_elements((doc->'users')::jsonb) AS p
 
 
 ON CONFLICT (cip) DO UPDATE
-                         SET enabled = excluded.enabled,
-                         firstName = excluded.firstName,
-                         lastName = excluded.lastName,
-                         email = excluded.email,
-                         realmRoles = excluded.realmRoles;
+    SET enabled = excluded.enabled,
+        firstName = excluded.firstName,
+        lastName = excluded.lastName,
+        email = excluded.email,
+        realmRoles = excluded.realmRoles;
 
 
 CREATE TABLE schema.Sport
@@ -1438,6 +1438,34 @@ CREATE TABLE schema.Constitue
     FOREIGN KEY (Equipe_ID) REFERENCES schema.Equipe(Equipe_ID),
     FOREIGN KEY (cip) REFERENCES schema.users(cip)
 );
+
+CREATE TABLE schema.PresenceMatch
+(
+    cip varchar(8) NOT NULL,
+    MatchID INT NOT NULL,
+    Presence INT NOT NULL,
+    PRIMARY KEY (cip, MatchID),
+    FOREIGN KEY (cip) REFERENCES schema.users(cip),
+    FOREIGN KEY (MatchID) REFERENCES schema.Match(Match_ID)
+);
+
+DROP FUNCTION IF EXISTS schema.presence_trigger();
+CREATE FUNCTION schema.presence_trigger()
+    RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO schema.PresenceMatch (cip, MatchID, Presence)
+    SELECT C.cip, NEW.Match_ID, -1
+    FROM schema.Constitue C
+    WHERE C.Equipe_ID = NEW.Equipe1 OR C.Equipe_ID = NEW.Equipe2;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER ajout_match
+    AFTER INSERT on schema.Match
+    FOR EACH ROW
+EXECUTE FUNCTION schema.presence_trigger();
+
 
 --6 sports
 insert into schema.Sport(Sport_ID, Sport_Nom) values (1, 'Balle-donnée');
@@ -1528,6 +1556,168 @@ insert into schema.Equipe(equipe_id, equipe_nom, division_id, Sport_ID, Victoire
 insert into schema.Equipe(Equipe_ID, Equipe_Nom, Division_ID, Sport_ID, Victoire, Defaite, PM, PC) VALUES (70, 'P02', 3, 6, 0, 0, 0, 0);
 insert into schema.Equipe(Equipe_ID, Equipe_Nom, Division_ID, Sport_ID, Victoire, Defaite, PM, PC) VALUES (71, 'P03', 3, 6, 0, 0, 0, 0);
 insert into schema.Equipe(Equipe_ID, Equipe_Nom, Division_ID, Sport_ID, Victoire, Defaite, PM, PC) VALUES (72, 'P04', 3, 6, 0, 0, 0, 0);
+--Ajout de 2 joueurs par équipe dans le sport 1 div 1
+insert into schema.Constitue(Equipe_ID, cip) VALUES (1,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (1,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (2,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (2,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (3,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (3,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (4,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (4,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 1 div 2
+insert into schema.Constitue(Equipe_ID, cip) VALUES (5,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (5,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (6,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (6,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (7,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (7,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (8,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (8,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 1 div 3
+insert into schema.Constitue(Equipe_ID, cip) VALUES (9,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (9,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (10,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (10,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (11,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (11,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (12,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (12,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 2 div 1
+insert into schema.Constitue(Equipe_ID, cip) VALUES (13,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (13,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (14,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (14,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (15,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (15,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (16,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (16,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 2 div 2
+insert into schema.Constitue(Equipe_ID, cip) VALUES (17,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (17,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (18,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (18,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (19,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (19,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (20,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (20,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 2 div 3
+insert into schema.Constitue(Equipe_ID, cip) VALUES (21,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (21,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (22,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (22,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (23,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (23,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (24,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (24,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 3 div 1
+insert into schema.Constitue(Equipe_ID, cip) VALUES (25,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (25,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (26,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (26,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (27,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (27,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (28,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (28,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 3 div 2
+insert into schema.Constitue(Equipe_ID, cip) VALUES (29,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (29,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (30,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (30,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (31,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (31,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (32,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (32,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 3 div 3
+insert into schema.Constitue(Equipe_ID, cip) VALUES (33,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (33,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (34,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (34,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (35,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (35,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (36,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (36,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 4 div 1
+insert into schema.Constitue(Equipe_ID, cip) VALUES (37,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (37,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (38,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (38,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (39,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (39,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (40,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (40,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 4 div 2
+insert into schema.Constitue(Equipe_ID, cip) VALUES (41,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (41,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (42,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (42,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (43,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (43,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (44,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (44,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 4 div 3
+insert into schema.Constitue(Equipe_ID, cip) VALUES (45,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (45,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (46,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (46,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (47,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (47,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (48,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (48,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 5 div 1
+insert into schema.Constitue(Equipe_ID, cip) VALUES (49,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (49,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (50,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (50,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (51,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (51,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (52,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (52,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 5 div 2
+insert into schema.Constitue(Equipe_ID, cip) VALUES (53,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (53,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (54,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (54,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (55,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (55,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (56,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (56,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 5 div 3
+insert into schema.Constitue(Equipe_ID, cip) VALUES (57,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (57,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (58,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (58,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (59,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (59,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (60,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (60,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 6 div 1
+insert into schema.Constitue(Equipe_ID, cip) VALUES (61,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (61,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (62,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (62,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (63,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (63,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (64,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (64,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 6 div 2
+insert into schema.Constitue(Equipe_ID, cip) VALUES (65,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (65,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (66,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (66,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (67,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (67,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (68,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (68,  'pagm1302');
+--Ajout de 2 joueurs par équipe dans le sport 6 div 3
+insert into schema.Constitue(Equipe_ID, cip) VALUES (69,  'bour0703');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (69,  'lebg2708');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (70,  'lavm1927');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (70,  'trew1501');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (71,  'jans2001');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (71,  'jace1402');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (72,  'lanj2131');
+insert into schema.Constitue(Equipe_ID, cip) VALUES (72,  'pagm1302');
 --2 match par équipe sport 1 div 1
 insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit, resultatequipe1, resultatequipe2) VALUES (1, '2023-06-05 18:00:00', 1, 3, 'Université de Sherbrooke',2,0);
 insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (2, '2023-06-05 19:00:00', 4, 2, 'Université de Sherbrooke');
@@ -1618,174 +1808,29 @@ insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (69,
 insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (70, '2023-06-27 19:00:00', 72, 70, 'Université de Sherbrooke');
 insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (71, '2023-06-27 20:00:00', 71, 72, 'Université de Sherbrooke');
 insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (72, '2023-06-27 21:00:00', 70, 69, 'Université de Sherbrooke');
---Ajout de 2 joueurs par équipe dans le sport 1 div 1
-insert into schema.Constitue(Equipe_ID, cip) VALUES (1,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (1,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (2,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (2,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (3,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (3,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (4,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (4,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 1 div 2
-insert into schema.Constitue(Equipe_ID, cip) VALUES (5,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (5,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (6,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (6,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (7,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (7,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (8,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (8,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 1 div 3
-insert into schema.Constitue(Equipe_ID, cip) VALUES (9,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (9,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (10,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (10,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (11,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (11,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (12,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (12,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 2 div 1
-insert into schema.Constitue(Equipe_ID, cip) VALUES (13,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (13,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (14,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (14,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (15,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (15,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (16,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (16,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 2 div 2
-insert into schema.Constitue(Equipe_ID, cip) VALUES (17,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (17,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (18,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (18,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (19,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (19,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (20,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (20,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 2 div 3
-insert into schema.Constitue(Equipe_ID, cip) VALUES (21,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (21,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (22,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (22,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (23,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (23,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (24,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (24,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 3 div 1
-insert into schema.Constitue(Equipe_ID, cip) VALUES (25,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (25,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (26,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (26,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (27,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (27,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (28,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (28,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 3 div 2
-insert into schema.Constitue(Equipe_ID, cip) VALUES (29,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (29,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (30,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (30,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (31,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (31,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (32,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (32,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 3 div 3
-insert into schema.Constitue(Equipe_ID, cip) VALUES (33,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (33,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (34,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (34,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (35,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (35,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (36,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (36,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 4 div 1
-insert into schema.Constitue(Equipe_ID, cip) VALUES (37,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (37,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (38,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (38,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (39,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (39,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (40,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (40,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 4 div 2
-insert into schema.Constitue(Equipe_ID, cip) VALUES (41,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (41,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (42,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (42,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (43,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (43,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (44,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (44,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 4 div 3
-insert into schema.Constitue(Equipe_ID, cip) VALUES (45,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (45,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (46,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (46,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (47,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (47,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (48,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (48,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 5 div 1
-insert into schema.Constitue(Equipe_ID, cip) VALUES (49,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (49,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (50,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (50,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (51,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (51,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (52,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (52,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 5 div 2
-insert into schema.Constitue(Equipe_ID, cip) VALUES (53,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (53,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (54,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (54,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (55,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (55,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (56,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (56,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 5 div 3
-insert into schema.Constitue(Equipe_ID, cip) VALUES (57,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (57,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (58,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (58,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (59,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (59,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (60,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (60,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 6 div 1
-insert into schema.Constitue(Equipe_ID, cip) VALUES (61,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (61,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (62,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (62,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (63,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (63,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (64,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (64,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 6 div 2
-insert into schema.Constitue(Equipe_ID, cip) VALUES (65,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (65,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (66,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (66,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (67,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (67,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (68,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (68,  'lebg2708');
---Ajout de 2 joueurs par équipe dans le sport 6 div 3
-insert into schema.Constitue(Equipe_ID, cip) VALUES (69,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (69,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (70,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (70,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (71,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (71,  'lebg2708');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (72,  'bour0703');
-insert into schema.Constitue(Equipe_ID, cip) VALUES (72,  'lebg2708');
 
-CREATE VIEW schema.horraire as
+
+BEGIN;
+
+ALTER TABLE schema.match ADD COLUMN date date;
+ALTER TABLE schema.Match ADD COLUMN time time;
+
+UPDATE schema.Match
+SET
+    date = Heure::date,
+    time = Heure::time;
+
+ALTER TABLE schema.Match DROP COLUMN Heure;
+
+COMMIT;
+
+
+
+CREATE VIEW schema.horaire as
 SELECT *
 FROM schema.Match a
          join schema.Equipe e on e.equipe_id = a.equipe1;
 
 CREATE VIEW schema.classement as
 SELECT *
-FROM schema.Equipe
+FROM schema.Equipe;

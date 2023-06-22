@@ -8,6 +8,7 @@ import javax.management.relation.Role;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
@@ -16,6 +17,7 @@ import javax.annotation.security.RolesAllowed;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -92,12 +94,12 @@ public class RoleService {
     public Person teacher() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
-        p.lastname = (String)this.jwt.getClaim("family_name");
-        p.firstname = (String)this.jwt.getClaim("given_name");
-        p.email = (String)this.jwt.getClaim("email");
-        Map realmAccess = (Map)this.jwt.getClaim("realm_access");
+        p.lastname = (String) this.jwt.getClaim("family_name");
+        p.firstname = (String) this.jwt.getClaim("given_name");
+        p.email = (String) this.jwt.getClaim("email");
+        Map realmAccess = (Map) this.jwt.getClaim("realm_access");
         if (realmAccess != null && realmAccess.containsKey("roles")) {
-            p.roles = (List)realmAccess.get("roles");
+            p.roles = (List) realmAccess.get("roles");
         }
 
         System.out.println(p);
@@ -110,17 +112,18 @@ public class RoleService {
     public Person student() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
-        p.lastname = (String)this.jwt.getClaim("family_name");
-        p.firstname = (String)this.jwt.getClaim("given_name");
-        p.email = (String)this.jwt.getClaim("email");
-        Map realmAccess = (Map)this.jwt.getClaim("realm_access");
+        p.lastname = (String) this.jwt.getClaim("family_name");
+        p.firstname = (String) this.jwt.getClaim("given_name");
+        p.email = (String) this.jwt.getClaim("email");
+        Map realmAccess = (Map) this.jwt.getClaim("realm_access");
         if (realmAccess != null && realmAccess.containsKey("roles")) {
-            p.roles = (List)realmAccess.get("roles");
+            p.roles = (List) realmAccess.get("roles");
         }
 
         System.out.println(p);
         return p;
     }
+
 
     @GET
     @Path("/any")
@@ -128,15 +131,64 @@ public class RoleService {
     public Person me() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
-        p.lastname = (String)this.jwt.getClaim("family_name");
-        p.firstname = (String)this.jwt.getClaim("given_name");
-        p.email = (String)this.jwt.getClaim("email");
-        Map realmAccess = (Map)this.jwt.getClaim("realm_access");
+        p.lastname = (String) this.jwt.getClaim("family_name");
+        p.firstname = (String) this.jwt.getClaim("given_name");
+        p.email = (String) this.jwt.getClaim("email");
+        Map realmAccess = (Map) this.jwt.getClaim("realm_access");
         if (realmAccess != null && realmAccess.containsKey("roles")) {
-            p.roles = (List)realmAccess.get("roles");
+            p.roles = (List) realmAccess.get("roles");
         }
 
         System.out.println(p);
         return p;
     }
+
+    @GET
+    @Path("/HoraireSport")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Match> getHoraireSport(
+            @QueryParam("sportId") int sportId,
+            @QueryParam("divisionId") int divisionId) {
+
+
+        List<Match> listeMatch = messageMapper.getHoraireSport(sportId, divisionId);
+        listeMatch.forEach(System.out::println);
+        return listeMatch;
+    }
+
+    @GET
+    @Path("/classement")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Equipe> getClassement(
+            @QueryParam("sportId") int sportId,
+            @QueryParam("divisionId") int divisionId) {
+
+
+        List<Equipe> var = messageMapper.getClassement(sportId, divisionId);
+
+        return var;
+    }
+
+
+    @GET
+    @Path("/divisionname")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getDivisionName(@QueryParam("divisionId") int divisionId) {
+        String divisionName = messageMapper.getSportName(divisionId);
+        System.out.println(divisionName);
+        return divisionName;
+    }
+    @GET
+    @Path("/sportDivisionname")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getSportDivisionName(@QueryParam("sportId") int sportId, @QueryParam("divisionId") int divisionId) {
+        String sportName = messageMapper.getSportName(sportId);
+        String divisionName = messageMapper.getDivisionName(divisionId);
+
+        return sportName + " " + divisionName;
+    }
+
+
+
 }
+
