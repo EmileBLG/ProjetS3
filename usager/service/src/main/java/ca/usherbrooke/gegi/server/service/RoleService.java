@@ -5,16 +5,12 @@ import ca.usherbrooke.gegi.server.persistence.MessageMapper;
 
 import javax.inject.Inject;
 import javax.management.relation.Role;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.PathParam;
 
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -96,12 +92,12 @@ public class RoleService {
     public Person teacher() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
-        p.lastname = (String)this.jwt.getClaim("family_name");
-        p.firstname = (String)this.jwt.getClaim("given_name");
-        p.email = (String)this.jwt.getClaim("email");
-        Map realmAccess = (Map)this.jwt.getClaim("realm_access");
+        p.lastname = (String) this.jwt.getClaim("family_name");
+        p.firstname = (String) this.jwt.getClaim("given_name");
+        p.email = (String) this.jwt.getClaim("email");
+        Map realmAccess = (Map) this.jwt.getClaim("realm_access");
         if (realmAccess != null && realmAccess.containsKey("roles")) {
-            p.roles = (List)realmAccess.get("roles");
+            p.roles = (List) realmAccess.get("roles");
         }
 
         System.out.println(p);
@@ -114,12 +110,12 @@ public class RoleService {
     public Person student() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
-        p.lastname = (String)this.jwt.getClaim("family_name");
-        p.firstname = (String)this.jwt.getClaim("given_name");
-        p.email = (String)this.jwt.getClaim("email");
-        Map realmAccess = (Map)this.jwt.getClaim("realm_access");
+        p.lastname = (String) this.jwt.getClaim("family_name");
+        p.firstname = (String) this.jwt.getClaim("given_name");
+        p.email = (String) this.jwt.getClaim("email");
+        Map realmAccess = (Map) this.jwt.getClaim("realm_access");
         if (realmAccess != null && realmAccess.containsKey("roles")) {
-            p.roles = (List)realmAccess.get("roles");
+            p.roles = (List) realmAccess.get("roles");
         }
 
         System.out.println(p);
@@ -132,12 +128,12 @@ public class RoleService {
     public Person me() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
-        p.lastname = (String)this.jwt.getClaim("family_name");
-        p.firstname = (String)this.jwt.getClaim("given_name");
-        p.email = (String)this.jwt.getClaim("email");
-        Map realmAccess = (Map)this.jwt.getClaim("realm_access");
+        p.lastname = (String) this.jwt.getClaim("family_name");
+        p.firstname = (String) this.jwt.getClaim("given_name");
+        p.email = (String) this.jwt.getClaim("email");
+        Map realmAccess = (Map) this.jwt.getClaim("realm_access");
         if (realmAccess != null && realmAccess.containsKey("roles")) {
-            p.roles = (List)realmAccess.get("roles");
+            p.roles = (List) realmAccess.get("roles");
         }
 
         System.out.println(p);
@@ -149,7 +145,7 @@ public class RoleService {
     @GET
     @Path("/nbmatch")
     @RolesAllowed({"jouer", "capitaine"}) //probablement mauvais nom
-    public int nbmatch(){
+    public int nbmatch() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
         ArrayList<Integer> Matchs = new ArrayList<Integer>();
@@ -158,11 +154,11 @@ public class RoleService {
         int nbMatch = Matchs.size();
         return nbMatch;
     }
+
     @GET
     @Path("/presencesPerson")
     @RolesAllowed({"jouer", "capitaine"}) //probablement mauvais nom
-    public List<Presence> presencesPerson()
-    {
+    public List<Presence> presencesPerson() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
         ArrayList<Integer> MatchsID = new ArrayList<Integer>();
@@ -170,7 +166,7 @@ public class RoleService {
 
         ArrayList<Presence> PresenceS = new ArrayList<Presence>();
 
-        for (int i =0; i<MatchsID.size(); i++) {
+        for (int i = 0; i < MatchsID.size(); i++) {
             Presence unePresence = messageMapper.selectPresenceS(p.cip, MatchsID.get(i));
             PresenceS.add(unePresence);
 
@@ -182,8 +178,7 @@ public class RoleService {
     @Path("/setPresent/{Index}")
     @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
     //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
-    public void setPresent(@PathParam("Index") int Index)
-    {
+    public void setPresent(@PathParam("Index") int Index) {
 
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
@@ -197,14 +192,53 @@ public class RoleService {
     @Path("/setAbsent/{Index}")
     @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
     //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
-    public void setAbsent()
-    {
+    public void setAbsent(@PathParam("Index") int Index) {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
         ArrayList<Integer> MatchsID = new ArrayList<Integer>();
         MatchsID = messageMapper.selectMatchsPerson(p.cip);
 
         messageMapper.setAbsent(p.cip, MatchsID.get(Index));
+
+    }
+
+    @PUT
+    @Path("/setAlignement/{gardien}/{defenseur1}/{defenseur2}/{defenseur3}/{milieu1}/{milieu2}/{attaquant1}/{attaquant2}/{attaquant3}")
+    @RolesAllowed({"capitaine"})
+    public void setAlignement(@PathParam("gardien") String Gardien,@PathParam("defenseur1") String Defenseur1, @PathParam("defenseur2") String Defenseur2, @PathParam("defenseur3") String Defenseur3, @PathParam("milieu1") String Milieu1, @PathParam("milieu2") String Milieu2,@PathParam("attaquant1") String Attaquant1,@PathParam("attaquant2") String Attaquant2, @PathParam("attaquant3") String Attaquant3 )
+    {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        int prochainMatchID = MatchsID.get(0);
+        int equipeID = messageMapper.getEquipeID(p.cip);
+
+        messageMapper.setAlignement(prochainMatchID, equipeID, Gardien,Defenseur1,Defenseur2,Defenseur3,Milieu1, Milieu2, Attaquant1, Attaquant2, Attaquant3);
+
+    }
+
+
+
+    //Partie réserver pour l'alignement
+    @GET
+    @Path("/personDisponible")
+    @RolesAllowed({"capitaine"})
+    public List<String> personDisponible() {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+
+        int equipeID = messageMapper.getEquipeID(p.cip);
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        int prochainMatchID = MatchsID.get(0);
+
+        ArrayList<String> PersonSDisponible = new ArrayList<String>();
+        PersonSDisponible = messageMapper.getPersonDisponible(prochainMatchID, equipeID);
+
+        return PersonSDisponible;
 
     }
 

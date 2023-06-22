@@ -12,6 +12,8 @@ public class Person {
     public String email;
     public List roles;
 
+    public int equipeID;
+
     public ArrayList<Integer> listIDMatch = new ArrayList<Integer>();
 
 
