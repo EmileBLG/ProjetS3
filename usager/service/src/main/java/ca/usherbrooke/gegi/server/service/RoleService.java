@@ -157,19 +157,36 @@ public class RoleService {
     }
 
     @GET
-    @Path("/sportDivisionNom")
+    @Path("/classement")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getSportDivisionNom(
+    public List<Equipe> getClassement(
             @QueryParam("sportId") int sportId,
             @QueryParam("divisionId") int divisionId) {
 
 
-        return "test";
+        List<Equipe> var = messageMapper.getClassement(sportId, divisionId);
+
+        return var;
     }
 
 
+    @GET
+    @Path("/divisionname")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getDivisionName(@QueryParam("divisionId") int divisionId) {
+        String divisionName = messageMapper.getSportName(divisionId);
+        System.out.println(divisionName);
+        return divisionName;
+    }
+    @GET
+    @Path("/sportDivisionname")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getSportDivisionName(@QueryParam("sportId") int sportId, @QueryParam("divisionId") int divisionId) {
+        String sportName = messageMapper.getSportName(sportId);
+        String divisionName = messageMapper.getDivisionName(divisionId);
 
-
+        return sportName + " " + divisionName;
+    }
 
 
 
