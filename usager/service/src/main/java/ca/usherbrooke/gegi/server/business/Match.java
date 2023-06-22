@@ -1,6 +1,5 @@
 package ca.usherbrooke.gegi.server.business;
 
-
 import java.sql.Timestamp;
 
 public class Match {
@@ -9,10 +8,10 @@ public class Match {
     public String endroit;
     public int equipe1;
     public int equipe2;
-    public int resultatequipe1;
-    public int resultatequipe2;
+    public Integer resultatequipe1;  // Change from int to Integer
+    public Integer resultatequipe2;  // Change from int to Integer
 
-    public Match(int match_id, Timestamp heure, String endroit, int equipe1, int equipe2, int resultatequipe1, int resultatequipe2) {
+    public Match(int match_id, Timestamp heure, String endroit, int equipe1, int equipe2, Integer resultatequipe1, Integer resultatequipe2) {
         this.match_id = match_id;
         this.heure = heure;
         this.endroit = endroit;
