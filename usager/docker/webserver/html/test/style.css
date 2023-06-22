@@ -82,6 +82,29 @@
     background-color: var(--gris);
 }
 
+.classement {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.classement th{
+    border: 1px solid black;
+    border-collapse: collapse;
+    background-color: var(--vert_fierte);
+    font-weight: bold;
+}
+
+.classement td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.classement tr:hover{
+    background-color: var(--gris);
+}
+
 .container {
     display: flex;
     justify-content: space-between; /* Align components with space in between */

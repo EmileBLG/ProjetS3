@@ -9,10 +9,12 @@ public class Match {
     public String endroit;
     public int equipe1;
     public int equipe2;
-    public Integer resultatequipe1;  // Change from int to Integer
-    public Integer resultatequipe2;  // Change from int to Integer
+    private Integer resultatequipe1;  // Change from int to Integer
+    private Integer resultatequipe2;  // Change from int to Integer
     public LocalDate date;
     public LocalTime heure;
+
+    public String resultat;
 
 
 
@@ -29,9 +31,9 @@ public class Match {
         this.resultatequipe1 = resultatequipe1;
         this.resultatequipe2 = resultatequipe2;
         if(this.resultatequipe1 == -1 && this.resultatequipe1 == -1){
-            this.resultat = "N/A";
+            this.resultat = " ";
         }else {
-            this.resultat = resultatequipe1 + " " + resultatequipe2;
+            this.resultat = resultatequipe1 + " - " + resultatequipe2;
         }
     }
 }
