@@ -6,8 +6,8 @@
 }
 
 .buttonTitre {
-    width: 215px;
-    height: 75px;
+    width: 150px;
+    height: 50px;
     padding: 10px;
     background-color: var(--vert_fierte);
     color: white;
@@ -154,7 +154,7 @@
     .menu > .menu-trigger {
       width: 100%;
       padding: 10px;
-      background-color: #4CAF50;
+      background-color: var(--vert_vivacite);
       color: white;
       font-family: Arial, sans-serif;
       font-size: 16px;
@@ -203,3 +203,22 @@
     .menu > .options > .option:hover {
       background-color: #e9e9e9;
     }
+
+.button-option{
+    width: 100%;
+    padding: 10px;
+    background-color: lightgray;
+    color: black;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-option:hover{
+    background-color: #bedbab;
+}
