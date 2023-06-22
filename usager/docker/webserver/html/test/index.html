@@ -8,21 +8,42 @@
 
     <link rel="stylesheet" href="style.css">
 
+    <script src="http://localhost:8180/js/keycloak.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src=".\script.js"></script>
+    <script>
+        var keycloak;
+        function initKeycloak() {
+            keycloak = new Keycloak({
+                "realm": "usager",
+                "auth-server-url": "http://localhost:8180/",
+                "ssl-required": "external",
+                "clientId": "frontend",
+                "public-client": true,
+                "confidential-port": 0
+            });
+            keycloak.init({onLoad: 'login-required'}).then(function (authenticated) {
+                alert(authenticated ? 'authenticated' : 'not authenticated');
+
+            }).catch(function () {
+                alert('failed to initialize');
+            });
+        }
+    </script>
 
 </head>
 <body style="background-color:  white;" onload="">
     
         <header id="header">
             <div class="container">
+                <img src=".\images\UdeS_logo_h_rgbLR.png" style="width: 215px; height: 75px;">
                 <h1 class="titre">
                     <a href="index.html">
                         Ligues intra-muros UDS
                     </a>
                 </h1>
-        
-                <img src=".\images\UdeS_logo_h_rgbLR.png" style="width: 215px; height: 75px;">
+                <button class="buttonTitre" onclick="initKeycloak()">Connexion</button>
+
             </div>
         </header>
 
