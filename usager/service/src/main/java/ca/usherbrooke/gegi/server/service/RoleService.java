@@ -145,11 +145,11 @@ public class RoleService {
 
     @GET
     @Path("/HoraireSport")
+
     @Produces(MediaType.APPLICATION_JSON)
     public List<Match> getHoraireSport(
             @QueryParam("sportId") int sportId,
             @QueryParam("divisionId") int divisionId) {
-
 
         List<Match> listeMatch = messageMapper.getHoraireSport(sportId, divisionId);
         listeMatch.forEach(System.out::println);

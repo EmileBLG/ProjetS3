@@ -2,6 +2,217 @@
   "realm": "usager",
   "users": [
     {
+      "username": "capVB",
+      "enabled": true,
+      "firstName": "CVB",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "capitaine",
+        "Volleyball de plage"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "capVB"
+        }
+      ]
+    },
+    {
+      "username": "joueurVB",
+      "enabled": true,
+      "firstName": "JVB",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "joueur",
+        "Volleyball de plage"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "joueurVB"
+        }
+      ]
+    },{
+      "username": "capUltimate",
+      "enabled": true,
+      "firstName": "CU",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "capitaine",
+        "Ultimate frisbee exterieur"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "capUltimate"
+        }
+      ]
+    },
+    {
+      "username": "joueurUltimate",
+      "enabled": true,
+      "firstName": "JU",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "joueur",
+        "Ultimate frisbee exterieur"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "joueurUltimate"
+        }
+      ]
+    },{
+      "username": "capSB",
+      "enabled": true,
+      "firstName": "CS",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "capitaine",
+        "Spikeball"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "capSB"
+        }
+      ]
+    },
+    {
+      "username": "joueurSB",
+      "enabled": true,
+      "firstName": "JSB",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "joueur",
+        "Spikeball"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "joueurSB"
+        }
+      ]
+    },
+    {
+      "username": "capBDonnee",
+      "enabled": true,
+      "firstName": "CBD",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "capitaine",
+        "Balle-donnee"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "capBDonnee"
+        }
+      ]
+    },
+    {
+      "username": "joueurBDonnee",
+      "enabled": true,
+      "firstName": "JBD",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "joueur",
+        "Balle-donnee"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "joueurBDonnee"
+        }
+      ]
+    },{
+      "username": "capBMolle",
+      "enabled": true,
+      "firstName": "CPM",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "capitaine",
+        "Balle-molle"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "capBMolle"
+        }
+      ]
+    },
+    {
+      "username": "joueurBMolle",
+      "enabled": true,
+      "firstName": "JBM",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "joueur",
+        "Balle-molle"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "joueurBMolle"
+        }
+      ]
+    },{
+      "username": "capSoccer",
+      "enabled": true,
+      "firstName": "CS",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "capitaine",
+        "soccer"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "capSoccer"
+        }
+      ]
+    },
+    {
+      "username": "joueurSoccer",
+      "enabled": true,
+      "firstName": "JS",
+      "lastName": "",
+      "email": "",
+      "realmRoles": [
+        "joueur",
+        "Soccer exterieur"
+      ],
+      "credentials": [
+        {
+          "temporary": true,
+          "type": "password",
+          "value": "joueurSoccer"
+        }
+      ]
+    },{
       "username": "bour0703",
       "enabled": true,
       "firstName": "Raphaël",
