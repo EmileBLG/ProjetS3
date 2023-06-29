@@ -26,7 +26,7 @@ public interface MessageMapper {
     @Select("SELECT * FROM schema.division")
     List<Division> selectAllDivision();
 
-    @Select("SELECT * FROM schema.horraire WHERE sport_id = #{sport_id} AND division_id = #{division_id}")
+    @Select("SELECT * FROM schema.horaire WHERE sport_id = #{sport_id} AND division_id = #{division_id}")
     List<Match> getHoraireSport(@Param("sport_id") int sport_id, @Param("division_id") int division_id);
 
     @Select("SELECT Sport_Nom FROM schema.Sport WHERE Sport_ID = #{sport_id}")

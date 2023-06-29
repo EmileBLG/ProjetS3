@@ -69,8 +69,9 @@ function affichageClassement(sport, division){
 }
 
 function affichageHoraire(sport, division) {
-    let param = "?sportId=" + sport + "&divisonId=" + division;
-    let url = "http://localhost:8888/api/matches/" + param;
+    let param = "?sportId=" + sport + "&divisionId=" + division;
+    let url_horaire = "http://localhost:8888/api/HoraireSport/" + param;
+    console.log(url_horaire);
     let content = document.getElementById("content");
     let tableauHoraire = document.createElement("table");
     tableauHoraire.classList.add("horaire");
@@ -99,7 +100,7 @@ function affichageHoraire(sport, division) {
     thead.appendChild(theadRow);
     tableauHoraire.appendChild(thead);
 
-    axios.get("http://localhost:8888/api/matches")
+    axios.get(url_horaire)
         .then(function (response) {
             //console.log("Response: ", response);
             response.data.forEach((item) => {
