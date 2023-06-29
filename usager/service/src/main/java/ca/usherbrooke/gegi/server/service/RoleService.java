@@ -188,7 +188,16 @@ public class RoleService {
         return sportName + " " + divisionName;
     }
 
-
+    @GET
+    @Path("/horaire")
+    @RolesAllowed({"joueur"})
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Match> getHoraire1Joueur(
+            @QueryParam("cip") String cip) {
+        List<Match> listeMatch = messageMapper.getHoraire1Joueur(cip);
+        listeMatch.forEach(System.out::println);
+        return listeMatch;
+    }
 
 }
 
