@@ -23,5 +23,18 @@ public interface MessageMapper {
     List<Equipe> selectAllEquipe();
     @Select("SELECT * FROM schema.division")
     List<Division> selectAllDivision();
+    /*
+    selectMatchsPerson(String p.cip)       //doit retourner les match du plus récent au plus vieux
+    retourne list de int des id des match
 
+    SELECT m.match_id
+FROM match m
+INNER JOIN constitue c ON m.equipe1 = c.equipe OR m.equipe2 = c.equipe
+WHERE c.CIP = 'Robw1901'
+
+
+
+    */
+
+    @Select("SELECT match_id FROM match Where ")
 }

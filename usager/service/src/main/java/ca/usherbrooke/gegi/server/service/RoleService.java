@@ -144,19 +144,21 @@ public class RoleService {
     // branche de will systhème de présence ----------------------------------------------------------------
     @GET
     @Path("/nbmatch")
+    @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"jouer", "capitaine"}) //probablement mauvais nom
     public int nbmatch() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
-        ArrayList<Integer> Matchs = new ArrayList<Integer>();
-        Matchs = messageMapper.selectMatchsPerson(p.cip);
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
 
-        int nbMatch = Matchs.size();
+        int nbMatch = MatchsID.size();
         return nbMatch;
     }
 
     @GET
     @Path("/presencesPerson")
+    @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"jouer", "capitaine"}) //probablement mauvais nom
     public List<Presence> presencesPerson() {
         Person p = new Person();
@@ -167,7 +169,9 @@ public class RoleService {
         ArrayList<Presence> PresenceS = new ArrayList<Presence>();
 
         for (int i = 0; i < MatchsID.size(); i++) {
-            Presence unePresence = messageMapper.selectPresenceS(p.cip, MatchsID.get(i));
+            Presence unePresence = new Presence(p.cip,MatchsID.get(i) );
+            unePresence.etatPresence = messageMapper.getEtatPresence(p.cip,MatchsID.get(i) );
+
             PresenceS.add(unePresence);
 
         }
@@ -176,6 +180,7 @@ public class RoleService {
 
     @PUT
     @Path("/setPresent/{Index}")
+    @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
     //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
     public void setPresent(@PathParam("Index") int Index) {
@@ -190,6 +195,7 @@ public class RoleService {
 
     @PUT
     @Path("/setAbsent/{Index}")
+    @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
     //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
     public void setAbsent(@PathParam("Index") int Index) {
@@ -202,9 +208,12 @@ public class RoleService {
 
     }
 
+    //Partie réserver pour l'alignement
+
     @PUT
     @Path("/setAlignement/{gardien}/{defenseur1}/{defenseur2}/{defenseur3}/{milieu1}/{milieu2}/{attaquant1}/{attaquant2}/{attaquant3}")
     @RolesAllowed({"capitaine"})
+    @Produces(MediaType.APPLICATION_JSON)
     public void setAlignement(@PathParam("gardien") String Gardien,@PathParam("defenseur1") String Defenseur1, @PathParam("defenseur2") String Defenseur2, @PathParam("defenseur3") String Defenseur3, @PathParam("milieu1") String Milieu1, @PathParam("milieu2") String Milieu2,@PathParam("attaquant1") String Attaquant1,@PathParam("attaquant2") String Attaquant2, @PathParam("attaquant3") String Attaquant3 )
     {
         Person p = new Person();
@@ -221,10 +230,11 @@ public class RoleService {
 
 
 
-    //Partie réserver pour l'alignement
+
     @GET
     @Path("/personDisponible")
     @RolesAllowed({"capitaine"})
+    @Produces(MediaType.APPLICATION_JSON)
     public List<String> personDisponible() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
@@ -241,5 +251,16 @@ public class RoleService {
         return PersonSDisponible;
 
     }
+
+    // match spécifique a chaque usager
+
+
+    //match
+
+    //division
+
+    //sport
+
+    //
 
 }
