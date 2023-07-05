@@ -1454,7 +1454,7 @@ CREATE FUNCTION schema.presence_trigger()
     RETURNS TRIGGER AS $$
 BEGIN
     INSERT INTO schema.PresenceMatch (cip, MatchID, Presence)
-    SELECT C.cip, NEW.Match_ID, -1
+    SELECT C.cip, NEW.Match_ID, 1
     FROM schema.Constitue C
     WHERE C.Equipe_ID = NEW.Equipe1 OR C.Equipe_ID = NEW.Equipe2;
     RETURN NEW;
