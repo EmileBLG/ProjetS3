@@ -5,10 +5,7 @@ import ca.usherbrooke.gegi.server.persistence.MessageMapper;
 
 import javax.inject.Inject;
 import javax.management.relation.Role;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
@@ -18,6 +15,7 @@ import javax.annotation.security.RolesAllowed;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -188,6 +186,86 @@ public class RoleService {
         return sportName + " " + divisionName;
     }
 
+    // branche de will systhème de présence ----------------------------------------------------------------
+    @GET
+    @Path("/nbmatch")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"jouer", "capitaine"}) //probablement mauvais nom
+    public int nbmatch() {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        int nbMatch = MatchsID.size();
+        return nbMatch;
+    }
+
+
+    @PUT
+    @Path("/setPresent/{Index}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
+    //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
+    public void setPresent(@PathParam("Index") int Index) {
+
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        messageMapper.setPresent(p.cip, MatchsID.get(Index));
+    }
+
+    @PUT
+    @Path("/setAbsent/{Index}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
+    //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
+    public void setAbsent(@PathParam("Index") int Index) {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        messageMapper.setAbsent(p.cip, MatchsID.get(Index));
+
+    }
+
+    //Partie réserver pour l'alignement
+
+
+    @GET
+    @Path("/personDisponible")
+    @RolesAllowed({"capitaine"})
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> personDisponible() {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+
+        int equipeID = messageMapper.getEquipeID(p.cip);
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        int prochainMatchID = MatchsID.get(0);
+
+        ArrayList<String> PersonSDisponible = new ArrayList<String>();
+        PersonSDisponible = (ArrayList<String>) messageMapper.getPersonDisponible(prochainMatchID, equipeID);
+
+        return PersonSDisponible;
+
+    }
+
+    // match spécifique a chaque usager
+
+
+    //match
+
+    //division
+
+    //sport
+
+    //
 
 
 }

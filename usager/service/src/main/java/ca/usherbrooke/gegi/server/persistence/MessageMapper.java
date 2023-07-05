@@ -4,6 +4,7 @@ import ca.usherbrooke.gegi.server.business.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import javax.management.relation.Role;
 import java.sql.Timestamp;
@@ -38,5 +39,16 @@ public interface MessageMapper {
     @Select("SELECT * FROM schema.classement WHERE sport_id = #{sport_id} AND division_id = #{division_id}")
     List<Equipe> getClassement(@Param("sport_id") int sport_id, @Param("division_id") int division_id);
 
+    @Update("UPDATE schema.presencematch SET presence = 1 WHERE cip = #{cip} AND MatchID = #{MatchID}")
+    void setPresent(@Param("cip") String cip, @Param("MatchID") int MatchID);
 
+    @Update("UPDATE schema.presencematch SET presence = 0 WHERE cip = #{cip} AND MatchID = #{MatchID}")
+    void setAbsent(@Param("cip") String cip, @Param("MatchID") int MatchID);
+
+    @Select("SELECT schema.users.firstname, schema.users.lastname,schema.users.email, schema.users.cip" +
+            "FROM schema.presencematch, schema.constitue, schema.users" +
+            "WHERE schema.presencematch.matchid = #{matchID} and schema.presencematch.presence = 1" +
+            "and schema.presencematch.cip = schema.constitue.cip and schema.constitue.equipe_id = #{equipe_id}" +
+            "and schema.users.cip = schema.constitue.cip")
+    List<String> getPersonDisponible(@Param("matchID") int MatchID, @Param("equipe_id") int equipe_id);
 }
