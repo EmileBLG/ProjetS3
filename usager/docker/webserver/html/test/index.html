@@ -85,6 +85,27 @@
                     })
                 });
         }
+
+        function listeMatch(){
+            axios.get("http://localhost:8888/api/horaire", {
+                headers: {
+                    'Authorization': 'Bearer ' + keycloak.token
+                }
+            })
+                .then(function (response) {
+                    console.log("Response: ", response);
+                    console.log("on est juste avant affichage grill")
+                    affichageGrill(response);
+                })
+                .catch(function (error) {
+                    console.log('refreshing');
+                    keycloak.updateToken(5).then(function () {
+                        console.log('Token refreshed');
+                    }).catch(function () {
+                        console.log('Failed to refresh token');
+                    })
+                });
+        }
     </script>
 
 </head>
@@ -110,13 +131,7 @@
             <nav>
                 <ul id="liste-bouton">
 
-                    </li>
-                    <li>
-                        <button class="button-option" onclick="requestStudent()">Horaire</button>
-                    </li>
-                    <li>
-                        <button class="button-option" onclick="affichergestionnairePresence()">Présence</button>
-                    </li>
+
                 </ul>
             </nav>
         </div>

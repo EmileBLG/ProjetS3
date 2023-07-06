@@ -222,7 +222,9 @@ function affichageBouton(){
             boutonPresence.innerText = "Présence";
             boutonPresence.classList.add("button-option");
             boutonPresence.onclick = function (){
-                affichagePresence();
+                //affichagePresence();
+                console.debug("cliqck bouton presence will")
+                affichergestionnairePresence();
             }
             listePresence.appendChild(boutonPresence);
             listeBouton.appendChild(listePresence);
@@ -394,55 +396,40 @@ function affichageHoraire(response) {
 }
 
 
-function affichergestionnairePresence() {
+function affichergestionnairePresence(response) {
     let content = document.getElementById("content");
     content.innerHTML = "";
 
-    let url_nbmatch = "http://localhost:8888/api/nbmatch";
+
 
     let titre_menue = document.createElement("h2");
     titre_menue.innerText = "Gestionnaire de présence";
     content.appendChild(titre_menue);
 
 
-    affichageGrill();
+   // affichageGrill(response);
+    listeMatch();
 
 
 }
 
-function affichageGrill()
+function affichageGrill(response)
 {
+    console.log("on rentre dans afficher grill");
     let grille = document.createElement("div");
     grille.className = "grille"; // Ajoute la classe "grille"
 
-    let url_listmatch = "http://localhost:8888/api/horaire";
+   // let url_listmatch = "http://localhost:8888/api/horaire";
 
 
 
-    let data = [];
-    /*
-    for (let i = 0; i < 9; i++) {
-        let randomNumber = Math.floor(Math.random() * (900 - 150 + 1) + 150); // pour des fin de test retirer pour le code finale
-        data.push(randomNumber);
-    }
-    let nbElements = 4;
-
-     */
+    console.log(response);
+    let data = response.data();
+    
 
 
-    axios.get(url_listmatch)
-        .then(response => {
-            data = response.data;
-
-
-            console.log("recuperer liste des match ");
-
-
-        })
-        .catch(error => {
-            console.log(error);
-        });
     nbElements = data.length; // Obtient le nombre d'éléments dans data
+    console.log("gill crer")
 
 
     for(let i =0; i < nbElements; i++) {
@@ -453,6 +440,7 @@ function affichageGrill()
 
 
         grille.appendChild(caseGrille);
+        console.log("juste avant widhet")
         widgetPresenceMatch(caseGrille, data[i]);
 
     }
@@ -466,6 +454,7 @@ function affichageGrill()
 
 function widgetPresenceMatch(elementParent, matchObjet)
 {
+    console.log("dans widget")
    // let spanElement = document.createElement("span");
    // spanElement.innerText = "Contenu de la case";
 
