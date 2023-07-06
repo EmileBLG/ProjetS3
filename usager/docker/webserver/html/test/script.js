@@ -168,7 +168,7 @@ function affichergestionnairePresence() {
     let content = document.getElementById("content");
     content.innerHTML = "";
 
-    let url_nbmatch = "http://localhost:8888/api/nbmatch";
+   // let url_nbmatch = "http://localhost:8888/api/nbmatch";
 
     let titre_menue = document.createElement("h2");
     titre_menue.innerText = "Gestionnaire de présence";
@@ -190,7 +190,7 @@ function affichageGrill()
 
 
     let data = [];
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 19; i++) {
         let randomNumber = Math.floor(Math.random() * (900 - 150 + 1) + 150); // pour des fin de test retirer pour le code finale
         data.push(randomNumber);
     }
@@ -200,7 +200,7 @@ function affichageGrill()
     axios.get(url_listmatch)
         .then(response => {
             data = response.data;
-            nbElements = data.length; // Obtient le nombre d'éléments dans data
+
 
             console.log("Nombre d'éléments : ", nbElements);
 
@@ -210,8 +210,10 @@ function affichageGrill()
             console.log(error);
         });
 
+    nbElements = data.length; // Obtient le nombre d'éléments dans data
 
-    for(let i =0; i < 9; i++) {
+
+    for(let i =0; i < nbElements; i++) {
 
 
         let caseGrille = document.createElement("div");
