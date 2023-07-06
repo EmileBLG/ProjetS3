@@ -363,7 +363,9 @@
       "email": "bele1103@usherbrooke.ca",
       "realmRoles": [
         "etudiant",
-        "default-roles-master"
+        "default-roles-master",
+        "joueur",
+        "Volleyball de plage"
       ],
       "credentials": [
         {
@@ -507,7 +509,9 @@
       "email": "lavm1927@usherbrooke.ca",
       "realmRoles": [
         "etudiant",
-        "default-roles-master"
+        "default-roles-master",
+        "joueur",
+        "Volleyball de plage"
       ],
       "credentials": [
         {

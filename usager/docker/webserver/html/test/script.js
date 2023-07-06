@@ -330,3 +330,65 @@ function affichageInformationMatch(matchId){
         .catch(function (error) {});
 }
 
+function affichageHoraire(response) {
+    let content = document.getElementById("content");
+    content.innerHTML = "";
+    let tableauHoraire = document.createElement("table");
+    tableauHoraire.classList.add("horaire");
+    let titre = document.createElement("h3");
+    titre.innerText = "Horaire";
+
+    let header = [
+        "#",
+        "Date",
+        "Heure",
+        "Équipe1",
+        "Résultat",
+        "Équipe2",
+        "Endroit"
+    ];
+
+    let thead = document.createElement("thead");
+    let theadRow = document.createElement("tr");
+
+    header.forEach((item) => {
+        //console.log(item);
+        let th = document.createElement("th");
+        th.innerText = item;
+        theadRow.appendChild(th);
+    });
+    thead.appendChild(theadRow);
+    tableauHoraire.appendChild(thead);
+
+    response.data.forEach((item) => {
+        let row = document.createElement("tr");
+        let match_id = document.createElement("td");
+        let date = document.createElement("td");
+        let heure = document.createElement("td")
+        let equipe1 = document.createElement("td");
+        let resultat = document.createElement("td");
+        let equipe2 = document.createElement("td");
+        let endroit = document.createElement("td");
+
+        match_id.innerText = item.match_id;
+        date.innerText = item.date;
+        heure.innerText = item.heure;
+        equipe1.innerText = item.equipe1;
+        resultat.innerText = item.resultat;
+        equipe2.innerText = item.equipe2;
+        endroit.innerText = item.endroit;
+
+        row.appendChild(match_id);
+        row.appendChild(date);
+        row.appendChild(heure);
+        row.appendChild(equipe1);
+        row.appendChild(resultat);
+        row.appendChild(equipe2);
+        row.appendChild(endroit);
+
+        tableauHoraire.appendChild(row);
+    });
+
+    content.appendChild(titre);
+    content.appendChild(tableauHoraire);
+}

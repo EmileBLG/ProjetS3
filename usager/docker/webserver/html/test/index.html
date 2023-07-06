@@ -65,6 +65,7 @@
             })
                 .then(function (response) {
                     console.log("Response: ", response);
+                    affichageHoraire(response);
                 })
                 .catch(function (error) {
                     console.log('refreshing');
