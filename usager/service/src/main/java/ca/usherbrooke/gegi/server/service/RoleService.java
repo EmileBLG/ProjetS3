@@ -3,6 +3,7 @@ package ca.usherbrooke.gegi.server.service;
 import ca.usherbrooke.gegi.server.business.*;
 import ca.usherbrooke.gegi.server.persistence.MessageMapper;
 
+
 import javax.inject.Inject;
 import javax.management.relation.Role;
 import javax.ws.rs.*;
@@ -199,14 +200,11 @@ public class RoleService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Match> getHoraire1Joueur(
             @QueryParam("cip") String cip) {
-        List<Match> listeMatch = messageMapper.getHoraire1Joueur(cip);
+        List<Match> listeMatch = messageMapper.getHoraireJoueur(cip);
         listeMatch.forEach(System.out::println);
         return listeMatch;
     }
 
-        int nbMatch = MatchsID.size();
-        return nbMatch;
-    }
 
 
     @PUT

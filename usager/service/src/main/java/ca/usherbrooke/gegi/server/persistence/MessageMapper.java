@@ -29,7 +29,7 @@ public interface MessageMapper {
     /*
     selectMatchsPerson(String p.cip)       //doit retourner les match du plus récent au plus vieux
     retourne list de int des id des match
-
+*/
     @Select("SELECT * FROM schema.horaire WHERE sport_id = #{sport_id} AND division_id = #{division_id}")
     List<Match> getHoraireSport(@Param("sport_id") int sport_id, @Param("division_id") int division_id);
 
