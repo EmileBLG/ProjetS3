@@ -1,24 +1,39 @@
 package ca.usherbrooke.gegi.server.business;
 
-
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Match {
     public int match_id;
-    public Timestamp heure;
     public String endroit;
     public int equipe1;
     public int equipe2;
-    public int resultatequipe1;
-    public int resultatequipe2;
+    private Integer resultatequipe1;  // Change from int to Integer
+    private Integer resultatequipe2;  // Change from int to Integer
+    public LocalDate date;
+    public LocalTime heure;
 
-    public Match(int match_id, Timestamp heure, String endroit, int equipe1, int equipe2, int resultatequipe1, int resultatequipe2) {
+    public String resultat;
+
+
+
+
+
+
+    public Match(int match_id, String endroit, int equipe1, int equipe2, Integer resultatequipe1, Integer resultatequipe2, LocalDate date, LocalTime heure) {
         this.match_id = match_id;
         this.heure = heure;
+        this.date = date;
         this.endroit = endroit;
         this.equipe1 = equipe1;
         this.equipe2 = equipe2;
         this.resultatequipe1 = resultatequipe1;
         this.resultatequipe2 = resultatequipe2;
+        if(this.resultatequipe1 == -1 && this.resultatequipe1 == -1){
+            this.resultat = " ";
+        }else {
+            this.resultat = resultatequipe1 + " - " + resultatequipe2;
+        }
     }
 }

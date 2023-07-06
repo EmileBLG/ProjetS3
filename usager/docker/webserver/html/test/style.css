@@ -1,78 +1,33 @@
 
 :root{
-    --vert_fierte: #95c14e;
+    --vert_fierte: #00A759;
     --vert_vivacite: #79b551;
     --gris: #b6baaf;
 }
 
-.content {
-    margin-left: 220px; /* width of the sidebar + some margin */
-    padding: 20px;
-}
-
-.horaire{
-    border: 1px solid black;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.horaire th{
-    border: 1px solid black; 
-    border-collapse: collapse; 
+.buttonTitre {
+    width: 150px;
+    height: 50px;
+    padding: 10px;
     background-color: var(--vert_fierte);
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
     font-weight: bold;
-}
-
-.horaire td{
-    border: 1px solid black; 
-    border-collapse: collapse;
-    text-align: center; 
-}
-
-.container {
-    display: flex;
-    justify-content: space-between; /* Align components with space in between */
-    align-items: center; /* Align components vertically in the center */
-    background-color: #f1f1f1;
-    padding: 10px;
-}
-
-.sidebar {
-    width: 200px;
-    height: 100vh;
-    background-color:rgb(0, 167, 89);
-    float: left;
-}
-
-.sidebar nav {
-    width: 180px;
-    padding: 10px;
-}
-
-.sidebar nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar nav li {
-    margin-bottom: 5px;
-}
-
-.sidebar nav a {
-    display: block;
-    padding: 5px;
     text-decoration: none;
-    color: black;
-    background-color: var(--vert_vivacite);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.sidebar nav a:hover {
-    background-color: #ddd;
+.buttonTitre:hover {
+    background-color: #45a049;
 }
 
 .titre {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-align: center;
 }
 
 .titre a:link {
@@ -99,12 +54,194 @@
     text-decoration: underline;
 }
 
-.sidebar button{
+.content {
+    margin-left: 160px; /* width of the sidebar + some margin */
+    padding: 20px;
+}
+
+.horaire{
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.horaire th{
+    border: 1px solid black; 
+    border-collapse: collapse;
+    background-color: var(--vert_fierte);
+    font-weight: bold;
+}
+
+.horaire td{
+    border: 1px solid black; 
+    border-collapse: collapse;
+    text-align: center; 
+}
+
+.horaire tr:hover{
+    background-color: var(--gris);
+}
+
+.classement {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.classement th{
+    border: 1px solid black;
+    border-collapse: collapse;
+    background-color: var(--vert_fierte);
+    font-weight: bold;
+}
+
+.classement td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.classement tr:hover{
+    background-color: var(--gris);
+}
+
+.container {
+    display: flex;
+    justify-content: space-between; /* Align components with space in between */
+    align-items: center; /* Align components vertically in the center */
+    background-color: #f1f1f1;
+    padding: 10px;
+}
+
+.sidebar {
+    width: 150px;
+    height: 100vh;
+    background-color: var(--vert_fierte);
+    float: left;
+}
+
+.sidebar nav {
+    width: 130px;
+    padding: 10px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav li {
+    margin-bottom: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    justify-items: normal;
+
+
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+.sidebar nav h4{
     display: block;
-    padding: 5px;
     text-decoration: none;
     color: black;
-    background-color: var(--vert_vivacite);
+    background-color: #f1f1f1;
     width: 100%;
-    text-align: left;
+    text-align: center;
+    margin: 0px;
+
+
+}
+
+.texte-sidebar {
+    margin-bottom: 2px;
+
+}
+
+.menu {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .menu > .menu-trigger {
+      width: 100%;
+      padding: 10px;
+      background-color: var(--vert_vivacite);
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu > .menu-trigger:hover {
+      background-color: #45a049;
+    }
+
+    .menu > .options {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      width: 40px;
+      background-color: #f1f1f1;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s, opacity 0.3s ease;
+    }
+
+    .menu:hover > .options {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .menu > .options > .option {
+      display: block;
+      padding: 5px;
+      color: #333;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+
+    .menu > .options > .option:hover {
+      background-color: #e9e9e9;
+    }
+
+.button-option{
+    width: 100%;
+    padding: 10px;
+    background-color: lightgray;
+    color: black;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-option:hover{
+    background-color: #bedbab;
 }

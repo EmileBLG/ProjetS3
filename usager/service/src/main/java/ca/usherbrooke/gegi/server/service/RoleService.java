@@ -5,6 +5,10 @@ import ca.usherbrooke.gegi.server.persistence.MessageMapper;
 
 import javax.inject.Inject;
 import javax.management.relation.Role;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Context;
@@ -16,6 +20,7 @@ import javax.annotation.security.RolesAllowed;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -122,6 +127,7 @@ public class RoleService {
         return p;
     }
 
+
     @GET
     @Path("/any")
     @PermitAll
@@ -139,6 +145,63 @@ public class RoleService {
         System.out.println(p);
         return p;
     }
+
+    @GET
+    @Path("/HoraireSport")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Match> getHoraireSport(
+            @QueryParam("sportId") int sportId,
+            @QueryParam("divisionId") int divisionId) {
+
+
+        List<Match> listeMatch = messageMapper.getHoraireSport(sportId, divisionId);
+        listeMatch.forEach(System.out::println);
+        return listeMatch;
+    }
+
+    @GET
+    @Path("/classement")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Equipe> getClassement(
+            @QueryParam("sportId") int sportId,
+            @QueryParam("divisionId") int divisionId) {
+
+
+        List<Equipe> var = messageMapper.getClassement(sportId, divisionId);
+
+        return var;
+    }
+
+
+    @GET
+    @Path("/divisionname")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getDivisionName(@QueryParam("divisionId") int divisionId) {
+        String divisionName = messageMapper.getSportName(divisionId);
+        System.out.println(divisionName);
+        return divisionName;
+    }
+    @GET
+    @Path("/sportDivisionname")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getSportDivisionName(@QueryParam("sportId") int sportId, @QueryParam("divisionId") int divisionId) {
+        String sportName = messageMapper.getSportName(sportId);
+        String divisionName = messageMapper.getDivisionName(divisionId);
+
+        return sportName + " " + divisionName;
+    }
+
+    @GET
+    @Path("/horaire")
+    @RolesAllowed({"joueur"})
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Match> getHoraire1Joueur(
+            @QueryParam("cip") String cip) {
+        List<Match> listeMatch = messageMapper.getHoraire1Joueur(cip);
+        listeMatch.forEach(System.out::println);
+        return listeMatch;
+    }
+
 
 
     // branche de will systhème de présence ----------------------------------------------------------------

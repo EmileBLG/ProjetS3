@@ -1380,11 +1380,11 @@ FROM users_json l,
 
 
 ON CONFLICT (cip) DO UPDATE
-  SET enabled = excluded.enabled,
-      firstName = excluded.firstName,
-      lastName = excluded.lastName,
-      email = excluded.email,
-      realmRoles = excluded.realmRoles;
+    SET enabled = excluded.enabled,
+        firstName = excluded.firstName,
+        lastName = excluded.lastName,
+        email = excluded.email,
+        realmRoles = excluded.realmRoles;
 
 
 CREATE TABLE schema.Sport
@@ -1418,16 +1418,16 @@ CREATE TABLE schema.Equipe
 
 CREATE TABLE schema.Match
 (
-  Match_ID INT NOT NULL,
-  Heure TIMESTAMP not null,
-  Endroit varchar(64) not null,
-  Equipe1 INT not null,
-  Equipe2 INT not null,
-  ResultatEquipe1 INT default -1,
-  ResultatEquipe2 INT default -1,
-  PRIMARY KEY (Match_ID),
-  FOREIGN KEY (Equipe1) REFERENCES schema.Equipe(Equipe_ID),
-  FOREIGN KEY (Equipe2) REFERENCES schema.Equipe(Equipe_ID)
+    Match_ID INT NOT NULL,
+    Heure TIMESTAMP not null,
+    Endroit varchar(64) not null,
+    Equipe1 INT not null,
+    Equipe2 INT not null,
+    ResultatEquipe1 INT default -1,
+    ResultatEquipe2 INT default -1,
+    PRIMARY KEY (Match_ID),
+    FOREIGN KEY (Equipe1) REFERENCES schema.Equipe(Equipe_ID),
+    FOREIGN KEY (Equipe2) REFERENCES schema.Equipe(Equipe_ID)
 );
 
 CREATE TABLE schema.Constitue
@@ -1441,29 +1441,29 @@ CREATE TABLE schema.Constitue
 
 CREATE TABLE schema.PresenceMatch
 (
-  cip varchar(8) NOT NULL,
-  MatchID INT NOT NULL,
-  Presence INT NOT NULL,
-  PRIMARY KEY (cip, MatchID),
-  FOREIGN KEY (cip) REFERENCES schema.users(cip),
-  FOREIGN KEY (MatchID) REFERENCES schema.Match(Match_ID)
+    cip varchar(8) NOT NULL,
+    MatchID INT NOT NULL,
+    Presence INT NOT NULL,
+    PRIMARY KEY (cip, MatchID),
+    FOREIGN KEY (cip) REFERENCES schema.users(cip),
+    FOREIGN KEY (MatchID) REFERENCES schema.Match(Match_ID)
 );
 
 DROP FUNCTION IF EXISTS schema.presence_trigger();
 CREATE FUNCTION schema.presence_trigger()
-  RETURNS TRIGGER AS $$
+    RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO schema.PresenceMatch (cip, MatchID, Presence)
-  SELECT C.cip, NEW.Match_ID, -1
-  FROM schema.Constitue C
-  WHERE C.Equipe_ID = NEW.Equipe1 OR C.Equipe_ID = NEW.Equipe2;
-  RETURN NEW;
+    INSERT INTO schema.PresenceMatch (cip, MatchID, Presence)
+    SELECT C.cip, NEW.Match_ID, -1
+    FROM schema.Constitue C
+    WHERE C.Equipe_ID = NEW.Equipe1 OR C.Equipe_ID = NEW.Equipe2;
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER ajout_match
-  AFTER INSERT on schema.Match
-  FOR EACH ROW
+    AFTER INSERT on schema.Match
+    FOR EACH ROW
 EXECUTE FUNCTION schema.presence_trigger();
 
 
@@ -1719,7 +1719,7 @@ insert into schema.Constitue(Equipe_ID, cip) VALUES (71,  'jace1402');
 insert into schema.Constitue(Equipe_ID, cip) VALUES (72,  'lanj2131');
 insert into schema.Constitue(Equipe_ID, cip) VALUES (72,  'pagm1302');
 --2 match par équipe sport 1 div 1
-insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (1, '2023-06-05 18:00:00', 1, 3, 'Université de Sherbrooke');
+insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit, resultatequipe1, resultatequipe2) VALUES (1, '2023-06-05 18:00:00', 1, 3, 'Université de Sherbrooke',2,0);
 insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (2, '2023-06-05 19:00:00', 4, 2, 'Université de Sherbrooke');
 insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (3, '2023-06-05 20:00:00', 2, 1, 'Université de Sherbrooke');
 insert into schema.Match(Match_ID, Heure, Equipe1, Equipe2, Endroit) VALUES (4, '2023-06-05 21:00:00', 3, 4, 'Université de Sherbrooke');
@@ -1817,8 +1817,8 @@ ALTER TABLE schema.Match ADD COLUMN time time;
 
 UPDATE schema.Match
 SET
-  date = Heure::date,
-  time = Heure::time;
+    date = Heure::date,
+    time = Heure::time;
 
 ALTER TABLE schema.Match DROP COLUMN Heure;
 

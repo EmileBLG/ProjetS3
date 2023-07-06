@@ -8,73 +8,54 @@
 
     <link rel="stylesheet" href="style.css">
 
+    <script src="http://localhost:8180/js/keycloak.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+    <script src=".\script.js"></script>
     <script>
-        function headerHoraire(){
-            let header = [
-                "#",
-                "Date",
-                "Équipe1",
-                "Résultat",
-                "Équipe2",
-                "Endroit"
-            ];
-            let tableauHoraire = document.getElementById("horaire");
-            tableauHoraire.innerHTML = "";
-
-            let thead = document.createElement("thead");
-            let theadRow = document.createElement("tr");
-
-            header.forEach((item) => {
-                //console.log(item);
-               let th = document.createElement("th");
-               th.innerText = item;
-               theadRow.appendChild(th);
+        var keycloak;
+        function initKeycloak() {
+            keycloak = new Keycloak({
+                "realm": "usager",
+                "auth-server-url": "http://localhost:8180/",
+                "ssl-required": "external",
+                "clientId": "frontend",
+                "public-client": true,
+                "confidential-port": 0
             });
-            thead.appendChild(theadRow);
-            tableauHoraire.appendChild(thead);
+            keycloak.init({onLoad: 'login-required'}).then(function (authenticated) {
+                alert(authenticated ? 'authenticated' : 'not authenticated');
+
+            }).catch(function () {
+                alert('failed to initialize');
+            });
         }
 
-        function affichageHoraire() {
-            headerHoraire();
-            let tableauHoraire = document.getElementById("horaire");
-
-            axios.get("http://localhost:8888/api/horaire")
+        function requestStudent() {
+            const div = document.getElementById('content');
+            const span = div.firstElementChild;
+            axios.get("http://localhost:8888/api/student", {
+                headers: {
+                    'Authorization': 'Bearer ' + keycloak.token
+                }
+            })
                 .then(function (response) {
-                    //console.log("Response: ", response);
-                    response.data.listeMatch.forEach((item) => {
-                        let row = document.createElement("tr");
-                        let matchId = document.createElement("td");
-                        let dateMatch = document.createElement("td");
-                        let equipe1 = document.createElement("td");
-                        let resultat = document.createElement("td");
-                        let equipe2 = document.createElement("td");
-                        let endroit = document.createElement("td");
-
-                        matchId.innerText = item.matchId;
-                        dateMatch.innerText = item.dateMatch;
-                        equipe1.innerText = item.equipe1;
-                        resultat.innerText = item.resultat;
-                        equipe2.innerText = item.equipe2;
-                        endroit.innerText = item.endroit;
-
-                        row.appendChild(matchId);
-                        row.appendChild(dateMatch);
-                        row.appendChild(equipe1);
-                        row.appendChild(resultat);
-                        row.appendChild(equipe2);
-                        row.appendChild(endroit);
-
-                        tableauHoraire.appendChild(row);
-                    });
+                    console.log("Response: ", response.status);
+                    content.innerHTML = '<br> <strong>' + response.data.cip + '</strong> </br>' +
+                        '<br> <strong>' + response.data.last_name + '</strong> </br>' +
+                        '<br> <strong>' + response.data.first_name + '</strong> </br>' +
+                        '<br> <strong>' + response.data.email + '</strong> </br>' +
+                        '<br> <strong>' + response.data.roles + '</strong> </br>'
                 })
                 .catch(function (error) {
-
+                    console.log('refreshing');
+                    keycloak.updateToken(5).then(function () {
+                        console.log('Token refreshed');
+                    }).catch(function () {
+                        console.log('Failed to refresh token');
+                    })
                 });
+            content.innerHTML = '<br> <strong>' + "Vous n'avez pas le role d'étudiant" + '</strong> </br>'
         }
-
-
     </script>
 
 </head>
@@ -82,34 +63,95 @@
     
         <header id="header">
             <div class="container">
+                <img src=".\images\UdeS_logo_h_rgbLR.png" style="width: 215px; height: 75px;">
                 <h1 class="titre">
                     <a href="index.html">
                         Ligues intra-muros UDS
                     </a>
                 </h1>
-        
-                <img src=".\images\UdeS_logo_h_rgbLR.png" style="width: 300px; height: 105px;">
+                <button class="buttonTitre" onclick="initKeycloak()">Connexion</button>
+
             </div>
         </header>
-    
+
         <div id="sidebar" class="sidebar">
             <h2 style="margin-left: 20px;">
                 Sport
             </h2>
             <nav>
                 <ul>
-                    <li><button onclick="affichageHoraire()">Balle-donnée</button></li>
-                    <li><button onclick="affichageHoraire()">Balle-molle</button></li>
-                    <li><button onclick="affichageHoraire()">Soccer extérieur</button></li>
-                    <li><button onclick="affichageHoraire()">Spikeball</button></li>
-                    <li><button onclick="affichageHoraire()">Ultimate frisbee extérieur</button></li>
-                    <li><button onclick="affichageHoraire()">Volleyball de plage</button></li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Balle-donnée</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement(1, 1)">A</button>
+                                <button class="option" onclick="affichageHoraireClassement(1, 2)">B</button>
+                                <button class="option" onclick="affichageHoraireClassement(1, 3)">C</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Balle-molle</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement(2, 1)">A</button>
+                                <button class="option" onclick="affichageHoraireClassement(2, 2)">B</button>
+                                <button class="option" onclick="affichageHoraireClassement(2, 3)">C</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Soccer extérieur</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement(3, 1)">A</button>
+                                <button class="option" onclick="affichageHoraireClassement(3, 2)">B</button>
+                                <button class="option" onclick="affichageHoraireClassement(3, 3)">C</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Spikeball</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement(4, 1)">A</button>
+                                <button class="option" onclick="affichageHoraireClassement(4, 2)">B</button>
+                                <button class="option" onclick="affichageHoraireClassement(4, 3)">C</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Ultimate frisbee extérieur</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement(5, 1)">A</button>
+                                <button class="option" onclick="affichageHoraireClassement(5, 2)">B</button>
+                                <button class="option" onclick="affichageHoraireClassement(5, 3)">C</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu">
+                            <button class="menu-trigger">Volleyball de plage</button>
+                            <div class="options">
+                                <button class="option" onclick="affichageHoraireClassement(6, 1)">A</button>
+                                <button class="option" onclick="affichageHoraireClassement(6, 2)">B</button>
+                                <button class="option" onclick="affichageHoraireClassement(6, 3)">C</button>
+                            </div>
+                        </div>
+
+                    </li>
+                    <li>
+                        <button class="button-option" onclick="requestStudent()">Horaire</button>
+                    </li>
+                    <li>
+                        <button class="button-option" onclick="requestStudent()">Présence</button>
+                    </li>
                 </ul>
             </nav>
         </div>
 
-        <div id="content" class="content">
-            <p>Voici le site des statistiques des intra-muros</p>
+        <div id="content" class="content" >
             <table id="horaire"></table>
 
         </div>
