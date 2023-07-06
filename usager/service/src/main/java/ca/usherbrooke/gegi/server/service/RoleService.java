@@ -5,15 +5,14 @@ import ca.usherbrooke.gegi.server.persistence.MessageMapper;
 
 import javax.inject.Inject;
 import javax.management.relation.Role;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
@@ -188,7 +187,41 @@ public class RoleService {
         return sportName + " " + divisionName;
     }
 
+    @GET
+    @Path("/horaire")
+    @RolesAllowed({"joueur"})
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Match> getHoraire1Joueur(
+            @QueryParam("cip") String cip) {
+        List<Match> listeMatch = messageMapper.getHoraire1Joueur(cip);
+        listeMatch.forEach(System.out::println);
+        return listeMatch;
+    }
+
+    @GET
+    @Path("/admin")
+//@RolesAllowed({"admin"})
+    @Produces(MediaType.APPLICATION_JSON)
+    public Object createInstance(@QueryParam("className") String className) {
+        try {
+            Class<?> clazz = Class.forName(className);
+            return clazz.getDeclaredConstructor().newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @POST
+    @Path("/addSport")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addSport(Sport sport) {
+        try {
+            messageMapper.insertSport(sport);
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
 
 
 }
-

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="http://localhost:8180/js/keycloak.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <style>
+        .ligneSimpleTextarea{
+            height: 1.2em;
+            resize: none;
+            overflow-y: hidden;
+            width: 250px;
+        }
+        .labelZoneDeTexte{
+            display: block;
+            margin-bottom: 5px;
+            width: 250px;
+        }
+        .bouttonAjout{
+            width: 150px;
+            height: 50px;
+            margin-top: 10px;
+
+        }
+        .adminAjout{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        #selectionTache{
+            display: block;
+            width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <div class="adminAjout">
+        <h1>Ajouter un sport</h1>
+        <label for="selectionTache">tache</label>
+        <select id="selectionTache">
+            <option value="sport">Ajouter un sport</option>
+            <option value="equipe">Ajouter une équipe</option>
+            <option value="division">Ajouter une divsion</option>
+            <option value="match">Ajouter un match</option>
+            <option value="joueurdansequipe">Ajouter un joueur dans une équipe</option>
+        </select>
+        <p id="texteAdmin">hello</p>
+        <button id="boutonTache" class="bouttonAjout" onclick="getTache()">choisir cette tache</button>
+
+    </div>
+    <div id="ajouter" class="adminAjout">
+
+
+    </div>
+</body>
+</html>

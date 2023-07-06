@@ -1,6 +1,7 @@
 package ca.usherbrooke.gegi.server.persistence;
 
 import ca.usherbrooke.gegi.server.business.*;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -37,6 +38,17 @@ public interface MessageMapper {
 
     @Select("SELECT * FROM schema.classement WHERE sport_id = #{sport_id} AND division_id = #{division_id}")
     List<Equipe> getClassement(@Param("sport_id") int sport_id, @Param("division_id") int division_id);
+
+    @Select("SELECT M.* " +
+            "FROM schema.Match M " +
+            "INNER JOIN schema.PresenceMatch PM ON M.Match_ID = PM.MatchID " +
+            "INNER JOIN schema.users U ON PM.cip = U.cip " +
+            "WHERE U.cip = #{cip}")
+    List<Match> getHoraire1Joueur(@Param("cip") String cip);
+
+    @Insert("INSERT INTO schema.sport (sport_id, sport_name) VALUES (#{sport.sportId}, #{sport.sportName})")
+    void insertSport(@Param("sport") Sport sport);
+
 
 
 }

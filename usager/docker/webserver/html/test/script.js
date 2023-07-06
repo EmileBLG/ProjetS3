@@ -163,3 +163,75 @@ function affichageHoraireClassement(sport, division){
     affichageClassement(sport, division);
     affichageHoraire(sport, division);
 }
+function getTache(){
+    let tache = document.getElementById("selectionTache");
+    let texte = document.getElementById("texteAdmin");
+    texte.textContent = tache.value;
+    if(tache.value === "sport"){
+        ajoutSport();
+    }else if (tache.value === "equipe"){
+        ajoutEquipe();
+    }else if (tache.value === "division"){
+        ajoutDivison();
+    }else if (tache.value === "match"){
+        ajoutMatch();
+    }else if (tache.value === "joueurdansequipe"){
+        ajoutUsersInEquipe();
+    }
+    let sport = {
+        sport_id: "5",
+        sport_nom: "Water Polo"
+    };
+
+
+
+    fetch('http://localhost:8888/api/addSport', {
+        method: 'POST', // or 'PUT'
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(sport),
+    })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => console.error('Error:', error));
+}
+
+function ajoutSport(){
+    //prend la div qui est dans le html
+    let ajout = document.getElementById("ajouter");
+    ajout.innerHTML = "";
+
+    //crée une zone de texte
+    let zoneTexte = document.createElement("textarea");
+    zoneTexte.classList.add("ligneSimpleTextarea");
+
+    //crée un label pour la zone de texte
+    let label = document.createElement("label");
+    //label.textContent = value;
+    let but = document.createElement("button");
+    but.textContent = "Ajouter";
+    but.classList.add("bouttonAjout");
+   // division.appendChild(label);
+    //division.appendChild(zoneTexte);
+    //division.appendChild(but);
+    //ajout.appendChild(division);
+
+
+}
+function ajoutDivison(){
+
+}
+function ajoutEquipe(){
+
+}
+function ajoutMatch(){
+
+}
+function ajoutUsersInEquipe(){
+
+}
+
+function getAjout(value){
+
+}
