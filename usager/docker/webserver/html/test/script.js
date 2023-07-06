@@ -71,7 +71,7 @@ function affichageClassement(sport, division){
 function affichageHoraire(sport, division) {
     let param = "?sportId=" + sport + "&divisionId=" + division;
     let url_horaire = "http://localhost:8888/api/HoraireSport/" + param;
-    console.log(url_horaire);
+    //console.log(url_horaire);
     let content = document.getElementById("content");
     let tableauHoraire = document.createElement("table");
     tableauHoraire.classList.add("horaire");
@@ -169,7 +169,7 @@ function affichageBouton(){
     axios.get("http://localhost:8888/api/sports/")
         .then(function (response) {
             response.data.forEach((item) => {
-                console.log(item);
+                //console.log(item);
                 let sportId = item.nom;
                 let sportNom = item.sport_nom;
                 let liste = document.createElement("li");
@@ -232,7 +232,7 @@ function affichageBouton(){
             boutonHoraire.innerText = "Horaire";
             boutonHoraire.classList.add("button-option");
             boutonHoraire.onclick = function (){
-                affichagePresence();
+                affichageHorairePersonnel();
             }
             listeHoraire.appendChild(boutonHoraire);
             listeBouton.appendChild(listeHoraire);
@@ -329,3 +329,4 @@ function affichageInformationMatch(matchId){
         })
         .catch(function (error) {});
 }
+
