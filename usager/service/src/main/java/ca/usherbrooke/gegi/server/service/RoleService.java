@@ -296,25 +296,37 @@ public class RoleService {
     @Path("/presencesPerson")
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"jouer", "capitaine"}) //probablement mauvais nom
-    public List<Integer> presencesPerson() {
+    public List<Presence> presencesPerson() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
-        ArrayList<Integer> matchsIDs = new ArrayList<Integer>();
-        matchsIDs = messageMapper.selectMatchsPerson(p.cip);
-        return matchsIDs;
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        ArrayList<Presence> PresenceS = new ArrayList<Presence>();
+
+        for (int i = 0; i < MatchsID.size(); i++) {
+            Presence unePresence = new Presence(p.cip,MatchsID.get(i) );
+            unePresence.etatPresence = messageMapper.getEtatPresence(p.cip,MatchsID.get(i) );
+
+            PresenceS.add(unePresence);
+
+        }
+        return PresenceS;
     }
 
     @PUT
-    @Path("/setPresent/{matchId}") // changer pour match id
+    @Path("/setPresent/{Index}") // changer pour match id
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
     //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
-    public void setPresent(@PathParam("matchId") int matchId) {
+    public void setPresent(@PathParam("Index") int Index) {
 
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
 
-        messageMapper.setPresent(p.cip, matchId);
+        messageMapper.setPresent(p.cip, MatchsID.get(Index));
     }
 
     @PUT
