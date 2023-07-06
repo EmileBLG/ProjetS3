@@ -198,10 +198,14 @@ public class RoleService {
     @Path("/horaire")
     //@RolesAllowed({"joueur"})
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Match> getHoraire1Joueur(
-            @QueryParam("cip") String cip) {
-        List<Match> listeMatch = messageMapper.getHoraire1Joueur(cip);
+    public List<Match> getHoraire1Joueur() {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        System.out.println(p.cip.toString());
+
+        List<Match> listeMatch = messageMapper.getHoraire1Joueur(p.cip);
         listeMatch.forEach(System.out::println);
+
         return listeMatch;
     }
 
