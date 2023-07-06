@@ -242,7 +242,7 @@ public class RoleService {
     }
 
     @PUT
-    @Path("/setPresent/{Index}")
+    @Path("/setPresent/{Index}") // changer pour match id
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
     //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
@@ -257,7 +257,7 @@ public class RoleService {
     }
 
     @PUT
-    @Path("/setAbsent/{Index}")
+    @Path("/setAbsent/{Index}") // changer pour match id
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
     //@Consumes(MediaType.APPLICATION_JSON) //peut être utile

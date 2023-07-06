@@ -163,3 +163,151 @@ function affichageHoraireClassement(sport, division){
     affichageClassement(sport, division);
     affichageHoraire(sport, division);
 }
+
+function affichergestionnairePresence() {
+    let content = document.getElementById("content");
+    content.innerHTML = "";
+
+    let url_nbmatch = "http://localhost:8888/api/nbmatch";
+
+    let titre_menue = document.createElement("h2");
+    titre_menue.innerText = "Gestionnaire de présence";
+    content.appendChild(titre_menue);
+
+
+    affichageGrill();
+
+
+}
+
+function affichageGrill()
+{
+    let grille = document.createElement("div");
+    grille.className = "grille"; // Ajoute la classe "grille"
+
+    let url_listmatch = "http://localhost:8888/api/presencesPerson";
+
+
+
+    let data = [];
+    for (let i = 0; i < 9; i++) {
+        let randomNumber = Math.floor(Math.random() * (900 - 150 + 1) + 150); // pour des fin de test retirer pour le code finale
+        data.push(randomNumber);
+    }
+    let nbElements = 4;
+
+
+    axios.get(url_listmatch)
+        .then(response => {
+            data = response.data;
+            nbElements = data.length; // Obtient le nombre d'éléments dans data
+
+            console.log("Nombre d'éléments : ", nbElements);
+
+
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+
+    for(let i =0; i < 9; i++) {
+
+
+        let caseGrille = document.createElement("div");
+        caseGrille.className = "case-grille";
+
+
+        grille.appendChild(caseGrille);
+        widgetPresenceMatch(caseGrille, data[i]);
+
+    }
+
+
+
+    // Ajouter la grille à votre élément de contenu
+    let content = document.getElementById("content");
+    content.appendChild(grille);
+}
+
+function widgetPresenceMatch(elementParent, matchId)
+{
+   // let spanElement = document.createElement("span");
+   // spanElement.innerText = "Contenu de la case";
+
+   // elementParent.appendChild(spanElement);
+
+    let conteneur = document.createElement("div");
+    conteneur.classList.add("boite");
+
+    let titreElement = document.createElement("h2");
+    titreElement.innerText = matchId.toString();
+    titreElement.className = "titre";
+
+    let sousTitreElement = document.createElement("h3");
+    sousTitreElement.innerText = "date du match";
+    sousTitreElement.className = "sous-titre"
+
+    let bouton1 = document.createElement("button");
+    bouton1.innerText = "présent";
+    bouton1.classList.add("boutons")
+    bouton1.classList.add("bouton")
+    bouton1.addEventListener("click", function() {
+        fonctionPresent(matchId);
+    });
+
+
+    let bouton2 = document.createElement("button");
+    bouton2.innerText = "absent";
+    bouton2.classList.add("boutons")
+    bouton2.classList.add("bouton")
+    bouton2.addEventListener("click", function() {
+        fonctionAbsent(matchId);
+    });
+
+    // Ajouter les éléments à l'élément parent
+    conteneur.appendChild(titreElement);
+    conteneur.appendChild(sousTitreElement);
+    conteneur.appendChild(bouton1);
+    conteneur.appendChild(bouton2);
+
+    elementParent.appendChild(conteneur);
+
+
+}
+
+function fonctionPresent(matchId)
+{
+    let url_listmatch = "http://localhost:8888/api/setPresent/"+matchId.toString();
+
+    // requête api present
+    console.log("Bouton present matche" + matchId.toString() + " actionner!!");
+
+    axios.post(url_listmatch)
+        .then(function (response) {
+            // Requête de modification envoyée avec succès
+            console.log("Requête de modification envoyée avec succès : present");
+        })
+        .catch(function (error) {
+            // Gestion des erreurs
+            console.log(error);
+        });
+}
+
+function fonctionAbsent(matchId)
+{
+    let url_listmatch = "http://localhost:8888/api/presencesPerson"+matchId.toString();
+    // requête api absent
+    axios.post(url_listmatch)
+        .then(function (response) {
+            // Requête de modification envoyée avec succès
+            console.log("Requête de modification envoyée avec succès : absent");
+        })
+        .catch(function (error) {
+            // Gestion des erreurs
+            console.log(error);
+        });
+    console.log("Bouton absent matche" + matchId.toString() + "actionner!!");
+}
+
+
