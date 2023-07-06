@@ -54,4 +54,11 @@ public interface MessageMapper {
             "and schema.presencematch.cip = schema.constitue.cip and schema.constitue.equipe_id = #{equipe_id}" +
             "and schema.users.cip = schema.constitue.cip")
     List<String> getPersonDisponible(@Param("matchID") int MatchID, @Param("equipe_id") int equipe_id);
+
+    @Select("SELECT M.* " +
+            "FROM schema.Match M " +
+            "INNER JOIN schema.PresenceMatch PM ON M.Match_ID = PM.MatchID " +
+            "INNER JOIN schema.users U ON PM.cip = U.cip " +
+            "WHERE U.cip = #{cip}")
+    List<Match> getHoraire1Joueur(@Param("cip") String cip);
 }

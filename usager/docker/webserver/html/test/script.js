@@ -185,33 +185,37 @@ function affichageGrill()
     let grille = document.createElement("div");
     grille.className = "grille"; // Ajoute la classe "grille"
 
-    let url_listmatch = "http://localhost:8888/api/presencesPerson";
+    let url_listmatch = "http://localhost:8888/api/horaire";
 
 
 
     let data = [];
+    /*
     for (let i = 0; i < 9; i++) {
         let randomNumber = Math.floor(Math.random() * (900 - 150 + 1) + 150); // pour des fin de test retirer pour le code finale
         data.push(randomNumber);
     }
     let nbElements = 4;
 
+     */
+
 
     axios.get(url_listmatch)
         .then(response => {
             data = response.data;
-            nbElements = data.length; // Obtient le nombre d'éléments dans data
 
-            console.log("Nombre d'éléments : ", nbElements);
+
+            console.log("recuperer liste des match ");
 
 
         })
         .catch(error => {
             console.log(error);
         });
+    nbElements = data.length; // Obtient le nombre d'éléments dans data
 
 
-    for(let i =0; i < 9; i++) {
+    for(let i =0; i < nbElements; i++) {
 
 
         let caseGrille = document.createElement("div");
@@ -230,12 +234,15 @@ function affichageGrill()
     content.appendChild(grille);
 }
 
-function widgetPresenceMatch(elementParent, matchId)
+function widgetPresenceMatch(elementParent, matchObjet)
 {
    // let spanElement = document.createElement("span");
    // spanElement.innerText = "Contenu de la case";
 
    // elementParent.appendChild(spanElement);
+
+    let matchId = matchObjet.match_id.toString();
+    let information =  matchObjet.endroit.toString() + '\n' + matchObjet.date.toString() + matchObjet.time.toString();
 
     let conteneur = document.createElement("div");
     conteneur.classList.add("boite");
@@ -245,7 +252,7 @@ function widgetPresenceMatch(elementParent, matchId)
     titreElement.className = "titre";
 
     let sousTitreElement = document.createElement("h3");
-    sousTitreElement.innerText = "date du match";
+    sousTitreElement.innerText = information;
     sousTitreElement.className = "sous-titre"
 
     let bouton1 = document.createElement("button");

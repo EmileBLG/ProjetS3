@@ -196,11 +196,11 @@ public class RoleService {
 
     @GET
     @Path("/horaire")
-    @RolesAllowed({"joueur"})
+    //@RolesAllowed({"joueur"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<Match> getHoraire1Joueur(
             @QueryParam("cip") String cip) {
-        List<Match> listeMatch = messageMapper.getHoraireJoueur(cip);
+        List<Match> listeMatch = messageMapper.getHoraire1Joueur(cip);
         listeMatch.forEach(System.out::println);
         return listeMatch;
     }
@@ -208,38 +208,35 @@ public class RoleService {
 
 
     @PUT
-    @Path("/setPresent/{Index}")
+    @Path("/setPresent/{matchId}")
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
     //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
-    public void setPresent(@PathParam("Index") int Index) {
+    public void setPresent(@PathParam("matchId") int matchId) {
 
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
-        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
-        MatchsID = messageMapper.selectMatchsPerson(p.cip);
 
-        messageMapper.setPresent(p.cip, MatchsID.get(Index));
+
+        messageMapper.setPresent(p.cip, matchId);
     }
 
     @PUT
-    @Path("/setAbsent/{Index}")
+    @Path("/setAbsent/{matchId}")
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
     //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
-    public void setAbsent(@PathParam("Index") int Index) {
+    public void setAbsent(@PathParam("matchId") int matchId) {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
-        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
-        MatchsID = messageMapper.selectMatchsPerson(p.cip);
 
-        messageMapper.setAbsent(p.cip, MatchsID.get(Index));
+        messageMapper.setAbsent(p.cip, matchId);
 
     }
 
     //Partie réserver pour l'alignement
 
-
+   /*
     @GET
     @Path("/personDisponible")
     @RolesAllowed({"capitaine"})
@@ -260,7 +257,7 @@ public class RoleService {
         return PersonSDisponible;
 
     }
-
+*/
     // match spécifique a chaque usager
 
 
@@ -273,77 +270,17 @@ public class RoleService {
     //
 
 
-}
+
 
     // branche de will systhème de présence ----------------------------------------------------------------
-    @GET
-    @Path("/nbmatch")
-    @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({"jouer", "capitaine"}) //probablement mauvais nom
-    public int nbmatch() {
-        Person p = new Person();
-        p.cip = this.securityContext.getUserPrincipal().getName();
-        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
-        MatchsID = messageMapper.selectMatchsPerson(p.cip);
 
-        int nbMatch = MatchsID.size();
-        return nbMatch;
-    }
 
-    @GET
-    @Path("/presencesPerson")
-    @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({"jouer", "capitaine"}) //probablement mauvais nom
-    public List<Presence> presencesPerson() {
-        Person p = new Person();
-        p.cip = this.securityContext.getUserPrincipal().getName();
-        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
-        MatchsID = messageMapper.selectMatchsPerson(p.cip);
 
-        ArrayList<Presence> PresenceS = new ArrayList<Presence>();
 
-        for (int i = 0; i < MatchsID.size(); i++) {
-            Presence unePresence = new Presence(p.cip,MatchsID.get(i) );
-            unePresence.etatPresence = messageMapper.getEtatPresence(p.cip,MatchsID.get(i) );
 
-            PresenceS.add(unePresence);
-
-        }
-        return PresenceS;
-    }
-
-    @PUT
-    @Path("/setPresent/{Index}") // changer pour match id
-    @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
-    //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
-    public void setPresent(@PathParam("Index") int Index) {
-
-        Person p = new Person();
-        p.cip = this.securityContext.getUserPrincipal().getName();
-        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
-        MatchsID = messageMapper.selectMatchsPerson(p.cip);
-
-        messageMapper.setPresent(p.cip, MatchsID.get(Index));
-    }
-
-    @PUT
-    @Path("/setAbsent/{Index}") // changer pour match id
-    @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
-    //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
-    public void setAbsent(@PathParam("Index") int Index) {
-        Person p = new Person();
-        p.cip = this.securityContext.getUserPrincipal().getName();
-        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
-        MatchsID = messageMapper.selectMatchsPerson(p.cip);
-
-        messageMapper.setAbsent(p.cip, MatchsID.get(Index));
-
-    }
 
     //Partie réserver pour l'alignement
-
+/*
     @PUT
     @Path("/setAlignement/{gardien}/{defenseur1}/{defenseur2}/{defenseur3}/{milieu1}/{milieu2}/{attaquant1}/{attaquant2}/{attaquant3}")
     @RolesAllowed({"capitaine"})
@@ -362,29 +299,9 @@ public class RoleService {
 
     }
 
+*/
 
 
-
-    @GET
-    @Path("/personDisponible")
-    @RolesAllowed({"capitaine"})
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<String> personDisponible() {
-        Person p = new Person();
-        p.cip = this.securityContext.getUserPrincipal().getName();
-
-        int equipeID = messageMapper.getEquipeID(p.cip);
-        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
-        MatchsID = messageMapper.selectMatchsPerson(p.cip);
-
-        int prochainMatchID = MatchsID.get(0);
-
-        ArrayList<String> PersonSDisponible = new ArrayList<String>();
-        PersonSDisponible = messageMapper.getPersonDisponible(prochainMatchID, equipeID);
-
-        return PersonSDisponible;
-
-    }
 
     // match spécifique a chaque usager
 
