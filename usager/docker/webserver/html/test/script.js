@@ -163,3 +163,169 @@ function affichageHoraireClassement(sport, division){
     affichageClassement(sport, division);
     affichageHoraire(sport, division);
 }
+
+function affichageBouton(){
+    let listeBouton = document.getElementById("liste-bouton");
+    axios.get("http://localhost:8888/api/sports/")
+        .then(function (response) {
+            response.data.forEach((item) => {
+                console.log(item);
+                let sportId = item.nom;
+                let sportNom = item.sport_nom;
+                let liste = document.createElement("li");
+                let divMenu = document.createElement("div");
+                divMenu.classList.add("menu");
+                let boutonSport = document.createElement("button");
+                boutonSport.classList.add("menu-trigger");
+                boutonSport.innerText = sportNom;
+                let divOptions = document.createElement("div");
+                divOptions.classList.add("options");
+                //Bouton A
+                let boutonA = document.createElement("button");
+                boutonA.classList.add("option");
+                boutonA.innerText = "A";
+                boutonA.onclick = function (){
+                    affichageHoraireClassement(sportId, 1);
+                }
+
+                //Bouton B
+                let boutonB = document.createElement("button");
+                boutonB.classList.add("option");
+                boutonB.innerText = "B";
+                boutonB.onclick = function (){
+                    affichageHoraireClassement(sportId, 2);
+                }
+
+                //Bouton C
+                let boutonC = document.createElement("button");
+                boutonC.classList.add("option");
+                boutonC.innerText = "C";
+                boutonC.onclick = function (){
+                    affichageHoraireClassement(sportId, 3);
+                }
+
+                divOptions.appendChild(boutonA);
+                divOptions.appendChild(boutonB);
+                divOptions.appendChild(boutonC);
+
+                divMenu.appendChild(boutonSport);
+                divMenu.appendChild(divOptions);
+
+                liste.appendChild(divMenu);
+                listeBouton.appendChild(liste);
+
+
+            });
+
+            let boutonPresence = document.createElement("button");
+            let listePresence = document.createElement("li");
+            boutonPresence.innerText = "Présence";
+            boutonPresence.classList.add("button-option");
+            boutonPresence.onclick = function (){
+                affichagePresence();
+            }
+            listePresence.appendChild(boutonPresence);
+            listeBouton.appendChild(listePresence);
+
+            let boutonHoraire = document.createElement("button");
+            let listeHoraire = document.createElement("li");
+            boutonHoraire.innerText = "Horaire";
+            boutonHoraire.classList.add("button-option");
+            boutonHoraire.onclick = function (){
+                affichagePresence();
+            }
+            listeHoraire.appendChild(boutonHoraire);
+            listeBouton.appendChild(listeHoraire);
+        })
+        .catch(function (error) {
+
+        });
+
+}
+
+function affichagePresence (cip){
+    let content = document.getElementById("content");
+    content.innerHTML = "";
+    let presence = document.createElement("div");
+    presence.classList.add("div-presence");
+    presence.id = "div-presence";
+    let menu = document.createElement("select");
+    menu.id = "menuMatch";
+    menu.classList.add("menu-deroulant-match");
+    menu.onclick = function (){
+        console.log(menu.value);
+        affichageInformationMatch(menu.value -1);
+    };
+
+    let texte = document.createElement("p");
+    texte.id = "texte-description-match";
+    texte.classList.add("texte-description-match");
+
+    let bouton = document.createElement("button");
+    bouton.innerText = "Confirmer";
+    bouton.classList.add("bouton-presence");
+    bouton.onclick = function (){
+      getValeurMatch();
+    };
+    let divPresenceBouton = document.createElement("div");
+    divPresenceBouton.classList.add("div-presence-bouton");
+    divPresenceBouton.id = "div-presence-bouton";
+    let divPresenceTexte = document.createElement("div");
+    divPresenceTexte.classList.add("div-presence-texte");
+    divPresenceTexte.id = "div-presence-texte";
+
+    let choixPresence = document.createElement("select");
+    choixPresence.id = "choix-presence";
+    choixPresence.classList.add("choix-presence")
+    let choixPresent = document.createElement("option");
+    choixPresent.innerText = "Présent";
+    choixPresent.value = 1;
+    let choixAbsent = document.createElement("option");
+    choixAbsent.innerText = "Absent";
+    choixAbsent.value = 0;
+    choixPresence.appendChild(choixPresent);
+    choixPresence.appendChild(choixAbsent);
+
+    divPresenceBouton.appendChild(choixPresence);
+    divPresenceBouton.appendChild(bouton);
+    divPresenceTexte.appendChild(texte);
+    divPresenceTexte.appendChild(divPresenceBouton);
+
+
+    axios.get("http://localhost:8888/api/matches")
+        .then(function (response) {
+            response.data.forEach((item) => {
+                let option = document.createElement("option");
+                option.innerText = item.date + " " + item.heure;
+                option.value = item.match_id;
+                menu.appendChild(option);
+            });
+        })
+        .catch(function (error) {});
+    presence.appendChild(menu);
+    presence.appendChild(divPresenceTexte);
+    content.appendChild(presence);
+
+    affichageInformationMatch(0);
+}
+
+function getValeurMatch(){
+    let menu = document.getElementById("menuMatch");
+    let presence = document.getElementById("choix-presence");
+    console.log(menu.value + " " + presence.value);
+}
+
+function affichageInformationMatch(matchId){
+    let zoneTexte = document.getElementById("texte-description-match");
+    axios.get("http://localhost:8888/api/matches")
+        .then(function (response) {
+            let info = response.data[matchId];
+            let texte =  "# Match : " + info.match_id + "\n" +
+                        "Date : " + info.date + " " + info.heure + "\n" +
+                        "Équipe 1 : " + info.equipe1 + "\n" +
+                        "Équipe 2 : " + info.equipe2 + "\n" +
+                        "Endroit : " + info.endroit;
+            zoneTexte.innerText = texte;
+        })
+        .catch(function (error) {});
+}
