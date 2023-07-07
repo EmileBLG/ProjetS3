@@ -203,38 +203,37 @@ public class RoleService {
         List<Match> listeMatch = messageMapper.getHoraire1Joueur(joueur.cip);
         listeMatch.forEach(System.out::println);
         return listeMatch;
-    }
-
-        List<Match> listeMatch = messageMapper.getHoraire1Joueur(p.cip);
-        listeMatch.forEach(System.out::println);
 
 
 }
 
 
 
-    @PUT
-    @Path("/setPresent/{matchId}")
+    @GET
+    @Path("/setPresent")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
+    @RolesAllowed({"joueur", "capitaine", "admin"}) //probablement mauvais nom
     //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
-    public void setPresent(@PathParam("matchId") int matchId) {
+    public void setPresent(@QueryParam("matchId") int matchId) {
 
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
+        System.out.println(p.cip.toString());
+
 
 
         messageMapper.setPresent(p.cip, matchId);
     }
 
-    @PUT
-    @Path("/setAbsent/{matchId}")
+    @GET
+    @Path("/setAbsent")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({"jouer", "capitaine", "admin"}) //probablement mauvais nom
+    @RolesAllowed({"joueur", "capitaine", "admin"}) //probablement mauvais nom
     //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
-    public void setAbsent(@PathParam("matchId") int matchId) {
+    public void setAbsent(@QueryParam("matchId") int matchId) {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
+        System.out.println(p.cip.toString());
 
         messageMapper.setAbsent(p.cip, matchId);
 

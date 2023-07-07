@@ -424,12 +424,13 @@ function affichageGrill(response)
 
 
     console.log(response);
-    let data = response.data();
-    
+    console.log(response.data);
 
 
-    nbElements = data.length; // Obtient le nombre d'éléments dans data
-    console.log("gill crer")
+
+    nbElements = response.data.length; // Obtient le nombre d'éléments dans data
+    console.log("gill crer");
+    console.log(nbElements);
 
 
     for(let i =0; i < nbElements; i++) {
@@ -441,7 +442,8 @@ function affichageGrill(response)
 
         grille.appendChild(caseGrille);
         console.log("juste avant widhet")
-        widgetPresenceMatch(caseGrille, data[i]);
+        console.log(response.data[i])
+        widgetPresenceMatch(caseGrille, response.data[i]);
 
     }
 
@@ -454,30 +456,30 @@ function affichageGrill(response)
 
 function widgetPresenceMatch(elementParent, matchObjet)
 {
-    console.log("dans widget")
-   // let spanElement = document.createElement("span");
-   // spanElement.innerText = "Contenu de la case";
+    console.log("dans widget");
 
-   // elementParent.appendChild(spanElement);
 
     let matchId = matchObjet.match_id.toString();
-    let information =  matchObjet.endroit.toString() + '\n' + matchObjet.date.toString() + matchObjet.time.toString();
+    console.log(matchId);
+    let information =  matchObjet.endroit.toString() + '\n'+ matchObjet.date.toString() + matchObjet.heure.toString();
 
     let conteneur = document.createElement("div");
     conteneur.classList.add("boite");
 
     let titreElement = document.createElement("h2");
-    titreElement.innerText = matchId.toString();
+    titreElement.innerText = matchId;
     titreElement.className = "titre";
+
+    console.log("titre creer");
 
     let sousTitreElement = document.createElement("h3");
     sousTitreElement.innerText = information;
-    sousTitreElement.className = "sous-titre"
+    sousTitreElement.className = "sous-titre";
 
     let bouton1 = document.createElement("button");
     bouton1.innerText = "présent";
-    bouton1.classList.add("boutons")
-    bouton1.classList.add("bouton")
+    bouton1.classList.add("boutons");
+    bouton1.classList.add("bouton");
     bouton1.addEventListener("click", function() {
         fonctionPresent(matchId);
     });
@@ -485,8 +487,8 @@ function widgetPresenceMatch(elementParent, matchObjet)
 
     let bouton2 = document.createElement("button");
     bouton2.innerText = "absent";
-    bouton2.classList.add("boutons")
-    bouton2.classList.add("bouton")
+    bouton2.classList.add("boutons");
+    bouton2.classList.add("bouton");
     bouton2.addEventListener("click", function() {
         fonctionAbsent(matchId);
     });
@@ -504,36 +506,14 @@ function widgetPresenceMatch(elementParent, matchObjet)
 
 function fonctionPresent(matchId)
 {
-    let url_listmatch = "http://localhost:8888/api/setPresent/"+matchId.toString();
+    tokentPresent(matchId);
 
-    // requête api present
-    console.log("Bouton present matche" + matchId.toString() + " actionner!!");
 
-    axios.post(url_listmatch)
-        .then(function (response) {
-            // Requête de modification envoyée avec succès
-            console.log("Requête de modification envoyée avec succès : present");
-        })
-        .catch(function (error) {
-            // Gestion des erreurs
-            console.log(error);
-        });
 }
 
 function fonctionAbsent(matchId)
 {
-    let url_listmatch = "http://localhost:8888/api/presencesPerson"+matchId.toString();
-    // requête api absent
-    axios.post(url_listmatch)
-        .then(function (response) {
-            // Requête de modification envoyée avec succès
-            console.log("Requête de modification envoyée avec succès : absent");
-        })
-        .catch(function (error) {
-            // Gestion des erreurs
-            console.log(error);
-        });
-    console.log("Bouton absent matche" + matchId.toString() + "actionner!!");
+    tokentAbsent(matchId);
 }
 
 

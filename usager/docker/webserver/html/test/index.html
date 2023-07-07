@@ -106,6 +106,50 @@
                     })
                 });
         }
+
+        function tokentPresent(matchId){
+
+            axios.get("http://localhost:8888/api/setPresent/"+"?matchId="+matchId.toString(), {
+                headers: {
+                    'Authorization': 'Bearer ' + keycloak.token
+                }
+            })
+                .then(function (response) {
+                    console.log("Response: ", response);
+                    console.log("presence envoyer")
+                    affichageGrill(response);
+                })
+                .catch(function (error) {
+                    console.log('refreshing');
+                    keycloak.updateToken(5).then(function () {
+                        console.log('Token refreshed');
+                    }).catch(function () {
+                        console.log('Failed to refresh token');
+                    })
+                });
+        }
+
+        function tokentAbsent(matchId){
+
+            axios.get("http://localhost:8888/api/setAbsent/"+"?matchId="+matchId.toString(), {
+                headers: {
+                    'Authorization': 'Bearer ' + keycloak.token
+                }
+            })
+                .then(function (response) {
+                    console.log("Response: ", response);
+                    console.log("absence envoyer")
+                    affichageGrill(response);
+                })
+                .catch(function (error) {
+                    console.log('refreshing');
+                    keycloak.updateToken(5).then(function () {
+                        console.log('Token refreshed');
+                    }).catch(function () {
+                        console.log('Failed to refresh token');
+                    })
+                });
+        }
     </script>
 
 </head>
