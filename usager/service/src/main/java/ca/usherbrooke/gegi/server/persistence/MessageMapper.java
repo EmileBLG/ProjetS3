@@ -61,4 +61,7 @@ public interface MessageMapper {
             "INNER JOIN schema.users U ON PM.cip = U.cip " +
             "WHERE U.cip = #{cip}")
     List<Match> getHoraire1Joueur(@Param("cip") String cip);
+
+    @Select("SELECT presence FROM schema.presencematch WHERE cip = #{cip} AND MatchID = #{MatchID}")
+    int presencejoueur(@Param("cip") String cip, @Param("MatchID") int MatchID);
 }
