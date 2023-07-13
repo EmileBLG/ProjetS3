@@ -462,14 +462,14 @@ function widgetPresenceMatch(elementParent, matchObjet)
 
     let matchId = matchObjet.match_id.toString();
     console.log(matchId);
-    let information =  matchObjet.endroit.toString() + '\n'+ matchObjet.date.toString() + matchObjet.heure.toString();
+    let information =  matchObjet.endroit.toString() + '\n'+ matchObjet.date.toString() + " " + matchObjet.heure.toString();
 
     let conteneur = document.createElement("div");
     conteneur.classList.add("boite");
 
     let titreElement = document.createElement("h2");
     titreElement.innerText = matchId;
-    titreElement.className = "titre";
+    titreElement.className = "titre-presence";
 
     console.log("titre creer");
 
@@ -478,7 +478,7 @@ function widgetPresenceMatch(elementParent, matchObjet)
     sousTitreElement.className = "sous-titre";
 
     let bouton1 = document.createElement("button");
-    bouton1.innerText = "présent";
+    bouton1.innerText = "Présent";
     bouton1.classList.add("boutons");
     bouton1.classList.add("bouton");
     bouton1.addEventListener("click", function() {
@@ -487,7 +487,7 @@ function widgetPresenceMatch(elementParent, matchObjet)
 
 
     let bouton2 = document.createElement("button");
-    bouton2.innerText = "absent";
+    bouton2.innerText = "Absent";
     bouton2.classList.add("boutons");
     bouton2.classList.add("bouton");
     bouton2.addEventListener("click", function() {

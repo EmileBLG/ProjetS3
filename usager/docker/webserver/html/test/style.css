@@ -355,15 +355,17 @@ body {
     border-radius: 8px;
     padding: 16px;
     width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.titre {
+.titre-presence {
     font-size: 18px;
     margin-top: 0;
 }
 
 .sous-titre {
     font-size: 14px;
+    font-family: "Roboto Slab";
     margin-top: 4px;
 }
 
@@ -380,7 +382,12 @@ body {
     border: none;
     cursor: pointer;
     margin-left: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    color: white;
+
 }
 .bouton:hover {
-    background-color: #00A759;
+    background-color: #45a049;
 }
