@@ -1,4 +1,3 @@
-
 function getTache(){
     let tache = document.getElementById("selectionTache");
     let texte = document.getElementById("texteAdmin");
@@ -20,155 +19,11 @@ function getTache(){
         ajoutUsersInEquipe();
     }
 
-
-    /* let sport = {
-         sport_id: "5",
-         sport_nom: "Water Polo"
-     };
-
-
-
-     fetch('http://localhost:8888/api/addSport', {
-         method: 'POST', // or 'PUT'
-         headers: {
-             'Content-Type': 'application/json',
-         },
-         body: JSON.stringify(sport),
-     })
-         .then(response => response.json())
-         .then(data => console.log('Success:', data))
-         .catch((error) => console.error('Error:', error));*/
-}
-
-function ajoutSport(){
-
-    //prend la div qui est dans le html
-
-    let ajout = document.getElementById("ajouter");
-    ajout.innerHTML = "";
-
-    //titre
-    let titre = document.createElement("h1");
-    titre.textContent = "Ajouter un sport";
-
-    //crée une zone de texte
-    let zoneID = document.createElement("textarea");
-    zoneID.classList.add("ligneSimpleTextarea");
-    let zoneNom = document.createElement("textarea");
-    zoneNom.classList.add("ligneSimpleTextarea");
-
-    //crée les label pour les zones de textes
-    let labelID = document.createElement("label");
-    labelID.textContent = "ID";
-    let labelNom = document.createElement("label");
-    labelNom.textContent = "nom";
-
-    //crée le boutton de confirmation
-    let but = document.createElement("button");
-    but.textContent = "Ajouter";
-    but.classList.add("bouttonAjout");
-
-    //ajoute dans la division
-    ajout.appendChild(titre);
-    ajout.appendChild(labelID);
-    ajout.appendChild(zoneID);
-    ajout.appendChild(labelNom);
-    ajout.appendChild(zoneNom);
-    ajout.appendChild(but);
-
-
-}
-function ajoutDivison(){
-    //prend la div qui est dans le html
-
-    let ajout = document.getElementById("ajouter");
-    ajout.innerHTML = "";
-
-    //titre
-    let titre = document.createElement("h1");
-    titre.textContent = "Ajouter une division";
-
-    //crée une zone de texte
-    let zoneID = document.createElement("textarea");
-    zoneID.classList.add("ligneSimpleTextarea");
-    let zoneNom = document.createElement("textarea");
-    zoneNom.classList.add("ligneSimpleTextarea");
-
-    //crée les label pour les zones de textes
-    let labelID = document.createElement("label");
-    labelID.textContent = "ID";
-    let labelNom = document.createElement("label");
-    labelNom.textContent = "nom";
-
-    //crée le boutton de confirmation
-    let but = document.createElement("button");
-    but.textContent = "Ajouter";
-    but.classList.add("bouttonAjout");
-
-    //ajoute dans la division
-    ajout.appendChild(titre);
-    ajout.appendChild(labelID);
-    ajout.appendChild(zoneID);
-    ajout.appendChild(labelNom);
-    ajout.appendChild(zoneNom);
-    ajout.appendChild(but);
-}
-function ajoutEquipe(){
-    //prend la div qui est dans le html
-
-    let ajout = document.getElementById("ajouter");
-    ajout.innerHTML = "";
-
-    //titre
-    let titre = document.createElement("h1");
-    titre.textContent = "Ajouter une équipe";
-
-    //crée les zone de texte
-    let zoneID = document.createElement("textarea");
-    zoneID.classList.add("ligneSimpleTextarea");
-    let zoneNom = document.createElement("textarea");
-    zoneNom.classList.add("ligneSimpleTextarea");
-    let zoneDivisionID = document.createElement("textarea");
-    zoneDivisionID.classList.add("ligneSimpleTextarea");
-    let zoneSportID = document.createElement("textarea");
-    zoneSportID.classList.add("ligneSimpleTextarea");
-
-    //crée les label pour les zones de textes
-    let labelID = document.createElement("label");
-    labelID.textContent = "ID";
-    let labelNom = document.createElement("label");
-    labelNom.textContent = "nom";
-    let labelDivisionID = document.createElement("label");
-    labelDivisionID.textContent = "Division ID";
-    let labelSportID = document.createElement("label");
-    labelSportID.textContent = "Sport ID";
-    //crée le boutton de confirmation
-    let but = document.createElement("button");
-    but.textContent = "Ajouter";
-    but.classList.add("bouttonAjout");
-
-    //ajoute dans la division
-    ajout.appendChild(titre);
-    ajout.appendChild(labelID);
-    ajout.appendChild(zoneID);
-    ajout.appendChild(labelNom);
-    ajout.appendChild(zoneNom);
-    ajout.appendChild(labelDivisionID);
-    ajout.appendChild(zoneDivisionID);
-    ajout.appendChild(labelSportID);
-    ajout.appendChild(zoneSportID);
-    ajout.appendChild(but);
-}
-function ajoutMatch(){
-
 }
 function ajoutUsersInEquipe(){
 
 }
 
-function getAjout(value){
-
-}
 function affichageClassementAdmin(sport, division){
     let param = "?sportId=" + sport + "&divisionId=" + division;
     let url_api = "http://localhost:8888/api/classement/" + param;
@@ -188,17 +43,15 @@ function affichageClassementAdmin(sport, division){
     let header = [
         "Position",
         "Équipe",
-        "Victoire",
-        "Défaite",
-        "PC",
-        "PM"
+        "Sport",
+        "Division",
     ];
 
     let thead = document.createElement("thead");
     let theadRow = document.createElement("tr");
 
     header.forEach((item) => {
-        //console.log(item);
+//console.log(item);
         let th = document.createElement("th");
         th.innerText = item;
         theadRow.appendChild(th);
@@ -293,6 +146,12 @@ function affichageClassementAdmin(sport, division){
     content.appendChild(titre);
     content.appendChild(tableauClassement);
 
+    bout.addEventListener("click", function (){
+        let parametre = "?sport_id=" + zonetexte.value + "&sport_nom=" + zonetexteSport.value;
+        let link = "http://localhost:8888/api/ajouterSport"+ parametre;
+        axios.get(link);
+    });
+
 }
 function afficherSportAdmin() {
     let url_api = "http://localhost:8888/api/sports"
@@ -302,11 +161,11 @@ function afficherSportAdmin() {
     let titre = document.createElement("h3");
     titre.innerText = "Classement";
 
-    let bouton = document.createElement("button");
-    bouton.classList.add("bouttonAjout");
-    bouton.innerText = "ajouter";
-    let boutontache = document.getElementById("bouton");
-    boutontache.appendChild(bouton);
+    let bout = document.createElement("button");
+    bout.classList.add("bouttonAjout");
+    bout.innerText = "ajouter";
+    let b = document.getElementById("bouton");
+    b.appendChild(bout);
 
     let header = [
         "ID",
@@ -327,9 +186,9 @@ function afficherSportAdmin() {
     axios.get(url_api).then(function (response){
         let index = 1;
         response.data.forEach((item) =>{
-           let row = document.createElement("tr");
-           let ID = document.createElement("td");
-           let Sport = document.createElement("td");
+            let row = document.createElement("tr");
+            let ID = document.createElement("td");
+            let Sport = document.createElement("td");
 
             let link = document.createElement("a");
             link.href = "https://docs.postgresql.fr/9.6/datatype-datetime.html";
@@ -341,21 +200,21 @@ function afficherSportAdmin() {
 
             link.appendChild(image);
 
-           ID.innerText = item.sport_id;
-           Sport.innerText = item.sport_nom;
+            ID.innerText = item.sport_id;
+            Sport.innerText = item.sport_nom;
 
-           index = index + 1;
+            index = index + 1;
 
-           row.appendChild(ID);
-           row.appendChild(Sport);
-           row.appendChild(link);
+            row.appendChild(ID);
+            row.appendChild(Sport);
+            row.appendChild(link);
 
-           tableauSport.appendChild(row);
+            tableauSport.appendChild(row);
         });
     })
         .catch(function (error) {
 
-    });
+        });
     let row = document.createElement("tr");
     let ID = document.createElement("td");
     let Sport = document.createElement("td");
@@ -372,9 +231,16 @@ function afficherSportAdmin() {
     row.appendChild(Sport);
 
     tableauSport.appendChild(row);
-
+    console.log(zonetexteSport.innerText);
     content.appendChild(titre);
     content.appendChild(tableauSport);
+
+
+    bout.addEventListener("click", function (){
+        let parametre = "?sport_id=" + zonetexteID.value + "&sport_nom=" + zonetexteSport.value;
+        let link = "http://localhost:8888/api/ajouterSport"+ parametre;
+        axios.get(link);
+    });
 }
 
 function afficherdivisionAdmin() {
@@ -487,7 +353,7 @@ function affichageMatchAdmin(sport, division){
     let theadRow = document.createElement("tr");
 
     header.forEach((item) => {
-        //console.log(item);
+//console.log(item);
         let th = document.createElement("th");
         th.innerText = item;
         theadRow.appendChild(th);
@@ -580,4 +446,13 @@ function affichageMatchAdmin(sport, division){
     content.appendChild(titre);
     content.appendChild(tableauMatch);
 
+
+
+}
+
+function envoyerSport(ID,sport){
+    console.log(ID);
+    let parametre = "?sport_id=" + "8" + "&sport_nom" + "baseball";
+    let link = "http://localhost:8888/api/ajouterSport"+ parametre;
+    axios.get(link);
 }
