@@ -237,4 +237,114 @@ public class RoleService {
         }
 //URL exemple : http://localhost:8888/api/ajouterSport?sport_id=7&sport_nom=waterpolo
     }
+    @GET
+    @Path("/supprimerSport")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response supprimerSport(@QueryParam("sport_id") int sportId) {
+        try {
+            messageMapper.supprimerSport(sportId);
+            return Response.status(Response.Status.OK).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+        //http://localhost:8888/api/supprimerSport?sport_id=7
+    }
+
+    // Ajout d'une équipe
+    @GET
+    @Path("/ajouterEquipe")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response ajouterEquipe(
+            @QueryParam("equipe_id") int equipeId,
+            @QueryParam("equipe_nom") String equipeNom,
+            @QueryParam("division_id") int divisionId,
+            @QueryParam("sport_id") int sportId) {
+        try {
+            messageMapper.ajouterEquipe(equipeId, equipeNom, divisionId, sportId);
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    // Suppression d'une équipe
+    @GET
+    @Path("/supprimerEquipe")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response supprimerEquipe(@QueryParam("equipe_id") int equipeId) {
+        try {
+            messageMapper.supprimerEquipe(equipeId);
+            return Response.status(Response.Status.OK).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    // Ajout d'une division
+    @GET
+    @Path("/ajouterDivision")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response ajouterDivision(
+            @QueryParam("division_id") int divisionId,
+            @QueryParam("division_nom") String divisionNom) {
+        try {
+            messageMapper.ajouterDivision(divisionId, divisionNom);
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+        //http://localhost:8888/api/ajouterDivision?division_id=1&division_nom=MaDivision
+    }
+
+    // Suppression d'une division
+    @GET
+    @Path("/supprimerDivision")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response supprimerDivision(@QueryParam("division_id") int divisionId) {
+        try {
+            messageMapper.supprimerDivision(divisionId);
+            return Response.status(Response.Status.OK).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+        //http://localhost:8888/api/supprimerDivision?division_id=1
+    }
+
+    // Ajout d'un match
+    @GET
+    @Path("/ajouterMatch")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response ajouterMatch(
+            @QueryParam("match_id") int matchId,
+            @QueryParam("heure") String heureStr,
+            @QueryParam("endroit") String endroit,
+            @QueryParam("equipe1") int equipe1,
+            @QueryParam("equipe2") int equipe2) {
+        try {
+            // Convertir la chaîne de caractères de l'heure en un objet Timestamp
+            Timestamp heure = Timestamp.valueOf(heureStr);
+
+            messageMapper.ajouterMatch(matchId, heure, endroit, equipe1, equipe2);
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    // Suppression d'un match
+    @GET
+    @Path("/supprimerMatch")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response supprimerMatch(@QueryParam("match_id") int matchId) {
+        try {
+            messageMapper.supprimerMatch(matchId);
+            return Response.status(Response.Status.OK).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+
+
+
 }
