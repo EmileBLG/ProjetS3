@@ -49,6 +49,9 @@ public interface MessageMapper {
     @Insert("INSERT INTO schema.sport (sport_id, sport_name) VALUES (#{sport.sportId}, #{sport.sportName})")
     void insertSport(@Param("sport") Sport sport);
 
+    @Insert("INSERT INTO schema.Sport (Sport_ID, Sport_Nom) VALUES (#{sport_id}, #{sport_nom})")
+    void ajouterSport(@Param("sport_id") int sport_id, @Param("sport_nom") String sport_nom);
+
 
 
 }

@@ -579,5 +579,5 @@ function affichageMatchAdmin(sport, division){
 
     content.appendChild(titre);
     content.appendChild(tableauMatch);
-    
+
 }

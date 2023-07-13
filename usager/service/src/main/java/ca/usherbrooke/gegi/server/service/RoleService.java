@@ -223,5 +223,18 @@ public class RoleService {
         }
     }
 
-
+    @GET
+    @Path("/ajouterSport")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response ajouterSport(
+            @QueryParam("sport_id") int sportId,
+            @QueryParam("sport_nom") String sportNom) {
+        try {
+            messageMapper.ajouterSport(sportId, sportNom);
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+//URL exemple : http://localhost:8888/api/ajouterSport?sport_id=7&sport_nom=waterpolo
+    }
 }
