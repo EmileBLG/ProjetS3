@@ -209,6 +209,8 @@ public class RoleService {
 
 
 
+
+
     @GET
     @Path("/setPresent")
     @Produces(MediaType.APPLICATION_JSON)
@@ -236,6 +238,21 @@ public class RoleService {
         System.out.println(p.cip.toString());
 
         messageMapper.setAbsent(p.cip, matchId);
+
+    }
+
+    @GET
+    @Path("/getpresence")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"joueur", "capitaine", "admin"}) //probablement mauvais nom
+    //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
+    public int getpresence(@QueryParam("matchId") int matchId) {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        System.out.println(p.cip.toString());
+
+        int etat = messageMapper.presencejoueur(p.cip, matchId);
+        return etat;
 
     }
 
