@@ -3,8 +3,14 @@ package ca.usherbrooke.gegi.server.service;
 import ca.usherbrooke.gegi.server.business.*;
 import ca.usherbrooke.gegi.server.persistence.MessageMapper;
 
+
 import javax.inject.Inject;
 import javax.management.relation.Role;
+import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Context;
@@ -14,9 +20,12 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import java.lang.reflect.InvocationTargetException;
 
+
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import java.util.ArrayList;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -346,5 +355,127 @@ public class RoleService {
 
 
 
+
+}
+    public List<Match> getHoraire1Joueur() {
+        Person joueur = student();
+        List<Match> listeMatch = messageMapper.getHoraire1Joueur(joueur.cip);
+        listeMatch.forEach(System.out::println);
+        return listeMatch;
+
+
+}
+
+
+
+    @GET
+    @Path("/setPresent")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"joueur", "capitaine", "admin"}) //probablement mauvais nom
+    //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
+    public void setPresent(@QueryParam("matchId") int matchId) {
+
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        System.out.println(p.cip.toString());
+
+
+
+        messageMapper.setPresent(p.cip, matchId);
+    }
+
+    @GET
+    @Path("/setAbsent")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"joueur", "capitaine", "admin"}) //probablement mauvais nom
+    //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
+    public void setAbsent(@QueryParam("matchId") int matchId) {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        System.out.println(p.cip.toString());
+
+        messageMapper.setAbsent(p.cip, matchId);
+
+    }
+
+    //Partie réserver pour l'alignement
+
+   /*
+    @GET
+    @Path("/personDisponible")
+    @RolesAllowed({"capitaine"})
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> personDisponible() {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+
+        int equipeID = messageMapper.getEquipeID(p.cip);
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        int prochainMatchID = MatchsID.get(0);
+
+        ArrayList<String> PersonSDisponible = new ArrayList<String>();
+        PersonSDisponible = (ArrayList<String>) messageMapper.getPersonDisponible(prochainMatchID, equipeID);
+
+        return PersonSDisponible;
+
+    }
+*/
+    // match spécifique a chaque usager
+
+
+    //match
+
+    //division
+
+    //sport
+
+    //
+
+
+
+
+    // branche de will systhème de présence ----------------------------------------------------------------
+
+
+
+
+
+
+    //Partie réserver pour l'alignement
+/*
+    @PUT
+    @Path("/setAlignement/{gardien}/{defenseur1}/{defenseur2}/{defenseur3}/{milieu1}/{milieu2}/{attaquant1}/{attaquant2}/{attaquant3}")
+    @RolesAllowed({"capitaine"})
+    @Produces(MediaType.APPLICATION_JSON)
+    public void setAlignement(@PathParam("gardien") String Gardien,@PathParam("defenseur1") String Defenseur1, @PathParam("defenseur2") String Defenseur2, @PathParam("defenseur3") String Defenseur3, @PathParam("milieu1") String Milieu1, @PathParam("milieu2") String Milieu2,@PathParam("attaquant1") String Attaquant1,@PathParam("attaquant2") String Attaquant2, @PathParam("attaquant3") String Attaquant3 )
+    {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        ArrayList<Integer> MatchsID = new ArrayList<Integer>();
+        MatchsID = messageMapper.selectMatchsPerson(p.cip);
+
+        int prochainMatchID = MatchsID.get(0);
+        int equipeID = messageMapper.getEquipeID(p.cip);
+
+        messageMapper.setAlignement(prochainMatchID, equipeID, Gardien,Defenseur1,Defenseur2,Defenseur3,Milieu1, Milieu2, Attaquant1, Attaquant2, Attaquant3);
+
+    }
+
+*/
+
+
+
+    // match spécifique a chaque usager
+
+
+    //match
+
+    //division
+
+    //sport
+
+    //
 
 }
