@@ -136,7 +136,7 @@ function affichageHoraire(sport, division) {
         .catch(function (error) {
 
         });
-    
+
     content.appendChild(titre);
     content.appendChild(tableauHoraire);
 }
@@ -268,7 +268,7 @@ function affichagePresence (cip){
     bouton.innerText = "Confirmer";
     bouton.classList.add("bouton-presence");
     bouton.onclick = function (){
-      getValeurMatch();
+        getValeurMatch();
     };
     let divPresenceBouton = document.createElement("div");
     divPresenceBouton.classList.add("div-presence-bouton");
@@ -324,10 +324,10 @@ function affichageInformationMatch(matchId){
         .then(function (response) {
             let info = response.data[matchId];
             let texte =  "# Match : " + info.match_id + "\n" +
-                        "Date : " + info.date + " " + info.heure + "\n" +
-                        "Équipe 1 : " + info.equipe1 + "\n" +
-                        "Équipe 2 : " + info.equipe2 + "\n" +
-                        "Endroit : " + info.endroit;
+                "Date : " + info.date + " " + info.heure + "\n" +
+                "Équipe 1 : " + info.equipe1 + "\n" +
+                "Équipe 2 : " + info.equipe2 + "\n" +
+                "Endroit : " + info.endroit;
             zoneTexte.innerText = texte;
         })
         .catch(function (error) {});
@@ -408,7 +408,7 @@ function affichergestionnairePresence(response) {
     content.appendChild(titre_menue);
 
 
-   // affichageGrill(response);
+    // affichageGrill(response);
     listeMatch();
 
 
@@ -420,7 +420,7 @@ function affichageGrill(response)
     let grille = document.createElement("div");
     grille.className = "grille"; // Ajoute la classe "grille"
 
-   // let url_listmatch = "http://localhost:8888/api/horaire";
+    // let url_listmatch = "http://localhost:8888/api/horaire";
 
 
 
@@ -516,5 +516,4 @@ function fonctionAbsent(matchId)
 {
     tokentAbsent(matchId);
 }
-
 
