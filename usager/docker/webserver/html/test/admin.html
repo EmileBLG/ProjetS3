@@ -9,13 +9,13 @@
 
     <script src="http://localhost:8180/js/keycloak.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="script.js"></script>
+    <script src="admin.js"></script>
     <style>
         .ligneSimpleTextarea{
             height: 1.2em;
             resize: none;
             overflow-y: hidden;
-            width: 250px;
+            width: 100px;
         }
         .labelZoneDeTexte{
             display: block;
@@ -37,11 +37,16 @@
             display: block;
             width: 250px;
         }
+        .imageDelete{
+            width: 25px;
+            height: 25px;
+
+        }
     </style>
 </head>
 <body>
     <div class="adminAjout">
-        <h1>Ajouter un sport</h1>
+        <h1>Admin console</h1>
         <label for="selectionTache">tache</label>
         <select id="selectionTache">
             <option value="sport">Ajouter un sport</option>
@@ -54,7 +59,9 @@
         <button id="boutonTache" class="bouttonAjout" onclick="getTache()">choisir cette tache</button>
 
     </div>
-    <div id="ajouter" class="adminAjout">
+    <div id="bouton"></div>
+    <div id="content" class="adminAjout">
+
 
 
     </div>

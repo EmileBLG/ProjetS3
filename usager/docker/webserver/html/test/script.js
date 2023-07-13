@@ -178,7 +178,7 @@ function getTache(){
     }else if (tache.value === "joueurdansequipe"){
         ajoutUsersInEquipe();
     }
-    let sport = {
+   /* let sport = {
         sport_id: "5",
         sport_nom: "Water Polo"
     };
@@ -194,36 +194,127 @@ function getTache(){
     })
         .then(response => response.json())
         .then(data => console.log('Success:', data))
-        .catch((error) => console.error('Error:', error));
+        .catch((error) => console.error('Error:', error));*/
 }
 
 function ajoutSport(){
+
     //prend la div qui est dans le html
+
     let ajout = document.getElementById("ajouter");
     ajout.innerHTML = "";
 
-    //crée une zone de texte
-    let zoneTexte = document.createElement("textarea");
-    zoneTexte.classList.add("ligneSimpleTextarea");
+    //titre
+    let titre = document.createElement("h1");
+    titre.textContent = "Ajouter un sport";
 
-    //crée un label pour la zone de texte
-    let label = document.createElement("label");
-    //label.textContent = value;
+    //crée une zone de texte
+    let zoneID = document.createElement("textarea");
+    zoneID.classList.add("ligneSimpleTextarea");
+    let zoneNom = document.createElement("textarea");
+    zoneNom.classList.add("ligneSimpleTextarea");
+
+    //crée les label pour les zones de textes
+    let labelID = document.createElement("label");
+    labelID.textContent = "ID";
+    let labelNom = document.createElement("label");
+    labelNom.textContent = "nom";
+
+    //crée le boutton de confirmation
     let but = document.createElement("button");
     but.textContent = "Ajouter";
     but.classList.add("bouttonAjout");
-   // division.appendChild(label);
-    //division.appendChild(zoneTexte);
-    //division.appendChild(but);
-    //ajout.appendChild(division);
+
+    //ajoute dans la division
+    ajout.appendChild(titre);
+    ajout.appendChild(labelID);
+    ajout.appendChild(zoneID);
+    ajout.appendChild(labelNom);
+    ajout.appendChild(zoneNom);
+    ajout.appendChild(but);
 
 
 }
 function ajoutDivison(){
+    //prend la div qui est dans le html
 
+    let ajout = document.getElementById("ajouter");
+    ajout.innerHTML = "";
+
+    //titre
+    let titre = document.createElement("h1");
+    titre.textContent = "Ajouter une division";
+
+    //crée une zone de texte
+    let zoneID = document.createElement("textarea");
+    zoneID.classList.add("ligneSimpleTextarea");
+    let zoneNom = document.createElement("textarea");
+    zoneNom.classList.add("ligneSimpleTextarea");
+
+    //crée les label pour les zones de textes
+    let labelID = document.createElement("label");
+    labelID.textContent = "ID";
+    let labelNom = document.createElement("label");
+    labelNom.textContent = "nom";
+
+    //crée le boutton de confirmation
+    let but = document.createElement("button");
+    but.textContent = "Ajouter";
+    but.classList.add("bouttonAjout");
+
+    //ajoute dans la division
+    ajout.appendChild(titre);
+    ajout.appendChild(labelID);
+    ajout.appendChild(zoneID);
+    ajout.appendChild(labelNom);
+    ajout.appendChild(zoneNom);
+    ajout.appendChild(but);
 }
 function ajoutEquipe(){
+    //prend la div qui est dans le html
 
+    let ajout = document.getElementById("ajouter");
+    ajout.innerHTML = "";
+
+    //titre
+    let titre = document.createElement("h1");
+    titre.textContent = "Ajouter une équipe";
+
+    //crée les zone de texte
+    let zoneID = document.createElement("textarea");
+    zoneID.classList.add("ligneSimpleTextarea");
+    let zoneNom = document.createElement("textarea");
+    zoneNom.classList.add("ligneSimpleTextarea");
+    let zoneDivisionID = document.createElement("textarea");
+    zoneDivisionID.classList.add("ligneSimpleTextarea");
+    let zoneSportID = document.createElement("textarea");
+    zoneSportID.classList.add("ligneSimpleTextarea");
+
+    //crée les label pour les zones de textes
+    let labelID = document.createElement("label");
+    labelID.textContent = "ID";
+    let labelNom = document.createElement("label");
+    labelNom.textContent = "nom";
+    let labelDivisionID = document.createElement("label");
+    labelDivisionID.textContent = "Division ID";
+    let labelSportID = document.createElement("label");
+    labelSportID.textContent = "Sport ID";
+    //crée le boutton de confirmation
+    let but = document.createElement("button");
+    but.textContent = "Ajouter";
+    but.classList.add("bouttonAjout");
+
+    //ajoute dans la division
+    ajout.appendChild(titre);
+    ajout.appendChild(labelID);
+    ajout.appendChild(zoneID);
+    ajout.appendChild(labelNom);
+    ajout.appendChild(zoneNom);
+    ajout.appendChild(labelDivisionID);
+    ajout.appendChild(zoneDivisionID);
+    ajout.appendChild(labelSportID);
+    ajout.appendChild(zoneSportID);
+    ajout.appendChild(but);
 }
 function ajoutMatch(){
 
