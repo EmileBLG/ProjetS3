@@ -8,6 +8,15 @@
 
     <link rel="stylesheet" href="style.css">
 
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Roboto Slab', serif;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+<!--    </style>-->
     <script src="http://localhost:8180/js/keycloak.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src=".\script.js"></script>
@@ -57,7 +66,7 @@
             content.innerHTML = '<br> <strong>' + "Vous n'avez pas le role d'étudiant" + '</strong> </br>'
         }
 
-        function affichageHorairePersonnel(){
+        function horairePersonnel(){
             axios.get("http://localhost:8888/api/horaire", {
                 headers: {
                     'Authorization': 'Bearer ' + keycloak.token
@@ -65,7 +74,7 @@
             })
                 .then(function (response) {
                     console.log("Response: ", response);
-                    affichageHoraire(response);
+                    affichageHorairePersonnel(response);
                 })
                 .catch(function (error) {
                     console.log('refreshing');
@@ -81,7 +90,7 @@
 </head>
 <body style="background-color:  white;" onload="affichageBouton()">
     
-        <header id="header">
+        <header id="header" class="header">
             <div class="container">
                 <img src=".\images\UdeS_logo_h_rgbLR.png" style="width: 215px; height: 75px;">
                 <h1 class="titre">
@@ -89,15 +98,13 @@
                         Ligues intra-muros UDS
                     </a>
                 </h1>
-                <button class="buttonTitre" onclick="initKeycloak()">Connexion</button>
+                <button class="buttonTitre" onclick="initKeycloak() ">Connexion</button>
 
             </div>
         </header>
 
         <div id="sidebar" class="sidebar">
-            <h2 style="margin-left: 20px;">
-                Sport
-            </h2>
+
             <nav>
                 <ul id="liste-bouton">
 

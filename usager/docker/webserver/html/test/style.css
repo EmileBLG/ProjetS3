@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@600&family=Roboto+Slab&display=swap');
 
 :root{
     --vert_fierte: #00A759;
@@ -6,8 +7,21 @@
 }
 
 
-.body{
-    font-family: ro, sans-serif;
+body {
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+.header{
+    height: 100px;
+}
+
+.container {
+    height: 80px;
+    display: flex;
+    justify-content: space-between; /* Align components with space in between */
+    align-items: center; /* Align components vertically in the center */
+    background-color: #f1f1f1;
+    padding: 10px;
 }
 
 .buttonTitre {
@@ -23,6 +37,7 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .buttonTitre:hover {
@@ -31,9 +46,8 @@
 
 .titre {
     text-align: center;
-    font-family: mon;
     font-weight: bold;
-    font-size: 34px;
+    font-size: 42px;
 }
 
 .titre a:link {
@@ -61,27 +75,32 @@
 }
 
 .content {
-    margin-left: 160px; /* width of the sidebar + some margin */
+    margin-left: 175px; /* width of the sidebar + some margin */
     padding: 20px;
 }
 
 .horaire{
-    border: 1px solid black;
     border-collapse: collapse;
     width: 100%;
 }
 
 .horaire th{
-    border: 1px solid black; 
-    border-collapse: collapse;
     background-color: var(--vert_fierte);
+    font-weight: bold;
+    font-family: 'Roboto Slab', serif;
     font-weight: bold;
 }
 
 .horaire td{
-    border: 1px solid black; 
+    border-bottom: 2px solid white;
+    border-top: 2px solid white;
     border-collapse: collapse;
-    text-align: center; 
+    text-align: center;
+    font-family: 'Roboto Slab', serif;
+}
+
+.horaire tr{
+    background-color: #f1f1f1;
 }
 
 .horaire tr:hover{
@@ -89,45 +108,45 @@
 }
 
 .classement {
-    border: 1px solid black;
     border-collapse: collapse;
     width: 100%;
 }
 
 .classement th{
-    border: 1px solid black;
-    border-collapse: collapse;
     background-color: var(--vert_fierte);
+    font-family: 'Roboto Slab', serif;
     font-weight: bold;
 }
 
+
+
 .classement td{
-    border: 1px solid black;
+    border-bottom: 2px solid white;
+    border-top: 2px solid white;
     border-collapse: collapse;
     text-align: center;
+    font-family: 'Roboto Slab', serif;
+    /*background-color: #f1f1f1;*/
+}
+
+.classement tr{
+    background-color: #f1f1f1;
 }
 
 .classement tr:hover{
     background-color: var(--gris);
 }
 
-.container {
-    display: flex;
-    justify-content: space-between; /* Align components with space in between */
-    align-items: center; /* Align components vertically in the center */
-    background-color: #f1f1f1;
-    padding: 10px;
-}
 
 .sidebar {
-    width: 150px;
+    width: 175px;
     height: 100vh;
     background-color: var(--vert_fierte);
     float: left;
 }
 
 .sidebar nav {
-    width: 130px;
+    width: 155px;
     padding: 10px;
 }
 
@@ -142,6 +161,15 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.sidebar h2{
+    margin-left: 20px;
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: bold;
+    font-size: 42px;
+    height: 25px;
+
+}
 
 
 .grid-container {
@@ -181,18 +209,18 @@
     }
 
     .menu > .menu-trigger {
-      width: 100%;
-      padding: 10px;
-      background-color: var(--vert_vivacite);
-      color: white;
-      font-family: Arial, sans-serif;
-      font-size: 16px;
-      font-weight: bold;
-      text-decoration: none;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+        width: 100%;
+        padding: 10px;
+        background-color: var(--vert_vivacite);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-family: 'Montserrat', sans-serif;
     }
 
     .menu > .menu-trigger:hover {
@@ -220,16 +248,16 @@
     }
 
     .menu > .options > .option {
-      display: block;
-      padding: 5px;
-      color: #333;
-      background-color: #f1f1f1;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      transition: background-color 0.3s ease;
-      width: 100%;
-      margin: 1px;
-      border-radius: 4px;
+        display: block;
+        padding: 5px;
+        color: #333;
+        background-color: #f1f1f1;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        width: 100%;
+        margin: 1px;
+        border-radius: 4px;
+        font-family: 'Montserrat', sans-serif;
     }
 
 
@@ -242,7 +270,6 @@
     padding: 10px;
     background-color: lightgray;
     color: black;
-    font-family: Arial, sans-serif;
     font-size: 16px;
     font-weight: bold;
     text-decoration: none;
@@ -250,6 +277,7 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .button-option:hover{
@@ -268,7 +296,6 @@
     background-color: #b6baaf;
     width: 100%;
     height: 200px;
-    font-family: Arial, sans-serif;
     font-size: 20px;
     text-align: center;
 }

@@ -102,8 +102,9 @@ function affichageHoraire(sport, division) {
 
     axios.get(url_horaire)
         .then(function (response) {
-            //console.log("Response: ", response);
+            console.log("Response: ", response);
             response.data.forEach((item) => {
+
                 let row = document.createElement("tr");
                 let match_id = document.createElement("td");
                 let date = document.createElement("td");
@@ -232,7 +233,7 @@ function affichageBouton(){
             boutonHoraire.innerText = "Horaire";
             boutonHoraire.classList.add("button-option");
             boutonHoraire.onclick = function (){
-                affichageHorairePersonnel();
+                horairePersonnel();
             }
             listeHoraire.appendChild(boutonHoraire);
             listeBouton.appendChild(listeHoraire);
@@ -330,7 +331,7 @@ function affichageInformationMatch(matchId){
         .catch(function (error) {});
 }
 
-function affichageHoraire(response) {
+function affichageHorairePersonnel(response) {
     let content = document.getElementById("content");
     content.innerHTML = "";
     let tableauHoraire = document.createElement("table");
