@@ -351,7 +351,7 @@ body {
 }
 
 .boite {
-    background-color: #b6baaf;
+    background-color: var(--gris);
     border-radius: 8px;
     padding: 16px;
     width: 300px;
