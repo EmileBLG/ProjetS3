@@ -116,6 +116,28 @@
                 });
         }
 
+        function getEtatPresence(matchId, elementParent, matchObjet){
+            axios.get("http://localhost:8888/api/getetatpresence"+"?matchId=" + matchId, {
+                headers: {
+                    'Authorization': 'Bearer ' + keycloak.token
+                }
+            })
+                .then(function (response) {
+                    console.log("Response: ", response);
+                    console.log("on est juste avant affichage grill")
+                    // affichageGrill(response); a changer
+                    widgetPresenceMatchSuite(elementParent, matchObjet, response)
+                })
+                .catch(function (error) {
+                    console.log('refreshing');
+                    keycloak.updateToken(5).then(function () {
+                        console.log('Token refreshed');
+                    }).catch(function () {
+                        console.log('Failed to refresh token');
+                    })
+                });
+        }
+
         function tokentPresent(matchId){
 
             axios.get("http://localhost:8888/api/setPresent/"+"?matchId="+matchId.toString(), {

@@ -424,6 +424,8 @@ function affichageGrill(response)
 
 
 
+
+
     console.log(response);
     console.log(response.data);
 
@@ -460,12 +462,26 @@ function widgetPresenceMatch(elementParent, matchObjet)
     console.log("dans widget");
 
 
+
+
     let matchId = matchObjet.match_id.toString();
     console.log(matchId);
-    let information =  matchObjet.endroit.toString() + '\n'+ matchObjet.date.toString() + " " + matchObjet.heure.toString();
+     getEtatPresence(matchId, elementParent, matchObjet);
 
+
+}
+
+function widgetPresenceMatchSuite(elementParent, matchObjet, etatmatch)
+{
+    console.log(etatmatch);
+    let etatPresence = etatmatch.data;
+    console.log(etatPresence.toString());
+    let information =  matchObjet.endroit.toString() + '\n'+ matchObjet.date.toString() + " " + matchObjet.heure.toString();
+    console.log(information);
     let conteneur = document.createElement("div");
     conteneur.classList.add("boite");
+
+    let matchId = matchObjet.match_id.toString();
 
     let titreElement = document.createElement("h2");
     titreElement.innerText = matchId;
@@ -479,20 +495,39 @@ function widgetPresenceMatch(elementParent, matchObjet)
 
     let bouton1 = document.createElement("button");
     bouton1.innerText = "Présent";
+
+    let bouton2 = document.createElement("button");
+    bouton2.innerText = "Absent";
+
+
     bouton1.classList.add("boutons");
     bouton1.classList.add("bouton");
+
+    bouton2.classList.add("boutons");
+    bouton2.classList.add("bouton");
+
+    if(etatPresence === 1)
+    {
+        bouton1.classList.add("modeEnclancher");
+    }
+    else
+    {
+        bouton2.classList.add("modeEnclancher");
+    }
     bouton1.addEventListener("click", function() {
+        bouton2.classList.remove("modeEnclancher");
+        bouton1.classList.add("modeEnclancher");
         fonctionPresent(matchId);
     });
 
 
-    let bouton2 = document.createElement("button");
-    bouton2.innerText = "Absent";
-    bouton2.classList.add("boutons");
-    bouton2.classList.add("bouton");
     bouton2.addEventListener("click", function() {
+        bouton1.classList.remove("modeEnclancher");
+        bouton2.classList.add("modeEnclancher");
         fonctionAbsent(matchId);
     });
+
+
 
     // Ajouter les éléments à l'élément parent
     conteneur.appendChild(titreElement);
