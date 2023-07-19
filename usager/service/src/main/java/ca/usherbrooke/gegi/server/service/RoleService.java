@@ -220,7 +220,7 @@ public class RoleService {
         }
     }
 
-}
+
     @GET
     @Path("/getetatpresence")
     @Produces(MediaType.APPLICATION_JSON)
@@ -230,6 +230,8 @@ public class RoleService {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
         int donne = messageMapper.presencejoueur(p.cip, matchId);
+        return donne;
+    }
     @POST
     @Path("/addSport")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -269,8 +271,7 @@ public class RoleService {
         //http://localhost:8888/api/supprimerSport?sport_id=7
     }
 
-        return donne;
-    }
+
     // Ajout d'une équipe
     @GET
     @Path("/ajouterEquipe")
