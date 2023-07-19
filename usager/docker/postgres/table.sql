@@ -1403,17 +1403,17 @@ CREATE TABLE schema.Division
 
 CREATE TABLE schema.Equipe
 (
-  Equipe_ID INT NOT NULL,
-  Equipe_Nom varchar(64) NOT NULL,
-  Division_ID INT NOT NULL,
-  Sport_ID INT NOT NULL,
-  Victoire INT,
-  Defaite int,
-  PM int,
-  PC int,
-  PRIMARY KEY (Equipe_ID),
-  FOREIGN KEY (Division_ID) REFERENCES schema.Division(Division_ID),
-  FOREIGN KEY (Sport_ID) references  schema.Sport(Sport_ID)
+    Equipe_ID INT NOT NULL,
+    Equipe_Nom varchar(64) NOT NULL,
+    Division_ID INT NOT NULL,
+    Sport_ID INT NOT NULL,
+    Victoire INT default 0,
+    Defaite int default  0,
+    PM int default 0,
+    PC int default 0,
+    PRIMARY KEY (Equipe_ID),
+    FOREIGN KEY (Division_ID) REFERENCES schema.Division(Division_ID),
+    FOREIGN KEY (Sport_ID) references  schema.Sport(Sport_ID)
 );
 
 CREATE TABLE schema.Match
@@ -1435,8 +1435,8 @@ CREATE TABLE schema.Constitue
   Equipe_ID INT NOT NULL,
   cip varchar(64) NOT NULL,
   PRIMARY KEY (Equipe_ID, cip),
-  FOREIGN KEY (Equipe_ID) REFERENCES schema.Equipe(Equipe_ID),
-  FOREIGN KEY (cip) REFERENCES schema.users(cip)
+  FOREIGN KEY (Equipe_ID) REFERENCES schema.Equipe(Equipe_ID) on delete cascade ,
+  FOREIGN KEY (cip) REFERENCES schema.users(cip) on delete cascade
 );
 
 CREATE TABLE schema.PresenceMatch
@@ -1445,8 +1445,8 @@ CREATE TABLE schema.PresenceMatch
     MatchID INT NOT NULL,
     Presence INT NOT NULL,
     PRIMARY KEY (cip, MatchID),
-    FOREIGN KEY (cip) REFERENCES schema.users(cip),
-    FOREIGN KEY (MatchID) REFERENCES schema.Match(Match_ID)
+    FOREIGN KEY (cip) REFERENCES schema.users(cip) on delete cascade ,
+    FOREIGN KEY (MatchID) REFERENCES schema.Match(Match_ID) on delete cascade
 );
 
 DROP FUNCTION IF EXISTS schema.presence_trigger();

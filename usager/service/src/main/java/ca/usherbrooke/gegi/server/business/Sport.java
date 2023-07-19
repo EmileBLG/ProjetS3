@@ -1,8 +1,9 @@
 package ca.usherbrooke.gegi.server.business;
 
 public class Sport {
-    private String sport_id;
-    private String sport_nom;
+    public String sport_id;
+    public String sport_nom;
+
 
     public Sport(String nom, String description){
         this.sport_id = nom;
