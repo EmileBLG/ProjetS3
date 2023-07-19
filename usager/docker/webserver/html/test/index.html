@@ -181,10 +181,13 @@
                     })
                 });
         }
+        function quitter(){
+            window.location.href= '../intra-muro/';
+        }
     </script>
 
 </head>
-<body style="background-color:  white;" onload="affichageBouton()">
+<body style="background-color:  white;" onload="initKeycloak(), affichageBouton()">
     
         <header id="header" class="header">
             <div class="container">
@@ -194,7 +197,7 @@
                         Ligues intra-muros UDS
                     </a>
                 </h1>
-                <button class="buttonTitre" onclick="initKeycloak() ">Connexion</button>
+                <button class="buttonTitre" onclick="quitter() ">Déconnexion</button>
 
             </div>
         </header>
