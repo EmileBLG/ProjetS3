@@ -206,6 +206,19 @@ public class RoleService {
 
 
 }
+    @GET
+    @Path("/getetatpresence")
+    @Produces(MediaType.APPLICATION_JSON)
+    public int getetatpresence(
+            @QueryParam("matchId") int matchId
+            ) {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        int donne = messageMapper.presencejoueur(p.cip, matchId);
+
+
+        return donne;
+    }
 
 
 

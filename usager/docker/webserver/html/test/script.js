@@ -476,7 +476,7 @@ function widgetPresenceMatchSuite(elementParent, matchObjet, etatmatch)
     console.log(etatmatch);
     let etatPresence = etatmatch.data;
     console.log(etatPresence.toString());
-    let information =  matchObjet.endroit.toString() + '\n'+ matchObjet.date.toString() + " " + matchObjet.heure.toString();
+    let information =  matchObjet.endroit.toString() + '\n'+ matchObjet.date.toString() + " " + matchObjet.heure.toString()+ '\n'+"  "+"equipe ennemie :  "+ matchObjet.equipe2.toString();
     console.log(information);
     let conteneur = document.createElement("div");
     conteneur.classList.add("boite");
