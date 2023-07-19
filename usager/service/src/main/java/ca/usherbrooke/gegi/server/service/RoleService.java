@@ -67,7 +67,7 @@ public class RoleService {
         listePerson.forEach(System.out::println);
         return listePerson;
     }
-
+/*
     @GET
     @Path("/horaires")
     @Produces(MediaType.APPLICATION_JSON)
@@ -76,6 +76,8 @@ public class RoleService {
         listeHoraire.forEach(System.out::println);
         return listeHoraire;
     }
+    */
+
 
     @GET
     @Path("/equipe")
@@ -195,7 +197,7 @@ public class RoleService {
 
         return sportName + " " + divisionName;
     }
-
+/*
     @GET
     @Path("/horaire")
     @RolesAllowed({"joueur"})
@@ -206,6 +208,8 @@ public class RoleService {
         listeMatch.forEach(System.out::println);
         return listeMatch;
     }
+
+ */
 
     @GET
     @Path("/admin")
@@ -406,6 +410,53 @@ public class RoleService {
             }catch (Exception e){
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
             }
+    }
+
+
+    @GET
+    @Path("/horaire")
+    @RolesAllowed({"joueur"})
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Match> getHoraire1Joueur() {
+        Person joueur = student();
+        List<Match> listeMatch = messageMapper.getHoraire1Joueur(joueur.cip);
+        listeMatch.forEach(System.out::println);
+        return listeMatch;
+
+
+    }
+
+
+
+
+    @GET
+    @Path("/setPresent")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"joueur", "capitaine", "admin"}) //probablement mauvais nom
+    //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
+    public void setPresent(@QueryParam("matchId") int matchId) {
+
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        System.out.println(p.cip.toString());
+
+
+
+        messageMapper.setPresent(p.cip, matchId);
+    }
+
+    @GET
+    @Path("/setAbsent")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"joueur", "capitaine", "admin"}) //probablement mauvais nom
+    //@Consumes(MediaType.APPLICATION_JSON) //peut être utile
+    public void setAbsent(@QueryParam("matchId") int matchId) {
+        Person p = new Person();
+        p.cip = this.securityContext.getUserPrincipal().getName();
+        System.out.println(p.cip.toString());
+
+        messageMapper.setAbsent(p.cip, matchId);
+
     }
 
 }

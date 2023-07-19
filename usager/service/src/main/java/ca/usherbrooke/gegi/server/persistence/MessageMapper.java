@@ -112,6 +112,8 @@ public interface MessageMapper {
 
     @Insert("INSERT INTO schema.constitue(equipe_id, cip) VALUES(#{equipe_id}, #{cip})")
     void insertConstitue(@Param("equipe_id")int equipe_id, @Param("cip") String cip);
+
+
 }
 
 
