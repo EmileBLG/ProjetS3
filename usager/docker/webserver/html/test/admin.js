@@ -512,12 +512,13 @@ function choisirEquipe() {
 }
 
 function getJoueurEquipe(equipe_id){
-        let url_api = "http://localhost:8888/api/getJoueurdansEquipe"
+        let url_api = "http://localhost:8888/api/getJoueurdansEquipe" + "?equipe_id=" + equipe_id;
         let content = document.getElementById("content");
-        let tableauDivsion = document.createElement("table");
-        tableauDivsion.classList.add("classement");
+        content.innerHTML = ""
+        let tableauJoueur = document.createElement("table");
+        tableauJoueur.classList.add("classement");
         let titre = document.createElement("h3");
-        titre.innerText = "Division";
+        titre.innerText = "Membre de l'équipe " + equipe_id;
 
         let bout = document.createElement("button");
         bout.classList.add("bouttonAjout");
@@ -527,7 +528,6 @@ function getJoueurEquipe(equipe_id){
 
         let header = [
             "CIP"
-
         ];
 
         let thead = document.createElement("thead");
@@ -539,10 +539,11 @@ function getJoueurEquipe(equipe_id){
             theadRow.appendChild(th);
         });
         thead.appendChild(theadRow);
-        tableauDivsion.appendChild(thead);
+        tableauJoueur.appendChild(thead);
 
         axios.get(url_api).then(function (response){
             let index = 1;
+            console.log(response.data);
             response.data.forEach((item) =>{
                 let row = document.createElement("tr");
                 let CIP = document.createElement("td");
@@ -555,52 +556,46 @@ function getJoueurEquipe(equipe_id){
                 image.alt = "Delete";
 
                 link.appendChild(image);
-
-                ID.innerText = item.toString();
+                console.log();
+                CIP.innerText = item;
 
                 index = index + 1;
 
-                row.appendChild(ID);
-                row.appendChild(Division);
+                row.appendChild(CIP);
                 row.appendChild(link);
 
-                tableauDivsion.appendChild(row);
+                tableauJoueur.appendChild(row);
             });
         })
             .catch(function (error) {
 
             });
         let row = document.createElement("tr");
-        let ID = document.createElement("td");
-        let Division = document.createElement("td");
+        let CIP = document.createElement("td");
 
-        let zonetexteID = document.createElement("textarea");
-        zonetexteID.classList.add("ligneSimpleTextarea");
-        let zonetexteDivision = document.createElement("textarea");
-        zonetexteDivision.classList.add("ligneSimpleTextarea");
+        let zonetexteCIP = document.createElement("textarea");
+        zonetexteCIP.classList.add("ligneSimpleTextarea");
 
-        ID.appendChild(zonetexteID);
-        Division.appendChild(zonetexteDivision);
+        CIP.appendChild(zonetexteCIP);
 
-        row.appendChild(ID);
-        row.appendChild(Division);
+        row.appendChild(CIP);
 
-        tableauDivsion.appendChild(row);
+        tableauJoueur.appendChild(row);
 
         content.appendChild(titre);
-        content.appendChild(tableauDivsion);
+        content.appendChild(tableauJoueur);
 
         bout.addEventListener("click", function (){
-            let parametre = "?division_id=" + zonetexteID.value + "&division_nom=" + zonetexteDivision.value;
-            let link = "http://localhost:8888/api/ajouterDivision"+ parametre;
+            let parametre = "?equipe_id=" + equipe_id + "&cip=" + zonetexteCIP.value;
+            let link = "http://localhost:8888/api/ajouterConstitue"+ parametre;
             axios.get(link);
         });
-        tableauDivsion.addEventListener("click",function (event){
+        tableauJoueur.addEventListener("click",function (event){
             if(event.target.classList.contains("imageDelete")){
                 let row = event.target.parentNode.parentNode;
                 let delete_id =  row.cells[0].innerText;
                 console.log(delete_id);
-                let link = "http://localhost:8888/api/supprimerDivision" + "?division_id=" + delete_id;
+                let link = "http://localhost:8888/api/supprimerConstitue" + "?equipe_id=" + equipe_id + "&cip=" + delete_id;
                 axios.get(link);
                 row.parentNode.removeChild(row);
 

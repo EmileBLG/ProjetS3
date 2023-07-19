@@ -106,6 +106,12 @@ public interface MessageMapper {
 
     @Select("SELECT cip FROM schema.constitue WHERE equipe_id = #{equipe_id}")
     List<String> getCipFromEquipe(@Param("equipe_id") int equipe_id);
+
+    @Delete("DELETE FROM schema.constitue WHERE equipe_id = #{equipe_id} AND cip = #{cip}")
+    void deleteConstitue(@Param("equipe_id") int equipe_id, @Param("cip") String cip);
+
+    @Insert("INSERT INTO schema.constitue(equipe_id, cip) VALUES(#{equipe_id}, #{cip})")
+    void insertConstitue(@Param("equipe_id")int equipe_id, @Param("cip") String cip);
 }
 
 

@@ -358,18 +358,42 @@ public class RoleService {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
+    @GET
+    @Path("/supprimerConstitue")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response supprimerConstitue(@QueryParam("equipe_id") int equipeID,
+                                       @QueryParam("cip") String CIP) {
+        try {
+            messageMapper.deleteConstitue(equipeID, CIP);
+            return Response.status(Response.Status.OK).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+
 
     @GET
     @Path("/getJoueurdansEquipe")
     @Produces(MediaType.APPLICATION_JSON)
     public List<String> ajouterJoueur(@QueryParam("equipe_id") int equipeID){
 
-
         List<String> CIP = messageMapper.getCipFromEquipe(equipeID);
-
         return CIP;
 
     }
 
+    @GET
+    @Path("/ajouterConstitue")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response ajouterConstitue(@QueryParam("equipe_id") int equipeID,
+                                     @QueryParam("cip") String cip_joueur){
+            try{
+                messageMapper.insertConstitue(equipeID, cip_joueur);
+                return Response.status(Response.Status.CREATED).build();
+            }catch (Exception e){
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+            }
+    }
 
 }
