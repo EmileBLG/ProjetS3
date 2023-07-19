@@ -1435,8 +1435,8 @@ CREATE TABLE schema.Constitue
   Equipe_ID INT NOT NULL,
   cip varchar(64) NOT NULL,
   PRIMARY KEY (Equipe_ID, cip),
-  FOREIGN KEY (Equipe_ID) REFERENCES schema.Equipe(Equipe_ID),
-  FOREIGN KEY (cip) REFERENCES schema.users(cip)
+  FOREIGN KEY (Equipe_ID) REFERENCES schema.Equipe(Equipe_ID) on delete cascade ,
+  FOREIGN KEY (cip) REFERENCES schema.users(cip) on delete cascade
 );
 
 CREATE TABLE schema.PresenceMatch
@@ -1445,8 +1445,8 @@ CREATE TABLE schema.PresenceMatch
     MatchID INT NOT NULL,
     Presence INT NOT NULL,
     PRIMARY KEY (cip, MatchID),
-    FOREIGN KEY (cip) REFERENCES schema.users(cip),
-    FOREIGN KEY (MatchID) REFERENCES schema.Match(Match_ID)
+    FOREIGN KEY (cip) REFERENCES schema.users(cip) on delete cascade ,
+    FOREIGN KEY (MatchID) REFERENCES schema.Match(Match_ID) on delete cascade
 );
 
 DROP FUNCTION IF EXISTS schema.presence_trigger();

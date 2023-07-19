@@ -10,13 +10,13 @@ function getTache(){
     if(tache.value === "sport"){
         afficherSportAdmin();
     }else if (tache.value === "equipe"){
-        affichageClassementAdmin(4, 1);
+        affichageEquipeAdmin(4, 1);
     }else if (tache.value === "division"){
         afficherdivisionAdmin();
     }else if (tache.value === "match"){
         affichageMatchAdmin();
     }else if (tache.value === "joueurdansequipe"){
-        ajoutUsersInEquipe();
+        choisirEquipe();
     }
 
 }
@@ -24,25 +24,24 @@ function ajoutUsersInEquipe(){
 
 }
 
-function affichageClassementAdmin(sport, division){
-    let param = "?sportId=" + sport + "&divisionId=" + division;
-    let url_api = "http://localhost:8888/api/classement/" + param;
+function affichageEquipeAdmin(){
+    let url_api = "http://localhost:8888/api/equipe";
     let content = document.getElementById("content");
     let tableauClassement = document.createElement("table");
     tableauClassement.classList.add("classement");
     let titre = document.createElement("h3");
     titre.innerText = "Classement";
 
-    let bouton = document.createElement("button");
-    bouton.classList.add("bouttonAjout");
-    bouton.innerText = "ajouter";
-    let boutontache = document.getElementById("bouton");
-    boutontache.appendChild(bouton);
+    let bout = document.createElement("button");
+    bout.classList.add("bouttonAjout");
+    bout.innerText = "ajouter";
+    let b = document.getElementById("bouton");
+    b.appendChild(bout);
 
 
     let header = [
-        "Position",
-        "Équipe",
+        "Équipe ID",
+        "Nom",
         "Sport",
         "Division",
     ];
@@ -64,15 +63,12 @@ function affichageClassementAdmin(sport, division){
             let index = 1;
             response.data.forEach((item) => {
                 let row = document.createElement("tr");
-                let position = document.createElement("td");
+                let equipeID = document.createElement("td");
                 let equipe_nom = document.createElement("td");
-                let victoire = document.createElement("td")
-                let defaite = document.createElement("td");
-                let pc = document.createElement("td");
-                let pm = document.createElement("td");
+                let SportID = document.createElement("td")
+                let DivisionID = document.createElement("td");
 
                 let link = document.createElement("a");
-                link.href = "https://docs.postgresql.fr/9.6/datatype-datetime.html";
 
                 let image = document.createElement("img");
                 image.src = "./images/delete.jpg";
@@ -81,23 +77,18 @@ function affichageClassementAdmin(sport, division){
 
                 link.appendChild(image);
 
-
-                position.innerText = index;
+                equipeID.innerText = item.equipe_id
                 equipe_nom.innerText = item.equipe_nom;
-                victoire.innerText = item.victoire;
-                defaite.innerText = item.defaite;
-                pc.innerText = item.pc;
-                pm.innerText = item.pm;
+                SportID.innerText = item.sport_id;
+                DivisionID.innerText = item.division_id;
 
 
                 index = index+1;
 
-                row.appendChild(position);
+                row.appendChild(equipeID);
                 row.appendChild(equipe_nom);
-                row.appendChild(victoire);
-                row.appendChild(defaite);
-                row.appendChild(pc);
-                row.appendChild(pm);
+                row.appendChild(SportID);
+                row.appendChild(DivisionID);
                 row.appendChild(link);
 
                 tableauClassement.appendChild(row);
@@ -107,39 +98,29 @@ function affichageClassementAdmin(sport, division){
 
         });
     let row = document.createElement("tr");
-    let position = document.createElement("td");
+    let equipeID = document.createElement("td");
     let equipe_nom = document.createElement("td");
-    let victoire = document.createElement("td")
-    let defaite = document.createElement("td");
-    let pc = document.createElement("td");
-    let pm = document.createElement("td");
+    let sportID = document.createElement("td")
+    let divisionID = document.createElement("td");
 
-    let zonetextePosition = document.createElement("textarea");
-    zonetextePosition.classList.add("ligneSimpleTextarea");
+    let zonetexteEquipeID = document.createElement("textarea");
+    zonetexteEquipeID.classList.add("ligneSimpleTextarea");
     let zonetexteEquipeNom = document.createElement("textarea");
     zonetexteEquipeNom.classList.add("ligneSimpleTextarea");
-    let zonetextevictoire = document.createElement("textarea");
-    zonetextevictoire.classList.add("ligneSimpleTextarea");
-    let zonetexteDefaite = document.createElement("textarea");
-    zonetexteDefaite.classList.add("ligneSimpleTextarea");
-    let zonetextePc = document.createElement("textarea");
-    zonetextePc.classList.add("ligneSimpleTextarea");
-    let zonetextePm = document.createElement("textarea");
-    zonetextePm.classList.add("ligneSimpleTextarea");
+    let zonetexteSportID = document.createElement("textarea");
+    zonetexteSportID.classList.add("ligneSimpleTextarea");
+    let zonetexteDivisionID = document.createElement("textarea");
+    zonetexteDivisionID.classList.add("ligneSimpleTextarea");
 
-    position.appendChild(zonetextePosition);
+    equipeID.appendChild(zonetexteEquipeID);
     equipe_nom.appendChild(zonetexteEquipeNom);
-    victoire.appendChild(zonetextevictoire);
-    defaite.appendChild(zonetexteDefaite);
-    pc.appendChild(zonetextePc);
-    pm.appendChild(zonetextePm);
+    sportID.appendChild(zonetexteSportID);
+    divisionID.appendChild(zonetexteDivisionID);
 
-    row.appendChild(position);
+    row.appendChild(equipeID);
     row.appendChild(equipe_nom);
-    row.appendChild(victoire);
-    row.appendChild(defaite);
-    row.appendChild(pc);
-    row.appendChild(pm);
+    row.appendChild(sportID);
+    row.appendChild(divisionID);
 
     tableauClassement.appendChild(row);
 
@@ -147,9 +128,22 @@ function affichageClassementAdmin(sport, division){
     content.appendChild(tableauClassement);
 
     bout.addEventListener("click", function (){
-        let parametre = "?sport_id=" + zonetexte.value + "&sport_nom=" + zonetexteSport.value;
-        let link = "http://localhost:8888/api/ajouterSport"+ parametre;
+        let parametre = "?equipe_id=" + zonetexteEquipeID.value + "&equipe_nom=" + zonetexteEquipeNom.value + "&division_id=" + zonetexteDivisionID.value + "&sport_id=" + zonetexteSportID.value;
+        let link = "http://localhost:8888/api/ajouterEquipe"+ parametre;
         axios.get(link);
+    });
+
+    tableauClassement.addEventListener("click",function (event){
+        if(event.target.classList.contains("imageDelete")){
+            let row = event.target.parentNode.parentNode;
+            console.log(row.cells[0].innerText)
+            let delete_id =  row.cells[0].innerText;
+            console.log(delete_id);
+            let link = "http://localhost:8888/api/supprimerEquipe" + "?equipe_id=" + delete_id;
+            axios.get(link);
+            row.parentNode.removeChild(row);
+
+        }
     });
 
 }
@@ -191,7 +185,6 @@ function afficherSportAdmin() {
             let Sport = document.createElement("td");
 
             let link = document.createElement("a");
-            link.href = "https://docs.postgresql.fr/9.6/datatype-datetime.html";
 
             let image = document.createElement("img");
             image.src = "./images/delete.jpg";
@@ -241,6 +234,19 @@ function afficherSportAdmin() {
         let link = "http://localhost:8888/api/ajouterSport"+ parametre;
         axios.get(link);
     });
+    tableauSport.addEventListener("click",function (event){
+        if(event.target.classList.contains("imageDelete")){
+            let row = event.target.parentNode.parentNode;
+            let delete_id =  row.cells[0].innerText;
+            console.log(delete_id);
+            let link = "http://localhost:8888/api/supprimerSport" + "?sport_id=" + delete_id;
+            axios.get(link);
+            row.parentNode.removeChild(row);
+
+        }
+    });
+
+
 }
 
 function afficherdivisionAdmin() {
@@ -251,11 +257,11 @@ function afficherdivisionAdmin() {
     let titre = document.createElement("h3");
     titre.innerText = "Division";
 
-    let bouton = document.createElement("button");
-    bouton.classList.add("bouttonAjout");
-    bouton.innerText = "ajouter";
-    let boutontache = document.getElementById("bouton");
-    boutontache.appendChild(bouton);
+    let bout = document.createElement("button");
+    bout.classList.add("bouttonAjout");
+    bout.innerText = "ajouter";
+    let b = document.getElementById("bouton");
+    b.appendChild(bout);
 
     let header = [
         "ID",
@@ -281,7 +287,6 @@ function afficherdivisionAdmin() {
             let Division = document.createElement("td");
 
             let link = document.createElement("a");
-            link.href = "https://docs.postgresql.fr/9.6/datatype-datetime.html";
 
             let image = document.createElement("img");
             image.src = "./images/delete.jpg";
@@ -324,6 +329,23 @@ function afficherdivisionAdmin() {
 
     content.appendChild(titre);
     content.appendChild(tableauDivsion);
+
+    bout.addEventListener("click", function (){
+        let parametre = "?division_id=" + zonetexteID.value + "&division_nom=" + zonetexteDivision.value;
+        let link = "http://localhost:8888/api/ajouterDivision"+ parametre;
+        axios.get(link);
+    });
+    tableauDivsion.addEventListener("click",function (event){
+        if(event.target.classList.contains("imageDelete")){
+            let row = event.target.parentNode.parentNode;
+            let delete_id =  row.cells[0].innerText;
+            console.log(delete_id);
+            let link = "http://localhost:8888/api/supprimerDivision" + "?division_id=" + delete_id;
+            axios.get(link);
+            row.parentNode.removeChild(row);
+
+        }
+    });
 }
 
 function affichageMatchAdmin(sport, division){
@@ -334,11 +356,11 @@ function affichageMatchAdmin(sport, division){
     let titre = document.createElement("h3");
     titre.innerText = "Liste de Match";
 
-    let bouton = document.createElement("button");
-    bouton.classList.add("bouttonAjout");
-    bouton.innerText = "ajouter";
-    let boutontache = document.getElementById("bouton");
-    boutontache.appendChild(bouton);
+    let bout = document.createElement("button");
+    bout.classList.add("bouttonAjout");
+    bout.innerText = "ajouter";
+    let b = document.getElementById("bouton");
+    b.appendChild(bout);
 
     let header = [
         "ID",
@@ -374,7 +396,6 @@ function affichageMatchAdmin(sport, division){
                 let heure = document.createElement("td");
 
                 let link = document.createElement("a");
-                link.href = "https://docs.postgresql.fr/9.6/datatype-datetime.html";
 
                 let image = document.createElement("img");
                 image.src = "./images/delete.jpg";
@@ -446,7 +467,145 @@ function affichageMatchAdmin(sport, division){
     content.appendChild(titre);
     content.appendChild(tableauMatch);
 
+    bout.addEventListener("click", function (){
+        let parametre = "?match_id=" + zonetexteID.value + "&date=" + zonetexteDate.value + "&time=" + zonetexteHeure.value + "&endroit=" + zonetexteEndroit.value + "&equipe1=" + zonetexteEquipe1.value + "&equipe2=" + zonetexteEquipe2.value;
+        let link = "http://localhost:8888/api/ajouterMatch"+ parametre;
+        axios.get(link);
+    });
+    tableauMatch.addEventListener("click",function (event){
+       if(event.target.classList.contains("imageDelete")){
+           let row = event.target.parentNode.parentNode;
+          let delete_id =  row.cells[0].innerText;
+          console.log(delete_id);
+         let link = "http://localhost:8888/api/supprimerMatch" + "?match_id=" + delete_id;
+         axios.get(link);
+           row.parentNode.removeChild(row);
 
+       }
+    });
+}
+
+function choisirEquipe() {
+    let url_api = "http://localhost:8888/api/equipe";
+    let content = document.getElementById("content");
+    let menu = document.createElement("select");
+    let index = 0;
+    axios.get(url_api)
+        .then(function (response) {
+            response.data.forEach((item) => {
+                let equipe = document.createElement("option");
+                equipe.innerText = item.equipe_id + " " + item.equipe_nom;
+                equipe.value = item.equipe_id;
+
+               // console.log(equipe.value);
+                index = index + 1;
+                menu.add(equipe);
+            })
+        });
+   // console.log(menu[0].innerText
+        menu.addEventListener("change", function (event) {
+            let text = event.target.value;
+            getJoueurEquipe(text);
+        });
+
+    content.appendChild(menu);
+}
+
+function getJoueurEquipe(equipe_id){
+        let url_api = "http://localhost:8888/api/getJoueurdansEquipe"
+        let content = document.getElementById("content");
+        let tableauDivsion = document.createElement("table");
+        tableauDivsion.classList.add("classement");
+        let titre = document.createElement("h3");
+        titre.innerText = "Division";
+
+        let bout = document.createElement("button");
+        bout.classList.add("bouttonAjout");
+        bout.innerText = "ajouter";
+        let b = document.getElementById("bouton");
+        b.appendChild(bout);
+
+        let header = [
+            "CIP"
+
+        ];
+
+        let thead = document.createElement("thead");
+        let theadRow = document.createElement("tr");
+
+        header.forEach((item) => {
+            let th = document.createElement("th");
+            th.innerText = item;
+            theadRow.appendChild(th);
+        });
+        thead.appendChild(theadRow);
+        tableauDivsion.appendChild(thead);
+
+        axios.get(url_api).then(function (response){
+            let index = 1;
+            response.data.forEach((item) =>{
+                let row = document.createElement("tr");
+                let CIP = document.createElement("td");
+
+                let link = document.createElement("a");
+
+                let image = document.createElement("img");
+                image.src = "./images/delete.jpg";
+                image.classList.add("imageDelete");
+                image.alt = "Delete";
+
+                link.appendChild(image);
+
+                ID.innerText = item.toString();
+
+                index = index + 1;
+
+                row.appendChild(ID);
+                row.appendChild(Division);
+                row.appendChild(link);
+
+                tableauDivsion.appendChild(row);
+            });
+        })
+            .catch(function (error) {
+
+            });
+        let row = document.createElement("tr");
+        let ID = document.createElement("td");
+        let Division = document.createElement("td");
+
+        let zonetexteID = document.createElement("textarea");
+        zonetexteID.classList.add("ligneSimpleTextarea");
+        let zonetexteDivision = document.createElement("textarea");
+        zonetexteDivision.classList.add("ligneSimpleTextarea");
+
+        ID.appendChild(zonetexteID);
+        Division.appendChild(zonetexteDivision);
+
+        row.appendChild(ID);
+        row.appendChild(Division);
+
+        tableauDivsion.appendChild(row);
+
+        content.appendChild(titre);
+        content.appendChild(tableauDivsion);
+
+        bout.addEventListener("click", function (){
+            let parametre = "?division_id=" + zonetexteID.value + "&division_nom=" + zonetexteDivision.value;
+            let link = "http://localhost:8888/api/ajouterDivision"+ parametre;
+            axios.get(link);
+        });
+        tableauDivsion.addEventListener("click",function (event){
+            if(event.target.classList.contains("imageDelete")){
+                let row = event.target.parentNode.parentNode;
+                let delete_id =  row.cells[0].innerText;
+                console.log(delete_id);
+                let link = "http://localhost:8888/api/supprimerDivision" + "?division_id=" + delete_id;
+                axios.get(link);
+                row.parentNode.removeChild(row);
+
+            }
+        });
 
 }
 

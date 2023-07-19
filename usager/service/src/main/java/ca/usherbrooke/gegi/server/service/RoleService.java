@@ -23,11 +23,11 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
-import java.util.ArrayList;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Path("/api")
 public class RoleService {
@@ -325,15 +325,21 @@ public class RoleService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response ajouterMatch(
             @QueryParam("match_id") int matchId,
-            @QueryParam("heure") String heureStr,
+            @QueryParam("date") String date,
+            @QueryParam("time") String time,
             @QueryParam("endroit") String endroit,
             @QueryParam("equipe1") int equipe1,
             @QueryParam("equipe2") int equipe2) {
         try {
             // Convertir la chaîne de caractères de l'heure en un objet Timestamp
-            Timestamp heure = Timestamp.valueOf(heureStr);
+            String pattern = "yyyy-mm-dd";
 
-            messageMapper.ajouterMatch(matchId, heure, endroit, equipe1, equipe2);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+            Date dateStr = dateFormat.parse(date);
+
+            Time timestr = Time.valueOf(time);
+
+            messageMapper.ajouterMatch(matchId, dateStr, timestr, endroit, equipe1, equipe2);
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
@@ -353,7 +359,17 @@ public class RoleService {
         }
     }
 
+    @GET
+    @Path("/getJoueurdansEquipe")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> ajouterJoueur(@QueryParam("equipe_id") int equipeID){
 
+
+        List<String> CIP = messageMapper.getCipFromEquipe(equipeID);
+
+        return CIP;
+
+    }
 
 
 }

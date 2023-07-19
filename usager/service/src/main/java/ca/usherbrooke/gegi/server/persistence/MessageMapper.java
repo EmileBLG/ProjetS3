@@ -1,6 +1,8 @@
 package ca.usherbrooke.gegi.server.persistence;
 
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
@@ -76,8 +78,8 @@ public interface MessageMapper {
     void supprimerDivision(@Param("division_id") int division_id);
 
     // Ajout d'un match
-    @Insert("INSERT INTO schema.Match (Match_ID, Heure, Endroit, Equipe1, Equipe2) VALUES (#{match_id}, #{heure}, #{endroit}, #{equipe1}, #{equipe2})")
-    void ajouterMatch(@Param("match_id") int match_id, @Param("heure") Timestamp heure, @Param("endroit") String endroit, @Param("equipe1") int equipe1, @Param("equipe2") int equipe2);
+    @Insert("INSERT INTO schema.Match (Match_ID, Date, Time, Endroit, Equipe1, Equipe2) VALUES (#{match_id}, #{dateStr}, #{timestr}, #{endroit}, #{equipe1}, #{equipe2})")
+    void ajouterMatch(@Param("match_id") int match_id, @Param("dateStr") Date date, @Param("timestr") Time time, @Param("endroit") String endroit, @Param("equipe1") int equipe1, @Param("equipe2") int equipe2);
 
     // Suppression d'un match
     @Delete("DELETE FROM schema.Match WHERE Match_ID = #{match_id}")
@@ -101,4 +103,10 @@ public interface MessageMapper {
 
     @Select("SELECT presence FROM schema.presencematch WHERE cip = #{cip} AND MatchID = #{MatchID}")
     int presencejoueur(@Param("cip") String cip, @Param("MatchID") int MatchID);
+
+    @Select("SELECT cip FROM schema.constitue WHERE equipe_id = #{equipe_id}")
+    List<String> getCipFromEquipe(@Param("equipe_id") int equipe_id);
 }
+
+
+
