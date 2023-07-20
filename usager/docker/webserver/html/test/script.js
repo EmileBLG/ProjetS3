@@ -240,21 +240,16 @@ function affichageBoutonTest(){
             }
             listeHoraire.appendChild(boutonHoraire);
             listeBouton.appendChild(listeHoraire);
-            //check();
-            // {
-                console.log("Dans le check de affichage")
-                let boutonAdmin = document.createElement("button");
-                let listeAdmin = document.createElement("li");
-                boutonAdmin.innerText = "Administrateur";
-                boutonAdmin.classList.add("button-option");
-                boutonAdmin.onclick = function () {
-                    let a = check();
-                    if (true){
-                        goToAdmin();
-                    }
-                }
-                listeAdmin.appendChild(boutonAdmin);
-                listeBouton.appendChild(listeAdmin);
+
+            let boutonAdmin = document.createElement("button");
+            let listeAdmin = document.createElement("li");
+            boutonAdmin.innerText = "Administrateur";
+            boutonAdmin.classList.add("button-option");
+            boutonAdmin.onclick = function () {
+                check();
+            }
+            listeAdmin.appendChild(boutonAdmin);
+            listeBouton.appendChild(listeAdmin);
            // }
         })
         .catch(function (error) {
@@ -270,13 +265,15 @@ function check() {
     })
         .then(function (response) {
             console.log("Response: ", response.status);
-            affichageBouton();
+            if (response.role === 'admin'){
+                goToAdmin(response);
+            }
         })
         .catch(function (error) {
             console.log('refreshing');
-            keycloak.updateToken(1).then(function () {
+            keycloak.updateToken(5).then(function () {
                 console.log('Token refreshed');
-
+                console.log(response);
             }).catch(function () {
                 console.log('Failed to refresh token');
             })
@@ -284,7 +281,8 @@ function check() {
 }
 
 
-function goToAdmin(){
+function goToAdmin(rep){
+    console.log(rep);
     window.location.href = '../admin/admin.html';
 }
 

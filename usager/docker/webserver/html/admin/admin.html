@@ -9,7 +9,33 @@
 
     <script src="http://localhost:8180/js/keycloak.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="admin.js"></script>
+    <script src=".\admin.js"></script>
+
+    <script>
+        function check() {
+            axios.get("http://localhost:8888/api/teacher", {
+                headers: {
+                    'Authorization': 'Bearer ' + keycloak.token
+                }
+            })
+                .then(function (response) {
+                    console.log("Response: ", response.status);
+                    if (response.role === 'admin'){
+                        goToAdmin(response);
+                    }
+                })
+                .catch(function (error) {
+                    console.log('refreshing');
+                    keycloak.updateToken(5).then(function () {
+                        console.log('Token refreshed');
+                        console.log(response);
+                    }).catch(function () {
+                        console.log('Failed to refresh token');
+                    })
+                })
+        }
+
+    </script>
     <style>
         .ligneSimpleTextarea{
             height: 1.2em;
@@ -44,7 +70,7 @@
         }
     </style>
 </head>
-<body>
+<body style="background-color:  white;" onload="check()">
     <div class="adminAjout">
         <h1>Admin console</h1>
         <label for="selectionTache">tache</label>
