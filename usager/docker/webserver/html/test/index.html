@@ -301,53 +301,33 @@
 
 
         function tokentAbsent(matchId){
-
-
-
             axios.get("http://localhost:8888/api/setAbsent/"+"?matchId="+matchId.toString(), {
-
                 headers: {
-
                     'Authorization': 'Bearer ' + keycloak.token
-
                 }
-
             })
-
                 .then(function (response) {
-
                     console.log("Response: ", response);
-
                     console.log("absence envoyer")
-
                     affichageGrill(response);
-
-                })
-
-                .catch(function (error) {
-
+                }).catch(function (error) {
                     console.log('refreshing');
-
                     keycloak.updateToken(5).then(function () {
-
                         console.log('Token refreshed');
-
                     }).catch(function () {
-
                         console.log('Failed to refresh token');
-
                     })
-
                 });
-
         }
         function quitter(){
             window.location.href= '../intra-muro/';
         }
+
+
     </script>
 
     </head>
-<body style="background-color:  white;" onload="initKeycloak(), affichageBouton()">
+<body style="background-color:  white;" onload="initKeycloak(),affichageBoutonTest()">
     <header id="header" class="header">
         <div class="container">
             <img src=".\images\UdeS_logo_h_rgbLR.png" style="width: 215px; height: 75px;">

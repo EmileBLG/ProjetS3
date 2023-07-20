@@ -8,7 +8,8 @@
       "lastName": "",
       "email": "",
       "realmRoles": [
-        "admin"
+        "admin",
+        "default-roles-master"
       ],
       "credentials": [
         {
@@ -509,6 +510,7 @@
       "email": "lavm1927@usherbrooke.ca",
       "realmRoles": [
         "etudiant",
+        "admin",
         "default-roles-master",
         "joueur",
         "Volleyball de plage"

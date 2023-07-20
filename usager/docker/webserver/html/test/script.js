@@ -165,7 +165,8 @@ function affichageHoraireClassement(sport, division){
     affichageHoraire(sport, division);
 }
 
-function affichageBouton(){
+function affichageBoutonTest(){
+    setTimeout(1);
     let listeBouton = document.getElementById("liste-bouton");
     axios.get("http://localhost:8888/api/sports/")
         .then(function (response) {
@@ -239,12 +240,55 @@ function affichageBouton(){
             }
             listeHoraire.appendChild(boutonHoraire);
             listeBouton.appendChild(listeHoraire);
+            //check();
+            // {
+                console.log("Dans le check de affichage")
+                let boutonAdmin = document.createElement("button");
+                let listeAdmin = document.createElement("li");
+                boutonAdmin.innerText = "Administrateur";
+                boutonAdmin.classList.add("button-option");
+                boutonAdmin.onclick = function () {
+                    let a = check();
+                    if (true){
+                        goToAdmin();
+                    }
+                }
+                listeAdmin.appendChild(boutonAdmin);
+                listeBouton.appendChild(listeAdmin);
+           // }
         })
         .catch(function (error) {
 
         });
 
 }
+function check() {
+    axios.get("http://localhost:8888/api/teacher", {
+        headers: {
+            'Authorization': 'Bearer ' + keycloak.token
+        }
+    })
+        .then(function (response) {
+            console.log("Response: ", response.status);
+            affichageBouton();
+        })
+        .catch(function (error) {
+            console.log('refreshing');
+            keycloak.updateToken(1).then(function () {
+                console.log('Token refreshed');
+
+            }).catch(function () {
+                console.log('Failed to refresh token');
+            })
+        });
+}
+
+
+function goToAdmin(){
+    window.location.href = '../admin/admin.html';
+}
+
+
 
 function affichagePresence (cip){
     let content = document.getElementById("content");

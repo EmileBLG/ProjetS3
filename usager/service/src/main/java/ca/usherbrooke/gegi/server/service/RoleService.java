@@ -41,6 +41,7 @@ public class RoleService {
     @Inject
     JsonWebToken jwt;
 
+
     @GET
     @Path("/sports")
     @Produces(MediaType.APPLICATION_JSON)
@@ -100,7 +101,8 @@ public class RoleService {
 
     @GET
     @Path("/teacher")
-    @RolesAllowed({"enseignant"})
+    @RolesAllowed({"admin"})
+    @Produces(MediaType.APPLICATION_JSON)
     public Person teacher() {
         Person p = new Person();
         p.cip = this.securityContext.getUserPrincipal().getName();
@@ -111,9 +113,9 @@ public class RoleService {
         if (realmAccess != null && realmAccess.containsKey("roles")) {
             p.roles = (List) realmAccess.get("roles");
         }
-
         System.out.println(p);
         return p;
+
     }
 
     @GET

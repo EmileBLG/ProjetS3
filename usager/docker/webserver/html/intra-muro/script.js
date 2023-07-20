@@ -1,3 +1,5 @@
+
+
 function affichageClassement(sport, division){
     let param = "?sportId=" + sport + "&divisionId=" + division;
     let url_api = "http://localhost:8888/api/classement/" + param;
@@ -15,7 +17,7 @@ function affichageClassement(sport, division){
         "PC",
         "PM"
     ];
-
+    to.getClient
     let thead = document.createElement("thead");
     let theadRow = document.createElement("tr");
 
