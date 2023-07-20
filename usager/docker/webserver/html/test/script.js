@@ -166,7 +166,6 @@ function affichageHoraireClassement(sport, division){
 }
 
 function affichageBoutonTest(){
-    setTimeout(1);
     let listeBouton = document.getElementById("liste-bouton");
     axios.get("http://localhost:8888/api/sports/")
         .then(function (response) {
@@ -265,9 +264,7 @@ function check() {
     })
         .then(function (response) {
             console.log("Response: ", response.status);
-            if (response.role === 'admin'){
-                goToAdmin(response);
-            }
+                goToAdmin();
         })
         .catch(function (error) {
             console.log('refreshing');
@@ -281,9 +278,9 @@ function check() {
 }
 
 
-function goToAdmin(rep){
-    console.log(rep);
-    window.open('localhost/admin/admin.html');
+function goToAdmin(){
+    console.log("gp tp admin");
+    window.location.href = '../admin/admin.html';
 }
 
 
