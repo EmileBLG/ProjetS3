@@ -462,7 +462,7 @@ function widgetPresenceMatch(elementParent, matchObjet)
 
     let matchId = matchObjet.match_id.toString();
     console.log(matchId);
-    let information =  matchObjet.endroit.toString() + '\n'+ matchObjet.date.toString() + " " + matchObjet.heure.toString();
+    let information =  matchObjet.endroit.toString() + '\n'+ matchObjet.date.toString() + " " +  matchObjet.heure.toString();
 
     let conteneur = document.createElement("div");
     conteneur.classList.add("boite");
