@@ -17,7 +17,6 @@ function affichageClassement(sport, division){
         "PC",
         "PM"
     ];
-    to.getClient
     let thead = document.createElement("thead");
     let theadRow = document.createElement("tr");
 

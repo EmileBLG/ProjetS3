@@ -283,7 +283,7 @@ function check() {
 
 function goToAdmin(rep){
     console.log(rep);
-    window.location.href = '../admin/admin.html';
+    window.open('localhost/admin/admin.html');
 }
 
 
