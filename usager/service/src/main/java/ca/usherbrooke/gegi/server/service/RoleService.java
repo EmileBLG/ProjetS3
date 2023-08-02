@@ -252,6 +252,7 @@ public class RoleService {
 
     @GET
     @Path("/ajouterSport")
+    @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response ajouterSport(
             @QueryParam("sport_id") int sportId,
@@ -266,6 +267,7 @@ public class RoleService {
     }
     @GET
     @Path("/supprimerSport")
+    @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response supprimerSport(@QueryParam("sport_id") int sportId) {
         try {
@@ -281,6 +283,7 @@ public class RoleService {
     // Ajout d'une équipe
     @GET
     @Path("/ajouterEquipe")
+    @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response ajouterEquipe(
             @QueryParam("equipe_id") int equipeId,
@@ -297,6 +300,7 @@ public class RoleService {
 
     @GET
     @Path("/supprimerEquipe")
+    @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response supprimerEquipe(@QueryParam("equipe_id") int equipeId) {
         try {
@@ -310,6 +314,7 @@ public class RoleService {
     // Ajout d'une division
     @GET
     @Path("/ajouterDivision")
+    @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response ajouterDivision(
             @QueryParam("division_id") int divisionId,
@@ -326,6 +331,7 @@ public class RoleService {
     // Suppression d'une division
     @GET
     @Path("/supprimerDivision")
+    @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response supprimerDivision(@QueryParam("division_id") int divisionId) {
         try {
@@ -340,6 +346,7 @@ public class RoleService {
     // Ajout d'un match
     @GET
     @Path("/ajouterMatch")
+    @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response ajouterMatch(
             @QueryParam("match_id") int matchId,
@@ -367,6 +374,7 @@ public class RoleService {
     // Suppression d'un match
     @GET
     @Path("/supprimerMatch")
+    @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response supprimerMatch(@QueryParam("match_id") int matchId) {
         try {
@@ -378,6 +386,7 @@ public class RoleService {
     }
     @GET
     @Path("/supprimerConstitue")
+    @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response supprimerConstitue(@QueryParam("equipe_id") int equipeID,
                                        @QueryParam("cip") String CIP) {
@@ -393,6 +402,7 @@ public class RoleService {
 
     @GET
     @Path("/getJoueurdansEquipe")
+    @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<String> ajouterJoueur(@QueryParam("equipe_id") int equipeID){
 
@@ -403,6 +413,7 @@ public class RoleService {
 
     @GET
     @Path("/ajouterConstitue")
+    @RolesAllowed({"admin"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response ajouterConstitue(@QueryParam("equipe_id") int equipeID,
                                      @QueryParam("cip") String cip_joueur){
