@@ -1390,7 +1390,7 @@ ON CONFLICT (cip) DO UPDATE
 CREATE TABLE schema.Sport
 (
   Sport_ID INT NOT NULL,
-  Sport_Nom varchar(64) NOT NULL,
+  Sport_Nom varchar(64) NOT NULL unique,
   PRIMARY KEY (Sport_ID)
 );
 
